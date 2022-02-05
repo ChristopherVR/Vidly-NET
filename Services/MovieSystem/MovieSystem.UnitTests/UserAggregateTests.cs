@@ -69,7 +69,7 @@ public class UserAggregateTests
         string hashedPassword = "ASDASDASD";
         string phoneNumber = "SDASD";
         string address = "12th Avenue";
-        string homeNumber = "1234";
+        string homeNumber = "0795072154";
         string? imageUrl = default;
         var expectedErrorMessage = "Invalid phone number";
         // Act
@@ -97,9 +97,9 @@ public class UserAggregateTests
         string surname = "this is my surnmae";
         string name = "";
         string hashedPassword = "ASDASDASD";
-        string phoneNumber = "12345";
+        string phoneNumber = "0795072154";
         string address = "12th Avenue";
-        string homeNumber = "1234";
+        string homeNumber = "0795072154";
         string? imageUrl = default;
         var expectedErrorMessage = "Name cannot be null";
         // Act
@@ -127,9 +127,9 @@ public class UserAggregateTests
         string surname = "";
         string name = "what a cool name";
         string hashedPassword = "ASDASDASD";
-        string phoneNumber = "1234";
+        string phoneNumber = "0795072154";
         string address = "12th Avenue";
-        string homeNumber = "1234";
+        string homeNumber = "0795072154";
         string? imageUrl = default;
         var expectedErrorMessage = "Surname cannot be null";
         // Act
@@ -157,9 +157,9 @@ public class UserAggregateTests
         string surname = "this is my surnmae";
         string name = "what a cool name";
         string hashedPassword = "ASDASDASD";
-        string phoneNumber = "123123";
+        string phoneNumber = "0795072154";
         string address = "12th Avenue";
-        string homeNumber = "1234";
+        string homeNumber = "0795072154";
         string? imageUrl = default;
         var expectedErrorMessage = "Username cannot be null";
         // Act
@@ -187,9 +187,9 @@ public class UserAggregateTests
         string surname = "this is my surnmae";
         string name = "what a cool name";
         string hashedPassword = "ASDASDASD";
-        string phoneNumber = "1234";
+        string phoneNumber = "0795072154";
         string address = "";
-        string homeNumber = "SDSD";
+        string homeNumber = "0795072154";
         string? imageUrl = default;
         var expectedErrorMessage = "Address cannot be null";
         // Act
@@ -217,9 +217,9 @@ public class UserAggregateTests
         string surname = "this is my surnmae";
         string name = "what a cool name";
         string hashedPassword = "ASDASDASD";
-        string phoneNumber = "1234";
+        string phoneNumber = "0795072154";
         string address = "12th Avenue";
-        string homeNumber = "1234";
+        string homeNumber = "0795072154";
         string? imageUrl = "1234";
         var expectedErrorMessage = "Image url is not a valid URI";
         // Act

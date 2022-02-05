@@ -73,12 +73,12 @@ public class User : Entity, IAggregateRoot
             throw new MovieDomainException("Address cannot be null");
         }
 
-        if (string.IsNullOrWhiteSpace(phoneNumber) || new System.ComponentModel.DataAnnotations.PhoneAttribute().IsValid(phoneNumber))
+        if (string.IsNullOrWhiteSpace(phoneNumber) || !new System.ComponentModel.DataAnnotations.PhoneAttribute().IsValid(phoneNumber))
         {
             throw new MovieDomainException("Invalid phone number");
         }
 
-        if (string.IsNullOrWhiteSpace(homeNumber) || new System.ComponentModel.DataAnnotations.PhoneAttribute().IsValid(homeNumber))
+        if (string.IsNullOrWhiteSpace(homeNumber) || !new System.ComponentModel.DataAnnotations.PhoneAttribute().IsValid(homeNumber))
         {
             throw new MovieDomainException("Invalid home number");
         }
