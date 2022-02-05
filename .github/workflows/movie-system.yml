@@ -12,6 +12,7 @@ jobs:
     name: Unit tests
     runs-on: ubuntu-20.04
     steps:
+      - uses: actions/checkout@v2
       - name: Installing .NET 6
         uses: actions/setup-dotnet@v1
         with:
