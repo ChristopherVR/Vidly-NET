@@ -1,0 +1,45 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+  # Maintain dependencies for npm Web project
+  - package-ecosystem: "npm"
+    directory: "/MoveShowcaseDDD"
+    schedule:
+      interval: "daily"
+    reviewers:
+      - "ChristopherVR"
+  # Maintain dependencies for npm SPA app
+  - package-ecosystem: "npm"
+    directory: "/MoveShowcaseDDD/ClientApp"
+    schedule:
+      interval: "daily"
+    reviewers:
+      - "ChristopherVR"
+  # Maintain dependencies for npm
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+  # Maintain dependencies for .NET projects (Web)
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    reviewers:
+      - "ChristopherVR"
+  # Maintain dependencies for .NET projects (MovieSystem)
+  - package-ecosystem: "nuget"
+    directory: "/Services/MovieSystem/"
+    schedule:
+      interval: "daily"
+    reviewers:
+      - "ChristopherVR"
