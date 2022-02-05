@@ -1,0 +1,24 @@
+name: .MovieSystem.NET
+
+on:
+  push
+
+concurrency: 
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  run-dotnet-unit-tests:
+    name: Unit tests
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Installing .NET 6
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
+      - name: Restore dotnet dependencies
+        run: dotnet restore
+      - name: Build dotnet solution
+        run: dotnet build --no-restore
+      - name: Run dotnet unit tests
+        run: dotnet test --no-build
