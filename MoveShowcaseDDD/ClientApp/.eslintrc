@@ -1,0 +1,32 @@
+{
+  "extends": [
+    "react-app",
+    "airbnb",
+    "prettier",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "prettier",
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "semi": 1,
+    "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".ts"] }],
+    "react/require-default-props": [1, { "ignoreFunctionalComponents": true}],
+    "no-use-before-define": "off",
+    "import/extensions": "off",
+    "import/no-unresolved": "off",
+    "prettier/prettier": [
+      "error", {
+        "semi": true,
+        "singleQuote": true,
+        "trailingComma" : "all"
+      }
+    ],
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "error",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "error"
+  }
+}
