@@ -45,5 +45,6 @@ yarn-error.log*
 **/obj
 **/secrets.dev.yaml
 **/values.dev.yaml
+**/MoveShowcaseDDD/ClientApp/build
 LICENSE
 README.md
