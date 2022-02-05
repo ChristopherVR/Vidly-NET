@@ -1,5 +1,10 @@
 
+using MovieSystem.API.Grpc;
+using MovieSystem.API.Infrastructure.AutofacModules;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
 // Add services to the container.
 if (builder.Environment.IsDevelopment())
@@ -11,7 +16,12 @@ if (builder.Environment.IsDevelopment())
 builder.Services.AddGrpc();
 
 builder.Services.AddDbContext<MovieContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Movie")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Movie"),
+                        sqlServerOptionsAction: sqlOptions =>
+                        {
+                            sqlOptions.MigrationsAssembly(typeof(Program).GetTypeInfo().Assembly.GetName().Name);
+                            sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                        }));
 
 AuthOptions authOptions = builder.Configuration.GetSection(AuthOptions.Name).Get<AuthOptions>();
 
@@ -22,8 +32,17 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.SlidingExpiration = true;
         options.AccessDeniedPath = "/Forbidden/";
     });
-
+builder.Services.AddAuthorization();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+// Register services directly with Autofac here. Don't
+// call builder.Populate(), that happens in AutofacServiceProviderFactory.
+builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
+{
+    containerBuilder.RegisterModule(new QueryModule(builder.Configuration.GetConnectionString("Movie")));
+    containerBuilder.RegisterModule(new RepositoryModule());
+    containerBuilder.RegisterModule(new MediatorModule());
+});
 
 var app = builder.Build();
 
@@ -40,8 +59,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
-    // endpoints.MapGrpcService<V1.MoviesServiceV1>();
-    // endpoints.MapGrpcService<User.V1.UsersServiceV1>();
+    endpoints.MapGrpcService<MoviesServiceV1>();
+    endpoints.MapGrpcService<UsersServiceV1>();
 
     if (app.Environment.IsDevelopment())
     {

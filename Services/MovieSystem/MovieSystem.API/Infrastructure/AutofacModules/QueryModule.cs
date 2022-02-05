@@ -1,7 +1,5 @@
 ﻿using MovieSystem.API.Application.Queries;
-using MovieSystem.API.Application.Queries;
-using MovieSystem.Infrastructure;
-using Autofac;
+using Module = Autofac.Module;
 
 namespace MovieSystem.API.Infrastructure.AutofacModules;
 

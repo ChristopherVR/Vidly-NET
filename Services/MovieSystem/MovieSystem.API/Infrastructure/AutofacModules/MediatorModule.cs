@@ -1,7 +1,5 @@
 ﻿using MovieSystem.API.Application.Behaviors;
-using Autofac;
-using FluentValidation;
-using MediatR;
+using Module = Autofac.Module;
 
 namespace MovieSystem.API.Infrastructure.AutofacModules;
 public class MediatorModule : Module

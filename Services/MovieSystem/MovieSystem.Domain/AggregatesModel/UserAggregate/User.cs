@@ -11,7 +11,6 @@ public class User : Entity, IAggregateRoot
     public string Surname { get; private set; }
     public string Username { get; private set; }
     public string HashedPassword { get; private set; }
-
     public UserDetails UserDetails { get; private set; }
     // DDD Patterns comment
     // Using a private collection field, better for DDD Aggregate's encapsulation
@@ -20,7 +19,14 @@ public class User : Entity, IAggregateRoot
     private readonly List<UserFavouriteMovie> _userFavouriteMovies = new();
     public IReadOnlyCollection<UserFavouriteMovie> UserFavouriteMovies => _userFavouriteMovies;
 
-     public User(
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    public User()
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    {
+
+    }
+
+    public User(
         string name,
         string username,
         string surname,

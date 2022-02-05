@@ -10,7 +10,14 @@ namespace MovieSystem.Domain.AggregatesModel.UserAggregate
         public int UserId { get; private set; }
         public string Reason { get; private set; }
         public Rating Rating { get; private set; }
-        
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        public UserFavouriteMovie()
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        {
+
+        }
+
         public UserFavouriteMovie(int movieId, int userId, string reason, Rating rating, string user)
         {
             MovieId = movieId;
