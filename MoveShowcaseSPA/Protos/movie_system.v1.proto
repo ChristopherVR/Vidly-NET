@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "MovieSystem.V1";
+
+package moviesystem.v1;
+
+service Movies {
+  rpc ListMovies (ListMoviesRequest) returns (ListMoviesResponse);
+  rpc ListExtendedMovies (ListMoviesRequest) returns (ListExtendedMoviesResponse);
+
+  rpc GetMovie (GetMovieRequest) returns (Movie);
+  rpc GetMovieExtended (GetMovieExtendedRequest) returns (MovieExtended);
+}
+
+//Gets
+
+message Movie {
+  int32 id = 1;
+  string name = 2;
+  string description = 3;
+  string imdb_url = 4;
+}
+
+message MovieExtended {
+  int32 id = 1;
+  string name = 2;
+  string description = 3;
+  string imdb_url = 4;
+  google.protobuf.Timestamp updated_date = 5;
+  google.protobuf.Int32Value rating = 6;
+  google.protobuf.StringValue reason = 7;
+}
+
+message ListMoviesRequest {
+  google.protobuf.Int32Value user_id = 1;
+}
+
+message ListMoviesResponse {
+  repeated Movie movies = 1;
+}
+
+message ListExtendedMoviesResponse {
+  repeated MovieExtended movies = 1;
+}
+
+message GetMovieRequest {
+  google.protobuf.StringValue name = 1;
+  int32 id = 2;
+}
+
+message GetMovieExtendedRequest {
+  int32 user_id = 1;
+  int32 id = 2;
+}

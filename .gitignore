@@ -45,6 +45,7 @@ yarn-error.log*
 **/obj
 **/secrets.dev.yaml
 **/values.dev.yaml
-**/MoveShowcaseDDD/ClientApp/build
+**/MoveShowcaseSPA/ClientApp/build
+**/MoveShowcaseSPA/wwwroot/lib
 LICENSE
 README.md

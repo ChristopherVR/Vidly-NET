@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>32352024-2f08-4154-aa83-cbb0f14a68cf</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	<LangVersion>10.0</LangVersion>
+	<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="6.0.1" />
+	<PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
+	<PackageReference Include="Grpc.Tools" Version="2.42.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+  	<Protobuf Include="Protos\movie_system.v1.proto" GrpcServices="Client" />
+  	<Protobuf Include="Protos\user_system.v1.proto" GrpcServices="Client" />
+  </ItemGroup>
+
+</Project>
