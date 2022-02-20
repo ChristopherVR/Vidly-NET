@@ -6,7 +6,7 @@ using static MovieSystem.V1.Movies;
 namespace MoveShowcaseDDD.Areas.Movie.Controllers;
 [Authorize]
 [ApiController]
-public class MovieController : Controller
+public class MovieController : ControllerBase
 {
     private readonly MoviesClient _movieClient;
     private readonly ILogger<MovieController> _logger;
@@ -19,7 +19,7 @@ public class MovieController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Movies(bool extended = false)
+    public async Task<object> Movies(bool extended = false)
     {
         if (extended)
         {
@@ -29,31 +29,17 @@ public class MovieController : Controller
                 {
                     UserId = _userService.GetUserId(),
                 });
-            return Json(data: extendedMovie.Movies.Select(x => new
-            {
-                x.Id,
-                x.ImdbUrl,
-                x.Name,
-                x.Description,
-                x.UpdatedDate,
-                x.Reason,
-                x.Rating,
-            }).ToArray());
+            return extendedMovie.Movies.ToArray();
         }
 
         MovieSystem.V1.ListMoviesResponse movies = await _movieClient
             .ListMoviesAsync(new());
-        return Json(data: movies.Movies.Select(x => new
-        {
-            x.Id,
-            x.ImdbUrl,
-            x.Name,
-            x.Description,
-        }).ToArray());
+
+        return movies.Movies.ToArray();
     }
 
     [HttpGet]
-    public async Task<IActionResult> Movie(int id, bool extended = false)
+    public async Task<object> Movie(int id, bool extended = false)
     {
         if (extended)
         {
@@ -63,13 +49,13 @@ public class MovieController : Controller
                      Id = id,
                  });
 
-            return Json(data: new
+            return new
             {
                 movie.Name,
                 movie.Id,
                 movie.Description,
                 movie.ImdbUrl,
-            });
+            };
         }
 
         var extendedMovie = await _movieClient.GetMovieExtendedAsync(new()
@@ -78,15 +64,15 @@ public class MovieController : Controller
             UserId = _userService.GetUserId(),
         });
 
-        return Json(data: new
+        return new
         {
             extendedMovie.Name,
             extendedMovie.Id,
             extendedMovie.Description,
             extendedMovie.ImdbUrl,
-        });
- 
+        };
     }
+
     [HttpPut]
     public async Task<IActionResult> ToggleFavourite(int id)
     {

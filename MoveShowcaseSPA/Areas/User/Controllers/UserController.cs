@@ -7,7 +7,7 @@ using static UserSystem.V1.Users;
 
 namespace MoveShowcaseDDD.Areas.User.Controllers;
 [ApiController]
-public class UserController : Controller
+public class UserController : ControllerBase
 {
     private readonly UsersClient _usersClient;
     private readonly ILogger<UserController> _logger;
@@ -16,8 +16,6 @@ public class UserController : Controller
         _usersClient = usersClient ?? throw new ArgumentNullException(nameof(usersClient));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
-
-    public IActionResult Index() => View();
 
     public record UserPreview(int Id, string Username, string HashedPassword, string Name, string Surname);
     [HttpPost]

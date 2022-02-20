@@ -5,7 +5,6 @@ export interface Movie {
   title: string;
   numberInStock: number;
   dailyRentalRate: number;
-  imdbUrl: string;
   rating: number;
   genre: Genre;
   liked: boolean;
