@@ -1,5 +1,6 @@
 import http from './httpService';
 import { apiUrl } from '../config.json';
+import { Movie } from '../interfaces/movie';
 
 const apiEndpoint = `${apiUrl}/movie`;
 
@@ -11,6 +12,9 @@ export const getMovie = async (id: number) => http.get(movieUrl(id));
 
 export const toggleFavourite = async (id: number, rating: number) =>
   http.put(`${apiEndpoint}/ToggleFavourite`, { id, rating });
+
+export const saveMovie = async (mov: Movie) =>
+  http.post(`${apiEndpoint}/create`, { ...mov });
 
 export const deleteMovie = async (movieId: number) =>
   http.delete(movieUrl(movieId));

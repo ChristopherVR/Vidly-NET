@@ -2,13 +2,13 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import _ from 'lodash';
-import MoviesTable from './moviesTable';
-import ListGroup from './common/listGroup';
-import Pagination from './common/pagination';
+import MoviesTable from './MoviesTable';
+import ListGroup from './common/ListGroup';
+import Pagination from './common/Pagination';
 import { getMovies, deleteMovie } from '../services/movieService';
 import getGenres from '../services/genreService';
 import paginate from '../utils/paginate';
-import SearchBox from './searchBox';
+import SearchBox from './SearchBox';
 import { Genre } from '../interfaces/genre';
 import { Movie } from '../interfaces/movie';
 import UserContext from '../context/userContext';
@@ -54,9 +54,8 @@ function Movies() {
 
     try {
       await deleteMovie(movie.id);
-    } catch (ex) {
-      if (ex.response && ex.response.status === 404)
-        toast.error('This movie has already been deleted.');
+    } catch {
+      toast.error('An error occured trying to delete the movie.');
       setMovies(originalMovies);
     }
   };
@@ -80,11 +79,15 @@ function Movies() {
     setCriteria({ ...criteria, searchQuery });
   };
 
-  const handleSort = (sortColumn: {
-    path: string;
-    order: boolean | 'asc' | 'desc';
-  }) => {
-    setCriteria({ ...criteria, sortColumn });
+  const handleSort = (sortColumn: { path: string }) => {
+    setCriteria({
+      ...criteria,
+      sortColumn: {
+        ...criteria.sortColumn,
+        order: true,
+        ...sortColumn,
+      },
+    });
   };
 
   const { pageSize, currentPage, sortColumn, searchQuery, selectedGenre } =
@@ -103,7 +106,7 @@ function Movies() {
 
     const paginatedMovies = paginate(sorted, currentPage, pageSize);
 
-    return { totalCount: filtered.length, data: paginatedMovies };
+    return { totalCount: filtered.length, data: paginatedMovies as Movie[] };
   };
 
   const { length: count } = movies;
@@ -118,17 +121,15 @@ function Movies() {
       <div className="col-3">
         <ListGroup
           items={genres}
-          selectedItem={criteria.selectedGenre}
+          selectedItem={criteria.selectedGenre ?? 0}
           onItemSelect={handleGenreSelect}
+          textProperty="id"
+          valueProperty="genre"
         />
       </div>
       <div className="col">
         {user && (
-          <Link
-            to="/movies/new"
-            className="btn btn-primary"
-            style={{ marginBottom: 20 }}
-          >
+          <Link to="/movies/new" className="btn btn-primary mb-4">
             New Movie
           </Link>
         )}
@@ -136,7 +137,6 @@ function Movies() {
         <SearchBox value={searchQuery} onChange={handleSearch} />
         <MoviesTable
           movies={pagedMovies}
-          sortColumn={sortColumn}
           onLike={handleLike}
           onDelete={handleDelete}
           onSort={handleSort}

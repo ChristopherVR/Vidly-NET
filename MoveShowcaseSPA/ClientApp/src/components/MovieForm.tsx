@@ -1,28 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import Joi from 'joi-browser';
-import Form from './common/formValidation';
+import { useNavigate, useParams } from 'react-router-dom';
+import { MDBValidation, MDBInput, MDBBtn, MDBSwitch } from 'mdb-react-ui-kit';
 import { getMovie, saveMovie } from '../services/movieService';
-import { getGenres } from '../services/genreService';
 import { Genre } from '../interfaces/genre';
+import { Movie } from '../interfaces/movie';
+import getGenres from '../services/genreService';
+
+type ParamsProps = {
+  id: string;
+};
 
 function MovieForm() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [genres, setGenres] = useState<Genre[]>([]);
-  const [movie, setMovie] = useState<Movie>();
-  const schema = {
-    _id: Joi.string(),
-    title: Joi.string().required().label('Title'),
-    genreId: Joi.string().required().label('Genre'),
-    numberInStock: Joi.number()
-      .required()
-      .min(0)
-      .max(100)
-      .label('Number in Stock'),
-    dailyRentalRate: Joi.number()
-      .required()
-      .min(0)
-      .max(10)
-      .label('Daily Rental Rate'),
-  };
+  const [movie, setMovie] = useState<Movie>({
+    dailyRentalRate: 0,
+    genre: {
+      id: 0,
+      name: '',
+    },
+    id: 0,
+    liked: false,
+    numberInStock: 0,
+    rating: 0,
+    title: '',
+  });
+  const navigate = useNavigate();
+  const { id } = useParams<ParamsProps>();
 
   useEffect(() => {
     const populateGenres = async () => {
@@ -32,36 +36,94 @@ function MovieForm() {
 
     const populateMovie = async () => {
       try {
-        const movieId = props.match.params.id;
-        if (movieId === 'new') return;
+        if (id === 'new') return;
 
-        const { data } = await getMovie(movieId);
+        const { data } = await getMovie(Number(id));
         setMovie(data);
-      } catch (ex) {
-        if (ex.response && ex.response.status === 404)
-          history.replace('/not-found');
+      } catch {
+        navigate('/not-found');
       }
     };
     populateGenres();
     populateMovie();
   }, []);
 
-  const doSubmit = async () => {
-    await saveMovie(this.state.data);
+  const onChangeHandler = (ev: HTMLInputElement) => {
+    setMovie({
+      ...movie,
+      [ev.name]: ev.value,
+    });
+  };
 
-    props.history.push('/movies');
+  const doSubmit = async () => {
+    await saveMovie(movie);
+    navigate('/movies');
   };
 
   return (
     <div>
       <h1>Movie Form</h1>
-      <form onSubmit={handleSubmit}>
-        {renderInput('title', 'Title')}
-        {renderSelect('genreId', 'Genre', genres)}
-        {renderInput('numberInStock', 'Number in Stock', 'number')}
-        {renderInput('dailyRentalRate', 'Rate')}
-        {renderButton('Save')}
-      </form>
+      <MDBValidation id="movie-form" onSubmit={doSubmit}>
+        <MDBInput
+          name="dailyRentalRate"
+          label="Daily Rental Rate"
+          type="text"
+          value={movie.dailyRentalRate.toString()}
+          onChange={({ currentTarget }: { currentTarget: HTMLInputElement }) =>
+            onChangeHandler(currentTarget)
+          }
+          required
+          invalid
+          validation="Daily Rental Rate is required"
+        />
+        <MDBInput
+          name="rating"
+          label="Rating"
+          type="text"
+          value={movie.rating.toString()}
+          onChange={({ currentTarget }: { currentTarget: HTMLInputElement }) =>
+            onChangeHandler(currentTarget)
+          }
+          required
+          invalid
+          validation="Rating is required"
+        />
+        <MDBInput
+          name="title"
+          label="Title"
+          type="text"
+          value={movie.title}
+          onChange={({ currentTarget }: { currentTarget: HTMLInputElement }) =>
+            onChangeHandler(currentTarget)
+          }
+          required
+          invalid
+          validation="Title is required"
+        />
+        <MDBInput
+          name="numberInStock"
+          label="Number in Stock"
+          type="text"
+          value={movie.numberInStock.toString()}
+          onChange={({ currentTarget }: { currentTarget: HTMLInputElement }) =>
+            onChangeHandler(currentTarget)
+          }
+          required
+          invalid
+          validation="Number in Stock is required"
+        />
+        <MDBSwitch
+          value={movie.liked}
+          onChange={({ currentTarget }: { currentTarget: HTMLInputElement }) =>
+            onChangeHandler(currentTarget)
+          }
+          label="Liked"
+        />
+        {/* Add Genre */}
+        <MDBBtn form="movie-form" type="submit">
+          Submit
+        </MDBBtn>
+      </MDBValidation>
     </div>
   );
 }

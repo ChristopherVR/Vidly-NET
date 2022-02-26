@@ -1,6 +1,11 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 
-function Input({ name, label, error, ...rest }) {
+interface InputProps extends React.ComponentPropsWithoutRef<'input'> {
+  error?: string;
+  label: string;
+}
+function Input({ name, label, error, ...rest }: InputProps) {
   return (
     <div className="form-group">
       <label htmlFor={name}>{label}</label>

@@ -1,16 +1,26 @@
 import React from 'react';
 
+type ListGroupProps = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  items: any[];
+  textProperty: string;
+  valueProperty: string;
+  selectedItem: number;
+  onItemSelect: (item: number) => void;
+};
+
 function ListGroup({
   items,
   textProperty,
   valueProperty,
   selectedItem,
   onItemSelect,
-}) {
+}: ListGroupProps) {
   return (
     <ul className="list-group">
       {items.map((item) => (
         <li
+          aria-hidden
           onClick={() => onItemSelect(item)}
           key={item[valueProperty]}
           className={
@@ -23,10 +33,5 @@ function ListGroup({
     </ul>
   );
 }
-
-ListGroup.defaultProps = {
-  textProperty: 'name',
-  valueProperty: '_id',
-};
 
 export default ListGroup;

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { User } from '../interfaces/user';
+import UserContext from '../context/userContext';
 
-function NavBar({ user }: { user: User }) {
+function NavBar() {
+  const user = useContext(UserContext);
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link className="navbar-brand" to="/">

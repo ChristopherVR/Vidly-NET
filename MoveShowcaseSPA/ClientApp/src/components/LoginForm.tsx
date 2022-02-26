@@ -1,42 +1,65 @@
+import { MDBBtn, MDBInput, MDBValidation } from 'mdb-react-ui-kit';
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
-import Joi from 'joi-browser';
-import Form from './common/formValidation';
+import { useNavigate } from 'react-router-dom';
 import auth from '../services/authService';
 
 interface UserDetails {
   username: string;
   password: string;
 }
-function LoginForm() {
-  const [user, setUser] = useState<UserDetails>();
+async function LoginForm() {
+  const [user, setUser] = useState<UserDetails>({
+    username: '',
+    password: '',
+  });
 
-  const schema = {
-    username: Joi.string().required().label('Username'),
-    password: Joi.string().required().label('Password'),
-  };
+  const navigate = useNavigate();
 
   const doSubmit = async () => {
-    try {
-      await auth.login(user.username, user.password);
-
-      const { state } = location;
-      window.location = state ? state.from.pathname : '/';
-    } catch (ex) {
-      console.log(ex);
-    }
+    await auth.login(user.username, user.password);
+    navigate('');
   };
 
-  if (await auth.getCurrentUser()) return <Redirect to="/" />;
+  if (await auth.getCurrentUser()) navigate('');
 
+  const onChangeHandler = (ev: HTMLInputElement) => {
+    setUser({
+      ...user,
+      [ev.name]: ev.value,
+    });
+  };
   return (
     <div>
       <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        {renderInput('username', 'Username')}
-        {renderInput('password', 'Password', 'password')}
-        {renderButton('Login')}
-      </form>
+      <MDBValidation id="register-form" onSubmit={doSubmit}>
+        <MDBInput
+          name="username"
+          label="Username"
+          type="text"
+          value={user.username}
+          onChange={({ currentTarget }: { currentTarget: HTMLInputElement }) =>
+            onChangeHandler(currentTarget)
+          }
+          required
+          invalid
+          validation="Username is required"
+        />
+        <MDBInput
+          name="password"
+          label="Password"
+          type="password"
+          value={user.password}
+          onChange={({ currentTarget }: { currentTarget: HTMLInputElement }) =>
+            onChangeHandler(currentTarget)
+          }
+          required
+          invalid
+          validation="Password is required"
+        />
+        <MDBBtn form="register-form" type="submit">
+          Submit
+        </MDBBtn>
+      </MDBValidation>
     </div>
   );
 }

@@ -3,7 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 import { Column } from '../../interfaces/column';
 
-function TableBody({ data, columns }: { data: any[]; columns: Column[] }) {
+function TableBody({ data, columns }: { data: unknown[]; columns: Column[] }) {
   const renderCell = (item: unknown, column: Column) => {
     if (column.content) return column.content(item);
 
@@ -15,7 +15,7 @@ function TableBody({ data, columns }: { data: any[]; columns: Column[] }) {
 
   return (
     <tbody>
-      {data.map((item) => (
+      {data.map((item: any) => (
         <tr key={item.id}>
           {columns.map((column) => (
             <td key={createKey(item, column)}>{renderCell(item, column)}</td>

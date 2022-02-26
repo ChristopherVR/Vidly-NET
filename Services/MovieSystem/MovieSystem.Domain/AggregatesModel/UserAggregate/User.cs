@@ -19,11 +19,16 @@ public class User : Entity, IAggregateRoot
     private readonly List<UserFavouriteMovie> _userFavouriteMovies = new();
     public IReadOnlyCollection<UserFavouriteMovie> UserFavouriteMovies => _userFavouriteMovies;
 
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    public User()
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    private User()
     {
-
+        Id = 1;
+        UpdatedUser = "initial";
+        UpdatedDate = DateTime.MinValue;
+        Name = "Christopher";
+        Surname = "van Rooyen";
+        Username = "ChristopherVR";
+        HashedPassword = string.Empty;
+        UserDetails = new("Sasolburg", "+27 12 507 2154", string.Empty, null);
     }
 
     public User(
@@ -114,5 +119,7 @@ public class User : Entity, IAggregateRoot
         UserDetails = new(address, phoneNumber, homeNumber, imageUrl);
         UpdatedUser = user;
     }
+
+    public static User CreateInitialSeedData() => new ();
 
 }

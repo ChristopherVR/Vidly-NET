@@ -1,6 +1,5 @@
 import React from 'react';
 import { Column, SortColumn } from '../../interfaces/column';
-import { Movie } from '../../interfaces/movie';
 
 function TableHeader({
   columns,
@@ -25,12 +24,7 @@ function TableHeader({
     onSort(changedColumn);
   };
 
-  const renderSortIcon = (column: {
-    path: string;
-    label: string;
-    content?: (mov: Movie) => JSX.Element;
-    key?: undefined;
-  }) => {
+  const renderSortIcon = (column: Column) => {
     if (column.path !== sortColumn.path) return null;
     if (sortColumn.order === 'asc') return <i className="fa fa-sort-asc" />;
     return <i className="fa fa-sort-desc" />;
@@ -42,7 +36,7 @@ function TableHeader({
         {columns.map((column) => (
           <th
             className="clickable"
-            key={column.path || column.key}
+            key={column.path || (column.key as string)}
             onClick={() => raiseSort(column.path)}
           >
             {column.label} {renderSortIcon(column)}

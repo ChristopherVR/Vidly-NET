@@ -1,65 +1,114 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import Table from './common/Table';
+import { MDBBtn } from 'mdb-react-ui-kit';
 
 import { Movie } from '../interfaces/movie';
-import { Column } from '../interfaces/column';
 import Like from './common/Like';
-
-const columns = (movie: Movie, onLike: (res: Movie) => Promise<void>) =>
-  [
-    {
-      path: 'title',
-      label: 'Title',
-      content: (mov: Movie) => (
-        <Link to={`/movies/${mov.id}`}>{mov.title}</Link>
-      ),
-    },
-    { path: 'genre.name', label: 'Genre' },
-    { path: 'numberInStock', label: 'Stock' },
-    { path: 'dailyRentalRate', label: 'Rate' },
-    {
-      key: 'like',
-      content: (mov: Movie) => (
-        <Like liked={movie.liked} onClick={() => onLike(mov)} />
-      ),
-    },
-  ] as Column[];
-
-const deleteColumn = (onDelete: (movie: Movie) => Promise<void>) => ({
-  key: 'delete',
-  content: (movie: Movie) => (
-    <button
-      type="button"
-      onClick={() => onDelete(movie)}
-      className="btn btn-danger btn-sm"
-    >
-      Delete
-    </button>
-  ),
-});
 
 function MoviesTable({
   movies,
   onSort,
-  sortColumn,
+  onLike,
   onDelete,
 }: {
   onDelete: (movie: Movie) => Promise<void>;
   movies: Movie[];
-  onSort: () => void;
-  sortColumn: {
-    order: boolean | 'asc' | 'desc';
-    path: string;
-  };
+  onSort: (sortColumn: { path: string }) => void;
+  onLike: (movie: Movie) => void;
 }) {
   return (
-    <Table
-      data={movies}
-      sortColumn={sortColumn}
-      onSort={onSort}
-      onDelete={onDelete}
-    />
+    <table className="table table-striped">
+      <thead>
+        <tr>
+          <th
+            role="button"
+            aria-hidden
+            onClick={() =>
+              onSort({
+                path: 'title',
+              })
+            }
+          >
+            Title
+          </th>
+          <th
+            role="button"
+            aria-hidden
+            onClick={() =>
+              onSort({
+                path: 'numberInStock',
+              })
+            }
+          >
+            Number in Stock
+          </th>
+          <th
+            role="button"
+            aria-hidden
+            onClick={() =>
+              onSort({
+                path: 'dailyRentalRate',
+              })
+            }
+          >
+            Daily Rental Rate
+          </th>
+          <th
+            role="button"
+            aria-hidden
+            onClick={() =>
+              onSort({
+                path: 'rating',
+              })
+            }
+          >
+            Rating
+          </th>
+          <th
+            role="button"
+            aria-hidden
+            onClick={() =>
+              onSort({
+                path: 'genre',
+              })
+            }
+          >
+            Genre
+          </th>
+          <th
+            role="button"
+            aria-hidden
+            onClick={() =>
+              onSort({
+                path: 'liked',
+              })
+            }
+          >
+            Liked
+          </th>
+          <th> </th>
+        </tr>
+      </thead>
+      <tbody>
+        {movies.map((movie: Movie) => (
+          <tr>
+            <td>{movie.title} </td>
+            <td>{movie.numberInStock} </td>
+            <td>{movie.dailyRentalRate} </td>
+            <td>{movie.rating} </td>
+            <td>{movie.genre.name} </td>
+            <td>
+              {' '}
+              <Like liked={movie.liked} onClick={() => onLike(movie)} />{' '}
+            </td>
+            <td>
+              <MDBBtn className="btn-danger" onClick={() => onDelete(movie)}>
+                Delete
+              </MDBBtn>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }
 

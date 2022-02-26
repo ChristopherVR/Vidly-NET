@@ -1,11 +1,13 @@
 import React from 'react';
 
-function Like(props) {
+// TODO: Add font awesome icons.
+
+function Like({ liked, onClick }: { liked: boolean; onClick: () => void }) {
   let classes = 'fa fa-heart';
-  if (!props.liked) classes += '-o';
+  if (!liked) classes += '-o';
   return (
     <i
-      onClick={props.onClick}
+      onClick={onClick}
       style={{ cursor: 'pointer' }}
       className={classes}
       aria-hidden="true"

@@ -1,17 +1,16 @@
-import React, { Component, useEffect, useState } from 'react';
-import { Route, Redirect, Switch, Routes } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import axios from 'axios';
-import Movies from './components/movies';
-import MovieForm from './components/movieForm';
-import Customers from './components/customers';
-import Rentals from './components/rentals';
+import Movies from './components/Movies';
+import MovieForm from './components/MovieForm';
+import Customers from './components/Customers';
+import Rentals from './components/Rentals';
 import NotFound from './components/NotFound';
-import NavBar from './components/navBar';
-import LoginForm from './components/loginForm';
-import RegisterForm from './components/registerForm';
-import Logout from './components/logout';
-import ProtectedRoute from './components/common/protectedRoute';
+import NavBar from './components/NavBar';
+import LoginForm from './components/LoginForm';
+import RegisterForm from './components/RegisterForm';
+import Logout from './components/Logout';
+import ProtectedRoute from './components/common/ProtectedRoute';
 import auth from './services/authService';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
@@ -28,32 +27,31 @@ function App() {
 
       const getUser = async () => {
         const response = await auth.getCurrentUser();
-        updateUser(response.data);
+        updateUser(response?.data);
       };
       await getUser();
     })();
   }, []);
 
+  if (!user) return null;
   return (
     <UserContext.Provider value={user}>
       <ToastContainer />
-      <NavBar user={user} />
+      <NavBar />
       <main className="container">
         <Routes>
-          <Route path="/register" element={RegisterForm} />
-          <Route path="/login" element={LoginForm} />
-          <Route path="/logout" element={Logout} />
+          <Route path="/register" element={<RegisterForm />} />
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/logout" element={<Logout />} />
           <ProtectedRoute
             path="/movies/:id"
             component={MovieForm}
             render={undefined}
           />
-          <Route path="/movies" element={<Movies user={user} />} />
-          <Route path="/customers" element={Customers} />
-          <Route path="/rentals" element={Rentals} />
-          <Route path="/not-found" element={NotFound} />
-          <Redirect from="/" exact to="/movies" />
-          <Redirect to="/not-found" />
+          <Route path="/movies" element={<Movies />} />
+          <Route path="/customers" element={<Customers />} />
+          <Route path="/rentals" element={<Rentals />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
     </UserContext.Provider>

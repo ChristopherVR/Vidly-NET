@@ -18,5 +18,7 @@ class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
             ?.SetPropertyAccessMode(PropertyAccessMode.Field);
 
         builder.OwnsOne(u => u.UserDetails, cd => cd.WithOwner());
+
+        builder.HasData(User.CreateInitialSeedData());
     }
 }
