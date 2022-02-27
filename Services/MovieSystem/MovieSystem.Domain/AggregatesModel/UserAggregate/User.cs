@@ -95,14 +95,14 @@ public class User : Entity, IAggregateRoot
     }
 
    
-    public void ToggleFavourite(int movieId, string reason, Rating rating, string user)
+    public void ToggleFavourite(int movieId, string reason, Rating rating, bool liked, string user)
     {
         UserFavouriteMovie? favMovie = _userFavouriteMovies
             .FirstOrDefault(x => x.MovieId == movieId);
 
         if (favMovie is null)
         {
-            favMovie = new (movieId, Id, reason, rating, user);
+            favMovie = new (movieId, reason, rating, liked, user);
             _userFavouriteMovies.Add(favMovie);
         }
         else

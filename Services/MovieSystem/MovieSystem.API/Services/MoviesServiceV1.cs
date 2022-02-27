@@ -1,12 +1,9 @@
 ﻿using Google.Protobuf.WellKnownTypes;
-using Grpc.Core;
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using MovieSystem.API.Application.Queries;
 using MovieSystem.V1;
 
-namespace MovieSystem.API.Grpc;
- [Authorize]
+namespace MovieSystem.API.Services;
+[Authorize]
  public class MoviesServiceV1 : MovieSystem.V1.Movies.MoviesBase
  {
      private readonly ILogger<MoviesServiceV1> _logger;
@@ -32,10 +29,8 @@ namespace MovieSystem.API.Grpc;
              {
                  movies.Select(movie => new Movie()
                  {
-                     Name = movie.Name,
-                     Description = movie.Description,
+                     Name = movie.Title,
                      Id = movie.Id,
-                     ImdbUrl  = movie.ImdbUrl,
                  })
              },
          };
@@ -57,12 +52,9 @@ namespace MovieSystem.API.Grpc;
              {
                  movies.Select(movie => new MovieExtended()
                  {
-                     Description = movie.Description,
                      Id = movie.Id,
                      ImdbUrl = movie.ImdbUrl,
-                     Name = movie.Name,
                      Rating = ((int?) movie.Rating) ?? 0,
-                     Reason = movie.Reason,
                      UpdatedDate = Timestamp.FromDateTime(movie.UpdatedDate),
                  })
              }
@@ -80,10 +72,7 @@ namespace MovieSystem.API.Grpc;
  
          return new()
          {
-             Description = movie.Description,
              Id = movie.Id,
-             ImdbUrl = movie.ImdbUrl,
-             Name = movie.Name,
          };
      }
  
@@ -98,12 +87,9 @@ namespace MovieSystem.API.Grpc;
  
          return new()
          {
-             Description = movie.Description,
              Id = movie.Id,
              ImdbUrl = movie.ImdbUrl,
-             Name = movie.Name,
              Rating = ((int?)movie.Rating) ?? 0,
-             Reason = movie.Reason,
              UpdatedDate = Timestamp.FromDateTime(movie.UpdatedDate),
          };
      }

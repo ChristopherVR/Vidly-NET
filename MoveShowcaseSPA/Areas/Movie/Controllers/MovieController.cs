@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MoveShowcaseDDD.Services;
+using MovieShowcaseSPA.Enums;
 using static MovieSystem.V1.Movies;
 
 namespace MoveShowcaseDDD.Areas.Movie.Controllers;
@@ -73,10 +74,11 @@ public class MovieController : ControllerBase
         };
     }
 
+    public record Favourite(int? Id, Rating Rating, bool Liked, string Reason);
     [HttpPut]
-    public async Task<IActionResult> ToggleFavourite(int id)
+    public async Task<IActionResult> ToggleFavourite([FromBody] Favourite data)
     {
-        _ = id;
+        _ = data;
         await Task.CompletedTask;
         return NoContent();
     }

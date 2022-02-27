@@ -20,19 +20,23 @@ service Movies {
 
 message Movie {
   int32 id = 1;
-  string name = 2;
-  string description = 3;
-  string imdb_url = 4;
+  string title = 2;
+  int32 number_in_stock = 3;
+  int32 daily_rental_rate = 4;
+  int32 rating = 5;
+  string genre = 6;
 }
 
 message MovieExtended {
   int32 id = 1;
-  string name = 2;
-  string description = 3;
-  string imdb_url = 4;
-  google.protobuf.Timestamp updated_date = 5;
-  google.protobuf.Int32Value rating = 6;
-  google.protobuf.StringValue reason = 7;
+  string title = 2;
+  google.protobuf.Timestamp updated_date = 3;
+  google.protobuf.Int32Value rating = 4;
+  google.protobuf.StringValue reason = 5;
+  int32 number_in_stock = 6;
+  int32 daily_rental_rate = 7;
+  int32 rating = 8;
+  string genre = 9;
 }
 
 message ListMoviesRequest {

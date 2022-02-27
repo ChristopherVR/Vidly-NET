@@ -7,7 +7,7 @@ namespace MovieSystem.Domain.AggregatesModel.UserAggregate
         public string UpdatedUser { get; private set; }
         public DateTime UpdatedDate { get; private set; } = DateTime.Now;
         public int MovieId { get; private set; }
-        public int UserId { get; private set; }
+        public bool Liked { get; private set; }
         public string Reason { get; private set; }
         public Rating Rating { get; private set; }
 
@@ -18,13 +18,18 @@ namespace MovieSystem.Domain.AggregatesModel.UserAggregate
 
         }
 
-        public UserFavouriteMovie(int movieId, int userId, string reason, Rating rating, string user)
+        public UserFavouriteMovie(
+            int movieId,
+            string reason,
+            Rating rating,
+            bool liked,
+            string user)
         {
             MovieId = movieId;
-            UserId = userId;
             Reason = reason;
             Rating = rating;
             UpdatedUser = user;
+            Liked = liked;
         }
 
         public void Update(string reason, Rating rating, string user)

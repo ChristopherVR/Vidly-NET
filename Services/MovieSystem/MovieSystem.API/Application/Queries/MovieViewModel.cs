@@ -1,8 +1,6 @@
-﻿using MovieSystem.Domain.AggregatesModel.UserAggregate;
+﻿namespace MovieSystem.API.Application.Queries;
 
-namespace MovieSystem.API.Application.Queries;
+public record MoviePreview (int Id, string Title, int NumberInStock, int DailyRentalRate, int Rating, string Genre, bool Liked);
 
-public record MoviePreview (int Id, string Name, string Description, string ImdbUrl);
-
-public record MovieExtendedPreview(int Id, string Name, string Description, string ImdbUrl, string? Reason, Rating? Rating, DateTime UpdatedDate);
+public record MovieExtendedPreview(int Id, string Title, int NumberInStock, int DailyRentalRate, int Rating, string Genre, bool Liked, string ImdbUrl, DateTime UpdatedDate);
 

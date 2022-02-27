@@ -24,6 +24,7 @@ message ToggleUserFavouriteMovieRequest {
   int32 movie_id = 2;
   int32 rating = 3;
   string reason = 4;
+  bool liked = 5;
 }
 
 message GetUserRequest {

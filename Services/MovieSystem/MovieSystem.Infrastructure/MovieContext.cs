@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MovieSystem.Domain.AggregatesModel.MovieAggregate;
 using MovieSystem.Domain.AggregatesModel.UserAggregate;
+using MovieSystem.Domain.AggregatesModel.GenreAggregate;
 
 namespace MovieSystem.Infrastructure;
 
@@ -13,6 +14,7 @@ public class MovieContext : DbContext, IUnitOfWork
 
     public DbSet<Movie> Movies { get; set; } = null!;
     public DbSet<User> Users { get; set; } = null!;
+    public DbSet<Genre> Genres { get; set; } = null!;
 
     private readonly IMediator _mediator;
 

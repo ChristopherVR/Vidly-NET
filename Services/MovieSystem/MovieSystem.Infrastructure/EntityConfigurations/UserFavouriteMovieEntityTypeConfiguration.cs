@@ -9,6 +9,8 @@ class UserFavouriteMovieEntityTypeConfiguration : IEntityTypeConfiguration<UserF
     {
         builder.ToTable("UserFavouriteMovies", MovieContext.DEFAULT_SCHEMA);
 
+        builder.Property("UserId").IsRequired(true);
+
         builder.HasKey(u => u.Id);
     }
 }

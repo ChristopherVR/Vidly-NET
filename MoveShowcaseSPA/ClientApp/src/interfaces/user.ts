@@ -3,6 +3,7 @@ export interface User {
   name: string;
   surname: string;
   userName: string;
+  imageUrl?: string;
 }
 
 export interface RegisterUser {
@@ -10,4 +11,8 @@ export interface RegisterUser {
   surname: string;
   userName: string;
   password: string;
+  homeNumber: string;
+  personalNumber: string;
+  address: string;
+  imageUrl?: string;
 }

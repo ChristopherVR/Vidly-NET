@@ -26,12 +26,8 @@ public class UsersServiceV1 : Users.UsersBase
     {
         var command = new UpdateUserCommand(request.Id, request.Name, request.Address, request.ImageUrl, request.PhoneNumber, request.HomeNumber, request.Surname, "editedUser");
 
-        bool result = await _mediator.Send(command, context.CancellationToken);
+        var result = await _mediator.Send(command, context.CancellationToken);
 
-        if (!result)
-        {
-            throw new RpcException(new Status(StatusCode.Unknown, "An error occurred"));
-        }
 
         return new ()
         {

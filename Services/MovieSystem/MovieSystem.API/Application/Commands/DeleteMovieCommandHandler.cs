@@ -5,9 +5,9 @@ namespace MovieSystem.API.Application.Commands;
 public class DeleteMovieCommandHandler : IRequestHandler<DeleteMovieCommand, bool>
 {
     private readonly ILogger<DeleteMovieCommandHandler> _logger;
-    private readonly IMovieRepository _movieRepository;
+    private readonly IGenreRepository _movieRepository;
 
-    public DeleteMovieCommandHandler(ILogger<DeleteMovieCommandHandler> logger, IMovieRepository movieRepository)
+    public DeleteMovieCommandHandler(ILogger<DeleteMovieCommandHandler> logger, IGenreRepository movieRepository)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _movieRepository = movieRepository ?? throw new ArgumentNullException(nameof(movieRepository));
