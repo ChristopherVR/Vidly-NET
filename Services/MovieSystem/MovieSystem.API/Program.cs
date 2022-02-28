@@ -1,6 +1,7 @@
 
 using MovieSystem.API.Grpc;
 using MovieSystem.API.Infrastructure.AutofacModules;
+using MovieSystem.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

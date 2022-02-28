@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import UserContext from '../context/userContext';
 
 function NavBar() {
-  const user = useContext(UserContext);
+  const { user } = useContext(UserContext);
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link className="navbar-brand" to="/">

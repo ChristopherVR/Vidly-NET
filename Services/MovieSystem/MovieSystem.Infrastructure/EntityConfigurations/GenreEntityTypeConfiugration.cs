@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MovieSystem.Domain.AggregatesModel.UserAggregate;
+using MovieSystem.Domain.AggregatesModel.GenreAggregate;
 
 namespace MovieSystem.Infrastructure.EntityConfigurations;
 class GenreEntityTypeConfiugration : IEntityTypeConfiguration<Genre>

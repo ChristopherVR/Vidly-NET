@@ -11,6 +11,9 @@ function RegisterForm() {
     surname: '',
     userName: '',
     password: '',
+    address: '',
+    homeNumber: '',
+    personalNumber: '',
   });
 
   const onChangeHandler = (ev: HTMLInputElement) => {

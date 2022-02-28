@@ -5,9 +5,9 @@ namespace MovieSystem.API.Application.Commands;
 public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, int>
 {
     private readonly ILogger<CreateMovieCommandHandler> _logger;
-    private readonly IGenreRepository _movieRepository;
+    private readonly IMovieRepository _movieRepository;
 
-    public CreateMovieCommandHandler(ILogger<CreateMovieCommandHandler> logger, IGenreRepository movieRepository)
+    public CreateMovieCommandHandler(ILogger<CreateMovieCommandHandler> logger, IMovieRepository movieRepository)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _movieRepository = movieRepository ?? throw new ArgumentNullException(nameof(movieRepository));

@@ -7,7 +7,7 @@ interface UserDetails {
   username: string;
   password: string;
 }
-async function LoginForm() {
+function LoginForm() {
   const [user, setUser] = useState<UserDetails>({
     username: '',
     password: '',
@@ -20,7 +20,8 @@ async function LoginForm() {
     navigate('');
   };
 
-  if (await auth.getCurrentUser()) navigate('');
+  // const checkUser = async () => auth.getCurrentUser();
+  // if (checkUser()) navigate('');
 
   const onChangeHandler = (ev: HTMLInputElement) => {
     setUser({

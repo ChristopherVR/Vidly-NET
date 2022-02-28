@@ -5,9 +5,9 @@ namespace MovieSystem.API.Application.Commands;
 public class UpdateMovieCommandHandler : IRequestHandler<UpdateMovieCommand, bool>
 {
     private readonly ILogger<UpdateMovieCommandHandler> _logger;
-    private readonly IGenreRepository _movieRepository;
+    private readonly IMovieRepository _movieRepository;
 
-    public UpdateMovieCommandHandler(ILogger<UpdateMovieCommandHandler> logger, IGenreRepository movieRepository)
+    public UpdateMovieCommandHandler(ILogger<UpdateMovieCommandHandler> logger, IMovieRepository movieRepository)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _movieRepository = movieRepository ?? throw new ArgumentNullException(nameof(movieRepository));

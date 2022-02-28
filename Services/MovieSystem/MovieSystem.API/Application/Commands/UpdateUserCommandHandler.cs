@@ -2,7 +2,7 @@
 using static MovieSystem.API.Application.Commands.UserCommands;
 
 namespace MovieSystem.API.Application.Commands;
-public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, bool>
+public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, User>
 {
     private readonly ILogger<UpdateUserCommandHandler> _logger;
     private readonly IUserRepository _userRepository;
@@ -13,7 +13,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, bool>
         _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
     }
 
-    public async Task<bool> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+    public async Task<User> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Updating user {request}", request);
 
@@ -31,7 +31,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, bool>
 
         await _userRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
-        return true;
+        return user;
     }
 }
 

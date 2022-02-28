@@ -52,10 +52,8 @@ public class MovieController : ControllerBase
 
             return new
             {
-                movie.Name,
                 movie.Id,
-                movie.Description,
-                movie.ImdbUrl,
+                movie.Title,
             };
         }
 
@@ -67,10 +65,8 @@ public class MovieController : ControllerBase
 
         return new
         {
-            extendedMovie.Name,
+            extendedMovie.Title,
             extendedMovie.Id,
-            extendedMovie.Description,
-            extendedMovie.ImdbUrl,
         };
     }
 

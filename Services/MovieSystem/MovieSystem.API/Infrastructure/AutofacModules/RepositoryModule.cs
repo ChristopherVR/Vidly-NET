@@ -10,7 +10,11 @@ public class RepositoryModule : Module
     protected override void Load(ContainerBuilder builder)
     {
         builder.RegisterType<MovieRepository>()
-            .As<IGenreRepository>()
+            .As<IMovieRepository>()
+            .InstancePerLifetimeScope();
+        
+        builder.RegisterType<GenreRepository>()
+            .As<Domain.AggregatesModel.GenreAggregate.IGenreRepository>()
             .InstancePerLifetimeScope();
 
         builder.RegisterType<UserRepository>()

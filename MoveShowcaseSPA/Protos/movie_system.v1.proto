@@ -35,8 +35,7 @@ message MovieExtended {
   google.protobuf.StringValue reason = 5;
   int32 number_in_stock = 6;
   int32 daily_rental_rate = 7;
-  int32 rating = 8;
-  string genre = 9;
+  string genre = 8;
 }
 
 message ListMoviesRequest {

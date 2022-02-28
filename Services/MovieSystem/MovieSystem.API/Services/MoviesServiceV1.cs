@@ -29,7 +29,7 @@ namespace MovieSystem.API.Services;
              {
                  movies.Select(movie => new Movie()
                  {
-                     Name = movie.Title,
+                     Title = movie.Title,
                      Id = movie.Id,
                  })
              },
@@ -53,7 +53,7 @@ namespace MovieSystem.API.Services;
                  movies.Select(movie => new MovieExtended()
                  {
                      Id = movie.Id,
-                     ImdbUrl = movie.ImdbUrl,
+                     // ImdbUrl = movie.ImdbUrl,
                      Rating = ((int?) movie.Rating) ?? 0,
                      UpdatedDate = Timestamp.FromDateTime(movie.UpdatedDate),
                  })
@@ -88,7 +88,7 @@ namespace MovieSystem.API.Services;
          return new()
          {
              Id = movie.Id,
-             ImdbUrl = movie.ImdbUrl,
+             // ImdbUrl = movie.ImdbUrl,
              Rating = ((int?)movie.Rating) ?? 0,
              UpdatedDate = Timestamp.FromDateTime(movie.UpdatedDate),
          };
