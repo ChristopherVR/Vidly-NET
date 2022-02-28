@@ -7,6 +7,7 @@ using static UserSystem.V1.Users;
 
 namespace MoveShowcaseDDD.Areas.User.Controllers;
 [ApiController]
+[Route("[controller]")]
 public class UserController : ControllerBase
 {
     private readonly UsersClient _usersClient;

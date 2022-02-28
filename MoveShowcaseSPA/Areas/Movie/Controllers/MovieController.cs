@@ -7,6 +7,7 @@ using static MovieSystem.V1.Movies;
 namespace MoveShowcaseDDD.Areas.Movie.Controllers;
 [Authorize]
 [ApiController]
+[Route("[controller]")]
 public class MovieController : ControllerBase
 {
     private readonly MoviesClient _movieClient;
