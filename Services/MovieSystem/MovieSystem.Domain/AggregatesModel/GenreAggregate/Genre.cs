@@ -21,6 +21,15 @@ public class Genre : Entity, IAggregateRoot
         UpdatedUser = username;
     }
 
-    public static List<Genre> CreateInitialSeedData() => new ();
+    public static List<Genre> CreateInitialSeedData() => new ()
+    {
+        new Genre(1, "Rock"),
+        new Genre(2, "Pop"),
+        new Genre(3, "Sci-Fi"),
+        new Genre(4, "Action"),
+        new Genre(5, "Thriller"),
+        new Genre(6, "Comedy"),
+        new Genre(7, "Horror"),
+    };
 
 }
