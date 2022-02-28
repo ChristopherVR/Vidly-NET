@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MoveShowcaseDDD.Pages;
 using System.Security.Claims;
 using static UserSystem.V1.Users;
 
@@ -69,7 +70,7 @@ public class UserController : ControllerBase
             });
         }
 
-        return RedirectToAction(nameof(Index));
+        return RedirectToPage(nameof(IndexModel));
     }
 
     [HttpPost]
@@ -77,7 +78,7 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Logout()
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        return RedirectToAction(nameof(Index));
+        return RedirectToPage(nameof(IndexModel));
     }
 }
 
