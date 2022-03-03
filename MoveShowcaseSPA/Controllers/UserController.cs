@@ -6,7 +6,7 @@ using MoveShowcaseDDD.Pages;
 using System.Security.Claims;
 using static UserSystem.V1.Users;
 
-namespace MoveShowcaseDDD.Areas.User.Controllers;
+namespace MoveShowcaseDDD.Areas.Controllers;
 [ApiController]
 [Route("[controller]")]
 public class UserController : ControllerBase

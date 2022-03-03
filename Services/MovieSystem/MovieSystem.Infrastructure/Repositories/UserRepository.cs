@@ -39,4 +39,28 @@ public class UserRepository : IUserRepository
     public User Add(User entity) => _context.Users.Add(entity).Entity;
 
     public void Update(User entity) => _context.Entry(entity).State = EntityState.Modified;
+
+    public async Task<User?> GetAsync(string username)
+    {
+        User? entity = await _context
+            .Users
+            .FirstOrDefaultAsync(u => u.Username == username);
+
+        if (entity == null)
+        {
+            entity = _context
+                .Users
+                .Local
+                .FirstOrDefault(u => u.Username == username);
+        }
+
+        if (entity is not null)
+        {
+            await _context.Entry(entity)
+                .Collection(r => r.UserFavouriteMovies)
+                .LoadAsync();
+        }
+
+        return entity;
+    }
 }

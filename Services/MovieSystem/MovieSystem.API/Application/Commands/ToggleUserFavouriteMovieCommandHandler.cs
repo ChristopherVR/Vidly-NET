@@ -25,8 +25,7 @@ public class ToggleUserFavouriteMovieCommandHandler : IRequestHandler<ToggleUser
             throw new ArgumentNullException("User is null for Id - ", nameof(request.UserId));
         }
 
-        // TODO: Add request.Liked
-        user.ToggleFavourite(request.MovieId, request.Reason, request.Rating, true, request.User);
+        user.ToggleFavourite(request.MovieId, request.Reason, request.Rating, request.Liked, request.User);
 
         _userRepository.Update(user);
 

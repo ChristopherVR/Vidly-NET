@@ -6,6 +6,7 @@ public class UserCommands
 
     public record CreateUserCommand(
         string Name,
+        string Password,
         string Address,
         string? ImageUrl,
         string PhoneNumber,
@@ -28,5 +29,6 @@ public class UserCommands
         int MovieId,
         Domain.AggregatesModel.UserAggregate.Rating Rating,
         string User,
-        string Reason) : IRequest<bool>;
+        string Reason,
+        bool Liked) : IRequest<bool>;
 }

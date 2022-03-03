@@ -96,6 +96,7 @@ public class User : Entity, IAggregateRoot
    
     public void ToggleFavourite(int movieId, string reason, Rating rating, bool liked, string user)
     {
+        // TODO: Unit tests
         UserFavouriteMovie? favMovie = _userFavouriteMovies
             .FirstOrDefault(x => x.MovieId == movieId);
 

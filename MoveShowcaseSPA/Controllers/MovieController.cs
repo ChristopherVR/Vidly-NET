@@ -4,7 +4,7 @@ using MoveShowcaseDDD.Services;
 using MovieShowcaseSPA.Enums;
 using static MovieSystem.V1.Movies;
 
-namespace MoveShowcaseDDD.Areas.Movie.Controllers;
+namespace MoveShowcaseDDD.Areas.Controllers;
 [Authorize]
 [ApiController]
 [Route("[controller]")]

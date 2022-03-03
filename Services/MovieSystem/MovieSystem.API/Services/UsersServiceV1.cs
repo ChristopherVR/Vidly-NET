@@ -1,7 +1,4 @@
 using Google.Protobuf.WellKnownTypes;
-using Grpc.Core;
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using MovieSystem.API.Application.Queries;
 using UserSystem.V1;
 using static MovieSystem.API.Application.Commands.UserCommands;
@@ -28,8 +25,7 @@ public class UsersServiceV1 : Users.UsersBase
 
         var result = await _mediator.Send(command, context.CancellationToken);
 
-
-        return new ()
+        return new()
         {
             Address = request.Address,
             HomeNumber = request.HomeNumber,
@@ -38,13 +34,19 @@ public class UsersServiceV1 : Users.UsersBase
             Name = request.Name,
             PhoneNumber = request.PhoneNumber,
             Surname = request.Surname,
-            // Username = request.Username,
+            Username = result.Username,
         };
     }
 
     public override async Task<Empty> ToggleUserFavouriteMovie(ToggleUserFavouriteMovieRequest request, ServerCallContext context)
     {
-        var command = new ToggleUserFavouriteMovieCommand(request.UserId, request.MovieId, (Domain.AggregatesModel.UserAggregate.Rating) request.Rating, "editedUser", request.Reason);
+        var command = new ToggleUserFavouriteMovieCommand(
+            request.UserId,
+            request.MovieId,
+            (Domain.AggregatesModel.UserAggregate.Rating)request.Rating,
+            "editedUser",
+            request.Reason,
+            request.Liked);
 
         bool result = await _mediator.Send(command, context.CancellationToken);
 
@@ -53,23 +55,35 @@ public class UsersServiceV1 : Users.UsersBase
             throw new RpcException(new Status(StatusCode.Unknown, "An error occurred"));
         }
 
-        return new Empty();
+        return new();
     }
 
-    // public override async Task<User> CreateUser(CreateUserRequest request, ServerCallContext context)
-    // {
-    //     bool result = await _mediator.Send(command, context.CancellationToken);
-    // 
-    //     if (!result)
-    //     {
-    //         throw new RpcException(new Status(StatusCode.Unknown, "An error occurred"));
-    //     }
-    // 
-    //     return new User
-    //     {
-    // 
-    //     };
-    // }
+    public override async Task<UserExtended> CreateUser(CreateUserRequest request, ServerCallContext context)
+    {
+        var command = new CreateUserCommand(
+            request.Name,
+            request.Password,
+            request.Address,
+            request.ImageUrl,
+            request.PhoneNumber,
+            request.HomeNumber,
+            request.Surname,
+            request.Username);
+
+        var user = await _mediator.Send(command, context.CancellationToken);
+
+        return new()
+        {
+            Id = user.Id,
+            Username = user.Username,
+            Surname = user.Surname,
+            PhoneNumber = user.UserDetails.PersonalNumber,
+            HomeNumber = user.UserDetails.HomeNumber,
+            ImageUrl = user.UserDetails.ImageUrl,
+            Name = user.Name,
+            Address = user.UserDetails.Address,
+        };
+    }
 
     public override async Task<User> GetUser(GetUserRequest request, ServerCallContext context)
     {
@@ -85,7 +99,7 @@ public class UsersServiceV1 : Users.UsersBase
             throw new RpcException(new Status(StatusCode.NotFound, "User not found."));
         }
 
-        return new ()
+        return new()
         {
             Id = user.Id,
             Username = user.Username,
@@ -120,7 +134,6 @@ public class UsersServiceV1 : Users.UsersBase
             Address = user.Address,
         };
     }
-
 }
 
 

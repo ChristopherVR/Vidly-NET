@@ -16,7 +16,21 @@ service Users {
   // Update
   rpc UpdateUser(UpdateUserRequest) returns (UserExtended);
 
+  // Create
+  rpc CreateUser(CreateUserRequest) returns (UserExtended);
+
   rpc ToggleUserFavouriteMovie(ToggleUserFavouriteMovieRequest) returns (google.protobuf.Empty);
+}
+
+message CreateUserRequest {
+  string username = 1;
+  string password = 2;
+  string name = 3;
+  string surname = 4;
+  string phone_number = 5;
+  string home_number = 6;
+  string address = 7;
+  google.protobuf.StringValue image_url = 8; 
 }
 
 message ToggleUserFavouriteMovieRequest {
@@ -24,6 +38,7 @@ message ToggleUserFavouriteMovieRequest {
   int32 movie_id = 2;
   int32 rating = 3;
   string reason = 4;
+  bool liked = 5;
 }
 
 message GetUserRequest {
@@ -35,12 +50,12 @@ message GetUserRequest {
 
 message UpdateUserRequest {
   int32 id = 1;
-  string name = 3;
-  string surname = 4;
-  string phone_number = 5;
-  string home_number = 6;
-  string address = 7;
-  google.protobuf.StringValue image_url = 8;
+  string name = 2;
+  string surname = 3;
+  string phone_number = 4;
+  string home_number = 5;
+  string address = 6;
+  google.protobuf.StringValue image_url = 7;
 }
 
 message User {

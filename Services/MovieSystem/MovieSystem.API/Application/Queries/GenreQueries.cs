@@ -26,7 +26,7 @@ public class GenreQueries : IGenreQueries
                     WHERE @searchTerm IS NULL OR [Name] LIKE CONCAT('%', @searchTerm, '%');";
 
         return (await connection.QueryAsync<GenrePreview>(
-            sql)).AsList();
+            sql, new { searchTerm })).AsList();
     }
 }
 

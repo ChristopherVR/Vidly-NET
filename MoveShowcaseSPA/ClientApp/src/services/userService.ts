@@ -1,5 +1,5 @@
 import http from './httpService';
-import { apiUrl } from '../config.json';
+import apiUrl from '../config.json';
 import { RegisterUser, User } from '../interfaces/user';
 
 const apiEndpoint = `${apiUrl}/users`;

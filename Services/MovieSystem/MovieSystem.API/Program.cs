@@ -62,7 +62,7 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapGrpcService<MoviesServiceV1>();
     endpoints.MapGrpcService<UsersServiceV1>();
-
+    endpoints.MapGrpcService<GenresServiceV1>();
     if (app.Environment.IsDevelopment())
     {
         endpoints.MapGrpcReflectionService();

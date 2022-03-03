@@ -13,7 +13,10 @@ public class UserQueries : IUserQueries
             : throw new ArgumentNullException(nameof(connectionString));
     }
 
-    public async Task<UserPreview?> GetUserAsync(int id)
+    public async Task<UserPreview?> GetUserAsync(string username) => await GetUserAsync(null, username);
+    public async Task<UserPreview?> GetUserAsync(int id) => await GetUserAsync(id, null);
+
+    private async Task<UserPreview?> GetUserAsync(int? id, string? username)
     {
         using var connection = new SqlConnection(_connectionString);
         connection.Open();
@@ -25,20 +28,20 @@ public class UserQueries : IUserQueries
                           [Surname],
                           [Username]
                     FROM
-                         [Movie].[Users] s";
+                         [Movie].[Users] s
+                    WHERE @id IS NULL OR Id = @id
+                    AND @username IS NULL OR Username = @username";
 
         var user = await connection.QueryFirstOrDefaultAsync<UserPreview>(
-            sql);
+            sql, new { id, username });
 
         return user;
     }
 
-    public Task<UserPreview?> GetUserAsync(string username)
-    {
-        throw new NotImplementedException();
-    }
 
-    public async Task<UserExtendedPreview?> GetUserExtendedAsync(int id)
+    public async Task<UserExtendedPreview?> GetUserExtendedAsync(int id) => await GetUserExtendedAsync(id, null);
+
+    private async Task<UserExtendedPreview?> GetUserExtendedAsync(int? id, string? username)
     {
         using var connection = new SqlConnection(_connectionString);
         connection.Open();
@@ -55,13 +58,15 @@ public class UserQueries : IUserQueries
                     FROM
                          [Movie].[Users] s
                     LEFT JOIN [Movie].[UserFavouriteMovies] ufm
-                    ON ufm.UserId = s.Id";
+                    ON ufm.UserId = s.Id
+                    WHERE @id IS NULL OR s.Id = @id
+                    AND @username IS NULL OR s.Username = @username";
 
         IEnumerable<Tuple<UserExtendedPreview, UserFavouriteMovie>> user = await connection
-            .QueryAsync<UserExtendedPreview, UserFavouriteMovie, Tuple<UserExtendedPreview, UserFavouriteMovie>> (
+            .QueryAsync<UserExtendedPreview, UserFavouriteMovie, Tuple<UserExtendedPreview, UserFavouriteMovie>>(
             sql,
-            (u, ufm) => new (u, ufm),
-            param: new { id },
+            (u, ufm) => new(u, ufm),
+            param: new { id, username },
             splitOn: "MovieId");
 
         return user
@@ -82,10 +87,7 @@ public class UserQueries : IUserQueries
                 .FirstOrDefault();
     }
 
-    public Task<UserExtendedPreview?> GetUserExtendedAsync(string username)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<UserExtendedPreview?> GetUserExtendedAsync(string username) => await GetUserExtendedAsync(null, username);
 }
 
 

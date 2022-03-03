@@ -11,7 +11,7 @@ import RegisterForm from './components/RegisterForm';
 import Logout from './components/Logout';
 import auth from './services/authService';
 import 'react-toastify/dist/ReactToastify.css';
-import './App.css';
+import './App.scss';
 import { User } from './interfaces/user';
 import UserContext from './context/userContext';
 

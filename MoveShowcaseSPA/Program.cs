@@ -23,10 +23,10 @@ builder.Services.AddGrpcClient<UserSystem.V1.Users.UsersClient>(o =>
     o.Address = new Uri(movieSystemUrl);
 }).AddHttpMessageHandler<AuthHandler>();
 
-// builder.Services.AddGrpcClient<UserSystem.V1.Users.UsersClient>(o =>
-// {
-//     o.Address = new Uri(movieSystemUrl);
-// }).AddHttpMessageHandler<AuthHandler>();
+builder.Services.AddGrpcClient<GenreSystem.V1.Genres.GenresClient>(o =>
+{
+    o.Address = new Uri(movieSystemUrl);
+}).AddHttpMessageHandler<AuthHandler>();
 
 var app = builder.Build();
 
