@@ -70,7 +70,9 @@ public class UserController : ControllerBase
             });
         }
 
-        return RedirectToPage(nameof(IndexModel));
+
+        // TODO: Fix
+        return Redirect("");
     }
 
     [HttpPost]
@@ -78,7 +80,8 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Logout()
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        return RedirectToPage(nameof(IndexModel));
+        // TODO: Fix
+        return Redirect("");
     }
 }
 
