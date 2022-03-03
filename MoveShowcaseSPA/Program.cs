@@ -23,6 +23,11 @@ builder.Services.AddGrpcClient<UserSystem.V1.Users.UsersClient>(o =>
     o.Address = new Uri(movieSystemUrl);
 }).AddHttpMessageHandler<AuthHandler>();
 
+// builder.Services.AddGrpcClient<UserSystem.V1.Users.UsersClient>(o =>
+// {
+//     o.Address = new Uri(movieSystemUrl);
+// }).AddHttpMessageHandler<AuthHandler>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

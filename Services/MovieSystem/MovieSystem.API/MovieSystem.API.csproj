@@ -9,6 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Infrastructure\Migrations\**" />
+    <Content Remove="Infrastructure\Migrations\**" />
+    <EmbeddedResource Remove="Infrastructure\Migrations\**" />
+    <None Remove="Infrastructure\Migrations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Protos\genre_system.v1.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="6.3.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.2.0" />
     <PackageReference Include="Dapper" Version="2.0.123" />
@@ -26,12 +37,9 @@
 
 	<ItemGroup>
 		<Protobuf Include="Protos\movie_system.v1.proto" GrpcServices="Server" />
+		<Protobuf Include="Protos\genre_system.v1.proto" GrpcServices="Server" />
 		<Protobuf Include="Protos\user_system.v1.proto" GrpcServices="Server" />
 	</ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Infrastructure\Migrations\" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MovieSystem.Domain\MovieSystem.Domain.csproj" />

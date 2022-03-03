@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+  	<Protobuf Include="Protos\genre_system.v1.proto" GrpcServices="Client" />
   	<Protobuf Include="Protos\movie_system.v1.proto" GrpcServices="Client" />
   	<Protobuf Include="Protos\user_system.v1.proto" GrpcServices="Client" />
   </ItemGroup>

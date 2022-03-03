@@ -20,6 +20,10 @@ public class QueryModule : Module
         builder.Register(c => new UserQueries(_queryConnectionString))
             .As<IUserQueries>()
             .InstancePerLifetimeScope();
+
+        builder.Register(c => new GenreQueries(_queryConnectionString))
+            .As<IGenreQueries>()
+            .InstancePerLifetimeScope();
     }
 }
 

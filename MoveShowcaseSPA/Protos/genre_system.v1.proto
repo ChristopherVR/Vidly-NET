@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+option csharp_namespace = "GenreSystem.V1";
+
+package genresystem.v1;
+
+service Genres {
+  // List
+  rpc ListGenres(ListGenresRequest) returns (ListGenresResponse);
+}
+
+message ListGenresRequest {
+  google.protobuf.StringValue search_term = 1;
+}
+
+message ListGenresResponse {
+  message Genre {
+      int32 id = 1;
+      string name = 2;
+  }
+  repeated Genre genres = 1;
+}
