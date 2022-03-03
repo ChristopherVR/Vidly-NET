@@ -17,7 +17,20 @@ class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
             ?.FindNavigation(nameof(User.UserFavouriteMovies))
             ?.SetPropertyAccessMode(PropertyAccessMode.Field);
 
-        builder.OwnsOne(u => u.UserDetails, cd => cd.WithOwner());
+        builder.OwnsOne(p => p.UserDetails, ps =>
+        {
+            ps.WithOwner();
+
+            ps.HasData(
+                new
+                {
+                    UserId = 1,
+                    Address = "12th Avenue nr 17",
+                    PersonalNumber = "+27 79 507 2155",
+                    HomeNumber = "0000 632198",
+                    ImageUrl = (string?)null,
+                });
+        });
 
         builder.HasData(User.CreateInitialSeedData());
     }

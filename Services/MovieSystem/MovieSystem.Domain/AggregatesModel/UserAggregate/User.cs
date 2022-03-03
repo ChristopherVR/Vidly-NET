@@ -11,7 +11,7 @@ public class User : Entity, IAggregateRoot
     public string Surname { get; private set; }
     public string Username { get; private set; }
     public string HashedPassword { get; private set; }
-    public UserDetails UserDetails { get; private set; }
+    public UserDetails UserDetails { get; private set; } = null!;
     // DDD Patterns comment
     // Using a private collection field, better for DDD Aggregate's encapsulation
     // so UserFavouriteMovie cannot be added from "outside the AggregateRoot" directly to the collection,
@@ -28,7 +28,6 @@ public class User : Entity, IAggregateRoot
         Surname = "van Rooyen";
         Username = "ChristopherVR";
         HashedPassword = string.Empty;
-        UserDetails = new("Sasolburg", "+27 12 507 2154", string.Empty, null);
     }
 
     public User(
