@@ -15,55 +15,20 @@ public class UsersController : ControllerBase
     private readonly UsersClient _usersClient;
     private readonly ILogger<UsersController> _logger;
     private readonly IUserService _userService;
-    public UsersController(UsersClient usersClient, IUserService userService, ILogger<UsersController> logger)
+    private readonly ITokenService _tokenService;
+    public UsersController(UsersClient usersClient, IUserService userService, ITokenService tokenService, ILogger<UsersController> logger)
     {
         _usersClient = usersClient ?? throw new ArgumentNullException(nameof(usersClient));
-        _userService = userService ?? throw new ArgumentNullException(nameof(userService));
+        _userService = tokenService ?? throw new ArgumentNullException(nameof(userService));
+        _tokenService = userService ?? throw new ArgumentNullException(nameof(tokenService));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     private async Task LoginUser(string username, string id, string name, string surname)
     {
-        //A claim is a statement about a subject by an issuer and    
-        //represent attributes of the subject that are useful in the context of authentication and authorization operations.    
-        var claims = new List<Claim>()
-        {
-            new Claim(ClaimTypes.NameIdentifier, id),
-            new Claim(ClaimTypes.Name, name),
-            new Claim(ClaimTypes.Surname, surname),
-            new Claim(ClaimTypes.GivenName, username),
-        };
+        string token = _tokenService.BuildToken(new(id, username, name, surname, "Admin"));
 
-        //Initialize a new instance of the ClaimsIdentity with the claims and authentication scheme    
-        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-        //Initialize a new instance of the ClaimsPrincipal with ClaimsIdentity    
-        var principal = new ClaimsPrincipal(identity);
-
-        //SignInAsync is a Extension method for Sign in a principal for the specified scheme.    
-        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties()
-        {
-            AllowRefresh = true,
-            // Refreshing the authentication session should be allowed.
-
-            //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
-            // The time at which the authentication ticket expires. A 
-            // value set here overrides the ExpireTimeSpan option of 
-            // CookieAuthenticationOptions set with AddCookie.
-
-            IsPersistent = true,
-            // Whether the authentication session is persisted across 
-            // multiple requests. When used with cookies, controls
-            // whether the cookie's lifetime is absolute (matching the
-            // lifetime of the authentication ticket) or session-based.
-
-            //IssuedUtc = <DateTimeOffset>,
-            // The time at which the authentication ticket was issued.
-
-            //RedirectUri = <string>
-            // The full path or absolute URI to be used as an http 
-            // redirect response value.
-        });
+       
     }
 
     [HttpGet("user")]

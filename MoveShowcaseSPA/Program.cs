@@ -1,5 +1,9 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using MoveShowcaseDDD;
+using MoveShowcaseDDD.Services;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,8 +11,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddMvc();
 
 builder.Services.AddAuthorization();
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(x => x.LoginPath="/user/login");
 
 var servicesSection = builder.Configuration.GetSection("Services");
 
@@ -27,6 +29,25 @@ builder.Services.AddGrpcClient<GenreSystem.V1.Genres.GenresClient>(o =>
 {
     o.Address = new Uri(movieSystemUrl);
 }).AddHttpMessageHandler<AuthHandler>();
+
+builder.Services.AddTransient<ITokenService, TokenService>();
+
+builder.Services.AddAuthentication(auth =>
+{
+    auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Issuer"],
+        ValidAudience = builder.Configuration["Issuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Key"]))
+    };
+});
 
 var app = builder.Build();
 
@@ -50,8 +71,8 @@ app.MapControllerRoute(
 
 app.MapFallbackToFile("index.html"); ;
 
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapRazorPages();
 
 app.Run();
