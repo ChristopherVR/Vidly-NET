@@ -9,7 +9,7 @@ axios.interceptors.response.use(undefined, (error) => {
 
   if (!expectedError) {
     // eslint-disable-next-line no-console
-    console.log(error);
+    console.debug(error);
     toast.error('An unexpected error occurred.');
   }
 

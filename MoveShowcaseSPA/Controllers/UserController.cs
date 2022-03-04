@@ -6,6 +6,7 @@ using System.Security.Claims;
 using static UserSystem.V1.Users;
 
 namespace MoveShowcaseDDD.Areas.Controllers;
+// TODO: fix endpoint routes
 [ApiController]
 [Route("[controller]")]
 public class UserController : ControllerBase
@@ -62,7 +63,22 @@ public class UserController : ControllerBase
         });
     }
 
+    [HttpGet]
+    [Authorize]
+    public new IActionResult User()
+    {
+        return Ok();
+        // return Ok(new
+        // {
+        //     Id = _userService.GetUserId(),
+        //     Username = _userService.GetUsername(),
+        //     Name = _userService.GetName(),
+        //     Surname = _userService.GetSurname(),
+        // });
+    }
+
     [HttpPost]
+    [Route("login")]
     public async Task<IActionResult> Login(
     [FromServices] IConfiguration config,
     [FromServices] IWebHostEnvironment env,
@@ -90,6 +106,7 @@ public class UserController : ControllerBase
 
     [HttpPost]
     [Authorize]
+    [Route("logout")]
     public async Task<IActionResult> Logout()
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -98,6 +115,7 @@ public class UserController : ControllerBase
 
     public record UserPreview(string Username, string Name, string Surname, string HomeNumber, string PhoneNumber, string Address, string? ImageUrl);
     [HttpPost]
+    [Route("create")]
     public async Task<IActionResult> CreateUser([FromBody] UserPreview data)
     {
         var response = await _usersClient.CreateUserAsync(new()
@@ -117,6 +135,7 @@ public class UserController : ControllerBase
     public record UserPreviewPatch(int Id, string Name, string Surname, string HomeNumber, string PhoneNumber, string Address, string? ImageUrl);
     [HttpPatch]
     [Authorize]
+    [Route("update")]
     public async Task<IActionResult> UpdateUser([FromBody] UserPreviewPatch data)
     {
         await _usersClient.UpdateUserAsync(new()

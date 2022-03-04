@@ -6,6 +6,16 @@ export interface User {
   imageUrl?: string;
 }
 
+export interface UpdateUser {
+  id: number;
+  name: string;
+  surname: string;
+  homeNumber: string;
+  personalNumber: string;
+  address: string;
+  imageUrl?: string;
+}
+
 export interface RegisterUser {
   name: string;
   surname: string;

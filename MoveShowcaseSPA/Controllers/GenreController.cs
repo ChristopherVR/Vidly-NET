@@ -16,6 +16,7 @@ public class GenreController : ControllerBase
     }
 
     [HttpGet]
+    [Route("genres")]
     public async Task<IActionResult> Genres(string? searchTerm)
     {
         var genres = await _genresClient.ListGenresAsync(new()

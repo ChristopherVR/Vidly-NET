@@ -1,14 +1,12 @@
 import http from './httpService';
 import apiUrl from '../config.json';
-import { RegisterUser, User } from '../interfaces/user';
+import { RegisterUser, UpdateUser } from '../interfaces/user';
 
-const apiEndpoint = `${apiUrl}/users`;
+const apiEndpoint = `${apiUrl}/user`;
 
-export const update = async (user: User) => {
-  const data = await http.post(apiEndpoint, {
-    email: user.userName,
-    name: user.name,
-    surname: user.surname,
+export const update = async (user: UpdateUser) => {
+  const data = await http.post(`${apiEndpoint}/update`, {
+    ...user,
   });
   return data;
 };

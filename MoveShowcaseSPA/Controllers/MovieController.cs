@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using MoveShowcaseDDD.Services;
 using MovieShowcaseSPA.Enums;
 using static MovieSystem.V1.Movies;
+using static UserSystem.V1.Users;
 
 namespace MoveShowcaseDDD.Areas.Controllers;
+// TODO: fix endpoint routes
 [Authorize]
 [ApiController]
 [Route("[controller]")]
@@ -35,7 +37,10 @@ public class MovieController : ControllerBase
         }
 
         MovieSystem.V1.ListMoviesResponse movies = await _movieClient
-            .ListMoviesAsync(new());
+            .ListMoviesAsync(new()
+            {
+                UserId = _userService.GetUserId(),
+            });
 
         return movies.Movies.ToArray();
     }
@@ -55,6 +60,10 @@ public class MovieController : ControllerBase
             {
                 movie.Id,
                 movie.Title,
+                movie.NumberInStock,
+                movie.Genre,
+                movie.DailyRentalRate,
+                movie.Rating,
             };
         }
 
@@ -66,19 +75,31 @@ public class MovieController : ControllerBase
 
         return new
         {
-            extendedMovie.Title,
             extendedMovie.Id,
+            extendedMovie.Title,
+            extendedMovie.NumberInStock,
+            extendedMovie.Genre,
+            extendedMovie.UpdatedDate,
+            extendedMovie.DailyRentalRate,
+            extendedMovie.Rating,
+            extendedMovie.Reason,
         };
     }
 
-    public record Favourite(int? Id, Rating Rating, bool Liked, string Reason);
+    public record Favourite(int Id, Rating Rating, bool Liked, string Reason);
     [HttpPut]
-    public async Task<IActionResult> ToggleFavourite([FromBody] Favourite data)
+    public async Task<IActionResult> ToggleFavourite([FromServices] UsersClient usersClient, [FromBody] Favourite data)
     {
-        _ = data;
-        await Task.CompletedTask;
+        await usersClient.ToggleUserFavouriteMovieAsync(new()
+        {
+            UserId = _userService.GetUserId(),
+            Liked = data.Liked,
+            MovieId = data.Id,
+            Rating = (int)data.Rating,
+            Reason = data.Reason,
+        });
+
         return NoContent();
     }
 
 }
-

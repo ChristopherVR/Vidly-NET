@@ -1,6 +1,9 @@
 import http from './httpService';
 import apiUrl from '../config.json';
 
-const getGenres = () => http.get(`${apiUrl}/genres`);
+const getGenres = (searchTerm?: string) =>
+  http.get(`${apiUrl}/genres`, {
+    data: { searchTerm },
+  });
 
 export default getGenres;
