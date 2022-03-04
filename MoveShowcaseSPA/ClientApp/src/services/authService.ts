@@ -1,7 +1,6 @@
 import http from './httpService';
-import apiUrl from '../config.json';
 
-const apiEndpoint = `${apiUrl}/user/`;
+const apiEndpoint = `${process.env.REACT_APP_API_URL}user/`;
 
 export const login = async (email: string, password: string) => {
   await http.post(`${apiEndpoint}Login`, { username: email, password });

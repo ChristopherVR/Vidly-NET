@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import Movies from './components/Movies';
 import Customers from './components/Customers';
 import Rentals from './components/Rentals';
@@ -25,7 +25,15 @@ function App() {
 
       const getUser = async () => {
         const response = await auth.getCurrentUser();
-        updateUser(response?.data);
+        if (!response) {
+          toast.error('🦄 Wow so easy!', {
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: false,
+          });
+        } else {
+          updateUser(response?.data);
+        }
       };
       await getUser();
     })();
@@ -43,7 +51,17 @@ function App() {
 
   return (
     <UserContext.Provider value={userContextProvider}>
-      <ToastContainer />
+      <ToastContainer
+        position="bottom-left"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable={false}
+        pauseOnHover
+      />
       <NavBar />
       <main className="container">
         <Routes>

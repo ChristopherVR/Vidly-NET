@@ -1,8 +1,7 @@
 import http from './httpService';
-import apiUrl from '../config.json';
 import { RegisterUser, UpdateUser } from '../interfaces/user';
 
-const apiEndpoint = `${apiUrl}/user`;
+const apiEndpoint = `${process.env.REACT_APP_API_URL}user`;
 
 export const update = async (user: UpdateUser) => {
   const data = await http.post(`${apiEndpoint}/update`, {

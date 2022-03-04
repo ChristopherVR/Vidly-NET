@@ -1,8 +1,7 @@
 import http from './httpService';
-import apiUrl from '../config.json';
 
 const getGenres = (searchTerm?: string) =>
-  http.get(`${apiUrl}/genres`, {
+  http.get(`${process.env.REACT_APP_API_URL}genres`, {
     data: { searchTerm },
   });
 

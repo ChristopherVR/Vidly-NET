@@ -2,20 +2,23 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MoveShowcaseDDD.Services;
 using System.Security.Claims;
 using static UserSystem.V1.Users;
 
 namespace MoveShowcaseDDD.Areas.Controllers;
-// TODO: fix endpoint routes
+[ApiConventionType(typeof(DefaultApiConventions))]
 [ApiController]
 [Route("[controller]")]
-public class UserController : ControllerBase
+public class UsersController : ControllerBase
 {
     private readonly UsersClient _usersClient;
-    private readonly ILogger<UserController> _logger;
-    public UserController(UsersClient usersClient, ILogger<UserController> logger)
+    private readonly ILogger<UsersController> _logger;
+    private readonly IUserService _userService;
+    public UsersController(UsersClient usersClient, IUserService userService, ILogger<UsersController> logger)
     {
         _usersClient = usersClient ?? throw new ArgumentNullException(nameof(usersClient));
+        _userService = userService ?? throw new ArgumentNullException(nameof(userService));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
@@ -63,42 +66,42 @@ public class UserController : ControllerBase
         });
     }
 
-    [HttpGet]
+    [HttpGet("user")]
     [Authorize]
     public new IActionResult User()
     {
-        return Ok();
-        // return Ok(new
-        // {
-        //     Id = _userService.GetUserId(),
-        //     Username = _userService.GetUsername(),
-        //     Name = _userService.GetName(),
-        //     Surname = _userService.GetSurname(),
-        // });
+        return Ok(new
+        {
+            Id = _userService.GetUserId(),
+            Username = _userService.GetUserName(),
+            Name = _userService.GetName(),
+            Surname = _userService.GetSurname(),
+        });
     }
 
+
+    public record UserLoginPost(string Username, string Password);
     [HttpPost]
     [Route("login")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesDefaultResponseType]
     public async Task<IActionResult> Login(
     [FromServices] IConfiguration config,
     [FromServices] IWebHostEnvironment env,
-    string username,
-    string password)
+    [FromBody] UserLoginPost data)
     {
-        _ = password;
-
         if (config.GetValue<bool>("BypassAuthentication") && env.IsDevelopment())
         {
-            await LoginUser(username, "1", "TestUser", "Mock");
+            await LoginUser(data.Username, "1", "TestUser", "Mock");
         }
         else
         {
             // TODO: Get password and validate user
             var userDetails = await _usersClient.GetUserExtendedAsync(new()
             {
-                Username = username,
+                Username = data.Username,
             });
-            await LoginUser(username, userDetails.Id.ToString(), userDetails.Name, userDetails.Surname);
+            await LoginUser(data.Username, userDetails.Id.ToString(), userDetails.Name, userDetails.Surname);
         }
 
         return Ok();
@@ -107,6 +110,8 @@ public class UserController : ControllerBase
     [HttpPost]
     [Authorize]
     [Route("logout")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesDefaultResponseType]
     public async Task<IActionResult> Logout()
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -115,7 +120,9 @@ public class UserController : ControllerBase
 
     public record UserPreview(string Username, string Name, string Surname, string HomeNumber, string PhoneNumber, string Address, string? ImageUrl);
     [HttpPost]
-    [Route("create")]
+    [Route("user")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesDefaultResponseType]
     public async Task<IActionResult> CreateUser([FromBody] UserPreview data)
     {
         var response = await _usersClient.CreateUserAsync(new()
@@ -132,15 +139,17 @@ public class UserController : ControllerBase
         return Ok(response.Id);
     }
 
-    public record UserPreviewPatch(int Id, string Name, string Surname, string HomeNumber, string PhoneNumber, string Address, string? ImageUrl);
+    public record UserPreviewPatch(string Name, string Surname, string HomeNumber, string PhoneNumber, string Address, string? ImageUrl);
     [HttpPatch]
     [Authorize]
-    [Route("update")]
+    [Route("user")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesDefaultResponseType]
     public async Task<IActionResult> UpdateUser([FromBody] UserPreviewPatch data)
     {
         await _usersClient.UpdateUserAsync(new()
         {
-            Id = data.Id,
+            Id = _userService.GetUserId(),
             Surname = data.Surname,
             Name = data.Name,
             Address = data.Address,
@@ -151,7 +160,5 @@ public class UserController : ControllerBase
 
         return NoContent();
     }
-
-
 }
 
