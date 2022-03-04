@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MoveShowcaseDDD.Pages;
 using System.Security.Claims;
 using static UserSystem.V1.Users;
 
@@ -19,60 +18,74 @@ public class UserController : ControllerBase
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public record UserPreview(int Id, string Username, string HashedPassword, string Name, string Surname);
-    [HttpPost]
-    public async Task<IActionResult> Login([FromServices] IConfiguration config, [FromServices] IWebHostEnvironment env, string username, string password)
+    private async Task LoginUser(string username, string id, string name, string surname)
     {
-        // TODO: Hash password compare with user in DB and log user in.
-        _ = username;
+        //A claim is a statement about a subject by an issuer and    
+        //represent attributes of the subject that are useful in the context of authentication and authorization operations.    
+        var claims = new List<Claim>()
+        {
+            new Claim(ClaimTypes.NameIdentifier, id),
+            new Claim(ClaimTypes.Name, name),
+            new Claim(ClaimTypes.Surname, surname),
+            new Claim(ClaimTypes.GivenName, username),
+        };
+
+        //Initialize a new instance of the ClaimsIdentity with the claims and authentication scheme    
+        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+        //Initialize a new instance of the ClaimsPrincipal with ClaimsIdentity    
+        var principal = new ClaimsPrincipal(identity);
+
+        //SignInAsync is a Extension method for Sign in a principal for the specified scheme.    
+        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties()
+        {
+            AllowRefresh = true,
+            // Refreshing the authentication session should be allowed.
+
+            //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+            // The time at which the authentication ticket expires. A 
+            // value set here overrides the ExpireTimeSpan option of 
+            // CookieAuthenticationOptions set with AddCookie.
+
+            IsPersistent = true,
+            // Whether the authentication session is persisted across 
+            // multiple requests. When used with cookies, controls
+            // whether the cookie's lifetime is absolute (matching the
+            // lifetime of the authentication ticket) or session-based.
+
+            //IssuedUtc = <DateTimeOffset>,
+            // The time at which the authentication ticket was issued.
+
+            //RedirectUri = <string>
+            // The full path or absolute URI to be used as an http 
+            // redirect response value.
+        });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Login(
+    [FromServices] IConfiguration config,
+    [FromServices] IWebHostEnvironment env,
+    string username,
+    string password)
+    {
         _ = password;
 
         if (config.GetValue<bool>("BypassAuthentication") && env.IsDevelopment())
         {
-            //A claim is a statement about a subject by an issuer and    
-            //represent attributes of the subject that are useful in the context of authentication and authorization operations.    
-            var claims = new List<Claim>()
+            await LoginUser(username, "1", "TestUser", "Mock");
+        }
+        else
+        {
+            // TODO: Get password and validate user
+            var userDetails = await _usersClient.GetUserExtendedAsync(new()
             {
-                new Claim(ClaimTypes.NameIdentifier, "1"),
-                new Claim(ClaimTypes.Name, "Peter"),
-                new Claim(ClaimTypes.Surname, "Potter"),
-            };
-
-            //Initialize a new instance of the ClaimsIdentity with the claims and authentication scheme    
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            //Initialize a new instance of the ClaimsPrincipal with ClaimsIdentity    
-            var principal = new ClaimsPrincipal(identity);
-
-            //SignInAsync is a Extension method for Sign in a principal for the specified scheme.    
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties()
-            {
-                AllowRefresh = true,
-                // Refreshing the authentication session should be allowed.
-
-                //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
-                // The time at which the authentication ticket expires. A 
-                // value set here overrides the ExpireTimeSpan option of 
-                // CookieAuthenticationOptions set with AddCookie.
-
-                IsPersistent = true,
-                // Whether the authentication session is persisted across 
-                // multiple requests. When used with cookies, controls
-                // whether the cookie's lifetime is absolute (matching the
-                // lifetime of the authentication ticket) or session-based.
-
-                //IssuedUtc = <DateTimeOffset>,
-                // The time at which the authentication ticket was issued.
-
-                //RedirectUri = <string>
-                // The full path or absolute URI to be used as an http 
-                // redirect response value.
+                Username = username,
             });
+            await LoginUser(username, userDetails.Id.ToString(), userDetails.Name, userDetails.Surname);
         }
 
-
-        // TODO: Fix
-        return Redirect("");
+        return Ok();
     }
 
     [HttpPost]
@@ -80,8 +93,46 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Logout()
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        // TODO: Fix
-        return Redirect("");
+        return NoContent();
     }
+
+    public record UserPreview(string Username, string Name, string Surname, string HomeNumber, string PhoneNumber, string Address, string? ImageUrl);
+    [HttpPost]
+    public async Task<IActionResult> CreateUser([FromBody] UserPreview data)
+    {
+        var response = await _usersClient.CreateUserAsync(new()
+        {
+            Address = data.Address,
+            HomeNumber = data.HomeNumber,
+            PhoneNumber = data.PhoneNumber,
+            Name = data.Name,
+            Surname = data.Surname,
+            ImageUrl = data.ImageUrl,
+            Username = data.Username,
+        });
+
+        return Ok(response.Id);
+    }
+
+    public record UserPreviewPatch(int Id, string Name, string Surname, string HomeNumber, string PhoneNumber, string Address, string? ImageUrl);
+    [HttpPatch]
+    [Authorize]
+    public async Task<IActionResult> UpdateUser([FromBody] UserPreviewPatch data)
+    {
+        await _usersClient.UpdateUserAsync(new()
+        {
+            Id = data.Id,
+            Surname = data.Surname,
+            Name = data.Name,
+            Address = data.Address,
+            PhoneNumber = data.PhoneNumber,
+            HomeNumber = data.HomeNumber,
+            ImageUrl = data.ImageUrl,
+        });
+
+        return NoContent();
+    }
+
+
 }
 
