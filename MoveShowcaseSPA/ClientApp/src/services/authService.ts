@@ -9,7 +9,7 @@ export const login = async (email: string, password: string) => {
       username: email,
       password,
     });
-    sessionStorage.setItem('auth_token', response.data.token);
+    sessionStorage.setItem('auth_token', response.data);
   } catch {
     toast.error('An error ocurred trying to login');
   }
@@ -22,7 +22,7 @@ export const logout = async () => {
 
 export const getCurrentUser = async () => {
   try {
-    const response = await http.get(apiEndpoint);
+    const response = await http.get(`${apiEndpoint}user`);
     return response.data;
   } catch (ex) {
     return null;
