@@ -1,12 +1,22 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
+axios.interceptors.request.use((request) => {
+  const token = sessionStorage.getItem('auth_token');
+  // TODO: Confirm if necessary.
+  if (token && request.headers) {
+    request.headers.authorization = `Bearer ${sessionStorage.getItem(
+      'auth_token',
+    )}`;
+  }
+});
+
 axios.interceptors.response.use(undefined, (error) => {
   const expectedError =
     error.response &&
     error.response.status >= 400 &&
     error.response.status < 500;
-
+  console.log(error);
   if (!expectedError) {
     // eslint-disable-next-line no-console
     console.debug(error);
