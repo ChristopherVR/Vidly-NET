@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MoveShowcaseDDD.Services;
@@ -19,16 +20,55 @@ public class UsersController : ControllerBase
     public UsersController(UsersClient usersClient, IUserService userService, ITokenService tokenService, ILogger<UsersController> logger)
     {
         _usersClient = usersClient ?? throw new ArgumentNullException(nameof(usersClient));
-        _userService = tokenService ?? throw new ArgumentNullException(nameof(userService));
-        _tokenService = userService ?? throw new ArgumentNullException(nameof(tokenService));
+        _userService = userService ?? throw new ArgumentNullException(nameof(userService));
+        _tokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    private async Task LoginUser(string username, string id, string name, string surname)
+    private async Task<string> LoginUser(string username, string id, string name, string surname)
     {
         string token = _tokenService.BuildToken(new(id, username, name, surname, "Admin"));
 
+        //A claim is a statement about a subject by an issuer and    
+        //represent attributes of the subject that are useful in the context of authentication and authorization operations.    
+        var claims = new List<Claim>()
+        {
+            new Claim(ClaimTypes.NameIdentifier, id),
+            new Claim(ClaimTypes.Name, name),
+            new Claim(ClaimTypes.Surname, surname),
+            new Claim(ClaimTypes.GivenName, username),
+        };
+
+        //Initialize a new instance of the ClaimsIdentity with the claims and authentication scheme    
+        var identity = new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme);
+
+        //Initialize a new instance of the ClaimsPrincipal with ClaimsIdentity    
+        var principal = new ClaimsPrincipal(identity);
+
+        //SignInAsync is a Extension method for Sign in a principal for the specified scheme.    
+        await HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, principal, new AuthenticationProperties()
+        {
+            AllowRefresh = true,
+            // Refreshing the authentication session should be allowed.
+
+            //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+            // The time at which the authentication ticket expires. A 
+            // value set here overrides the ExpireTimeSpan option of 
+            IsPersistent = true,
+            // Whether the authentication session is persisted across 
+            // multiple requests. When used with cookies, controls
+            // whether the cookie's lifetime is absolute (matching the
+            // lifetime of the authentication ticket) or session-based.
        
+            //IssuedUtc = <DateTimeOffset>,
+            // The time at which the authentication ticket was issued.
+
+            //RedirectUri = <string>
+            // The full path or absolute URI to be used as an http 
+            // redirect response value.
+        });
+
+        return token;
     }
 
     [HttpGet("user")]
@@ -47,7 +87,7 @@ public class UsersController : ControllerBase
 
     public record UserLoginPost(string Username, string Password);
     [HttpPost]
-    [Route("login")]
+    [Route("user/login")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesDefaultResponseType]
     public async Task<IActionResult> Login(
@@ -57,24 +97,21 @@ public class UsersController : ControllerBase
     {
         if (config.GetValue<bool>("BypassAuthentication") && env.IsDevelopment())
         {
-            await LoginUser(data.Username, "1", "TestUser", "Mock");
-        }
-        else
-        {
-            // TODO: Get password and validate user
-            var userDetails = await _usersClient.GetUserExtendedAsync(new()
-            {
-                Username = data.Username,
-            });
-            await LoginUser(data.Username, userDetails.Id.ToString(), userDetails.Name, userDetails.Surname);
+            return Ok(await LoginUser(data.Username, "1", "TestUser", "Mock"));
         }
 
-        return Ok();
+        // TODO: Get password and validate user
+        var userDetails = await _usersClient.GetUserExtendedAsync(new()
+        {
+            Username = data.Username,
+        });
+
+        return Ok(await LoginUser(data.Username, userDetails.Id.ToString(), userDetails.Name, userDetails.Surname));
     }
 
     [HttpPost]
     [Authorize]
-    [Route("logout")]
+    [Route("user/logout")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesDefaultResponseType]
     public async Task<IActionResult> Logout()

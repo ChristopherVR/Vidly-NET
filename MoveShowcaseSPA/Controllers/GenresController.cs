@@ -5,21 +5,23 @@ namespace MoveShowcaseDDD.Areas.Controllers;
 [ApiController]
 [Route("[controller]")]
 [Authorize]
-public class GenreController : ControllerBase
+[ApiConventionType(typeof(DefaultApiConventions))]
+public class GenresController : ControllerBase
 {
     private readonly GenreSystem.V1.Genres.GenresClient _genresClient;
-    private readonly ILogger<GenreController> _logger;
-    public GenreController(GenreSystem.V1.Genres.GenresClient genresClient, ILogger<GenreController> logger)
+    private readonly ILogger<GenresController> _logger;
+    public GenresController(GenreSystem.V1.Genres.GenresClient genresClient, ILogger<GenresController> logger)
     {
         _genresClient = genresClient ?? throw new ArgumentNullException(nameof(genresClient));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     [HttpGet]
-    [Route("genres")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesDefaultResponseType]
     public async Task<IActionResult> Genres(string? searchTerm)
     {
-        var genres = await _genresClient.ListGenresAsync(new()
+        GenreSystem.V1.ListGenresResponse genres = await _genresClient.ListGenresAsync(new()
         {
             SearchTerm = searchTerm,
         });

@@ -6,16 +6,16 @@ using static MovieSystem.V1.Movies;
 using static UserSystem.V1.Users;
 
 namespace MoveShowcaseDDD.Areas.Controllers;
-// TODO: fix endpoint routes
 [Authorize]
 [ApiController]
+[ApiConventionType(typeof(DefaultApiConventions))]
 [Route("[controller]")]
-public class MovieController : ControllerBase
+public class MoviesController : ControllerBase
 {
     private readonly MoviesClient _movieClient;
-    private readonly ILogger<MovieController> _logger;
+    private readonly ILogger<MoviesController> _logger;
     private readonly IUserService _userService;
-    public MovieController(MoviesClient client, IUserService userService, ILogger<MovieController> logger)
+    public MoviesController(MoviesClient client, IUserService userService, ILogger<MoviesController> logger)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _movieClient = client ?? throw new ArgumentNullException(nameof(client));
@@ -23,6 +23,8 @@ public class MovieController : ControllerBase
     }
 
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesDefaultResponseType]
     public async Task<object> Movies(bool extended = false)
     {
         if (extended)
@@ -45,15 +47,23 @@ public class MovieController : ControllerBase
         return movies.Movies.ToArray();
     }
 
-    [HttpGet]
-    public async Task<object> Movie(int id, bool extended = false)
+    [HttpGet("movie/{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
+    public async Task<object> Movie(uint id, bool extended = false)
     {
+        if (id == default)
+        {
+            return BadRequest();
+        }
+
         if (extended)
         {
-            var movie = await _movieClient
+            MovieSystem.V1.Movie movie = await _movieClient
                  .GetMovieAsync(new()
                  {
-                     Id = id,
+                     Id = (int)id,
                  });
 
             return new
@@ -67,9 +77,9 @@ public class MovieController : ControllerBase
             };
         }
 
-        var extendedMovie = await _movieClient.GetMovieExtendedAsync(new()
+        MovieSystem.V1.MovieExtended extendedMovie = await _movieClient.GetMovieExtendedAsync(new()
         {
-            Id = id,
+            Id = (int)id,
             UserId = _userService.GetUserId(),
         });
 
@@ -86,15 +96,23 @@ public class MovieController : ControllerBase
         };
     }
 
-    public record Favourite(int Id, Rating Rating, bool Liked, string Reason);
-    [HttpPut]
-    public async Task<IActionResult> ToggleFavourite([FromServices] UsersClient usersClient, [FromBody] Favourite data)
+    public record Favourite(Rating Rating, bool Liked, string Reason);
+    [HttpPut("movie/favourite/{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
+    public async Task<IActionResult> ToggleFavourite([FromServices] UsersClient usersClient, uint id, [FromBody] Favourite data)
     {
+        if (id == default)
+        {
+            return BadRequest();
+        }
+
         await usersClient.ToggleUserFavouriteMovieAsync(new()
         {
             UserId = _userService.GetUserId(),
             Liked = data.Liked,
-            MovieId = data.Id,
+            MovieId = (int)id,
             Rating = (int)data.Rating,
             Reason = data.Reason,
         });
