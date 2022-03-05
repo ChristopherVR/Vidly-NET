@@ -15,6 +15,10 @@ builder.Services.AddAuthorization();
 var servicesSection = builder.Configuration.GetSection("Services");
 
 string movieSystemUrl = servicesSection.GetValue<string>("MovieSystem");
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddTransient<IUserService, UserService>();
+
+builder.Services.AddTransient<AuthHandler>();
 builder.Services.AddGrpcClient<MovieSystem.V1.Movies.MoviesClient>(o =>
 {
     o.Address = new Uri(movieSystemUrl);
@@ -61,6 +65,10 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseCors(options =>
+{
+    options.WithOrigins(servicesSection.GetValue<string>("ReactAppUrl")).AllowAnyMethod().AllowAnyHeader();
+});
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
