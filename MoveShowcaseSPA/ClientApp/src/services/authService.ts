@@ -1,11 +1,11 @@
 import { toast } from 'react-toastify';
 import http from './httpService';
 
-const apiEndpoint = `${process.env.REACT_APP_API_URL}user/`;
+const apiEndpoint = `${process.env.REACT_APP_API_URL}users/`;
 
 export const login = async (email: string, password: string) => {
   try {
-    const response = await http.post(`${apiEndpoint}Login`, {
+    const response = await http.post(`${apiEndpoint}user/login`, {
       username: email,
       password,
     });
@@ -16,7 +16,7 @@ export const login = async (email: string, password: string) => {
 };
 
 export const logout = async () => {
-  await http.post(`${apiEndpoint}Logout`);
+  await http.post(`${apiEndpoint}user/logout`);
   sessionStorage.removeItem('auth_token');
 };
 

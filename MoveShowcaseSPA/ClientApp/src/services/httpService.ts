@@ -9,22 +9,25 @@ axios.interceptors.request.use((request) => {
       'auth_token',
     )}`;
   }
+  return request;
 });
 
-axios.interceptors.response.use(undefined, (error) => {
-  const expectedError =
-    error.response &&
-    error.response.status >= 400 &&
-    error.response.status < 500;
-  console.log(error);
-  if (!expectedError) {
-    // eslint-disable-next-line no-console
-    console.debug(error);
-    toast.error('An unexpected error occurred.');
-  }
+axios.interceptors.response.use(
+  (res) => res,
+  (error) => {
+    const expectedError =
+      error.response &&
+      error.response.status >= 400 &&
+      error.response.status < 500;
+    if (!expectedError) {
+      // eslint-disable-next-line no-console
+      console.debug(error);
+      toast.error('An unexpected error occurred.');
+    }
 
-  return Promise.reject(error);
-});
+    return Promise.reject(error);
+  },
+);
 
 export default {
   get: axios.get,
