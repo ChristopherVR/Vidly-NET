@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Grpc.Core;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -101,12 +102,25 @@ public class UsersController : ControllerBase
         }
 
         // TODO: Get password and validate user
-        var userDetails = await _usersClient.GetUserExtendedAsync(new()
+        try
         {
-            Username = data.Username,
-        });
+            var userDetails = await _usersClient.GetUserExtendedAsync(new()
+            {
+                Username = data.Username,
+            });
 
-        return Ok(await LoginUser(data.Username, userDetails.Id.ToString(), userDetails.Name, userDetails.Surname));
+            return Ok(await LoginUser(data.Username, userDetails.Id.ToString(), userDetails.Name, userDetails.Surname));
+        }
+        catch(RpcException ex) when (ex.StatusCode == global::Grpc.Core.StatusCode.NotFound)
+        {
+            return NotFound();
+        }
+        catch(RpcException ex)
+        {
+            _logger.LogError("Error trying to retrieve user detials", ex);
+            return BadRequest(); // TODO: return internal server error
+        }
+
     }
 
     [HttpPost]
