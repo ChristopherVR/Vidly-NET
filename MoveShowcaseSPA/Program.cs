@@ -34,6 +34,8 @@ builder.Services.AddTransient<ITokenService, TokenService>();
 
 builder.Services.AddAuthentication(auth =>
 {
+    auth.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options =>
 {
@@ -45,7 +47,7 @@ builder.Services.AddAuthentication(auth =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["Issuer"],
         ValidAudience = builder.Configuration["Issuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Key"]))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Key"])),
     };
 });
 
