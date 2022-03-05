@@ -16,8 +16,6 @@ service Movies {
   rpc GetMovieExtended (GetMovieExtendedRequest) returns (MovieExtended);
 }
 
-//Gets
-
 message Movie {
   int32 id = 1;
   string title = 2;
