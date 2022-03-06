@@ -6,6 +6,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const container = document.getElementById('root') as HTMLDivElement;
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 const root = ReactDOM.createRoot(container);
 root.render(
   <React.StrictMode>
