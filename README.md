@@ -51,7 +51,9 @@ The following open source packages are used in this project:
 * React-Toastify
 * Bootstrap
 * MDB
-
+* Human Activity Recognition documentation
+* React-select documentation
+ 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 <!-- :paw_prints:-->
