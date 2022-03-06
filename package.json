@@ -4,7 +4,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.0.0",
     "@fortawesome/react-fontawesome": "^0.1.17",
     "joi": "^17.6.0",
-    "mdb-react-ui-kit": "^2.3.0",
+    "mdb-react-ui-kit": "^2.4.0",
     "react-select": "^5.2.2"
   }
 }
