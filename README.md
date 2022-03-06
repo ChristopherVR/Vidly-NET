@@ -3,7 +3,7 @@
 </p>
 <h1 align="center"> Movie System React Domain Driven Design Example </h1>
 <h3 align="center"> A combination of libraries and frameworks integrated to showcase using React as the frontend and .NET as the backend </h3>  
-
+<h4 align="center"> Note: This project is still a WIP </h4>  
 </br>
 
 <!-- TABLE OF CONTENTS -->
