@@ -1,5 +1,4 @@
-﻿using Dapper;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 
 namespace MovieSystem.API.Application.Queries;
 public class UserQueries : IUserQueries
@@ -37,7 +36,6 @@ public class UserQueries : IUserQueries
 
         return user;
     }
-
 
     public async Task<UserExtendedPreview?> GetUserExtendedAsync(int id) => await GetUserExtendedAsync(id, null);
 

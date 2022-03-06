@@ -23,7 +23,6 @@ public class DeleteMovieCommandHandler : IRequestHandler<DeleteMovieCommand, boo
         {
             throw new ArgumentNullException("Movie is null for Id - ", nameof(request.Id));
         }
-
         
         _movieRepository.Remove(movie);
 

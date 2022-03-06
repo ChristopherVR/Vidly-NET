@@ -1,18 +1,26 @@
-﻿namespace MovieSystem.API.Application.Commands;
+﻿using MovieSystem.Domain.AggregatesModel.MovieAggregate;
+
+namespace MovieSystem.API.Application.Commands;
 public class MovieCommands
 {
     public record CreateMovieCommand(
-        string Name,
-        string Description,
+        string Title,
+        int NumberInStock,
+        int Rating,
+        int GenreId,
+        int DailyRentalRate,
         string User,
-        string ImdbUrl) : IRequest<int>;
+        string ImdbUrl) : IRequest<Movie>;
 
     public record UpdateMovieCommand(
         int Id,
-        string Name,
-        string Description,
+        string Title,
+        int NumberInStock,
+        int Rating,
+        int GenreId,
+        int DailyRentalRate,
         string User,
-        string ImdbUrl) : IRequest<bool>;
+        string ImdbUrl) : IRequest<Movie>;
 
     public record DeleteMovieCommand(int Id) : IRequest<bool>;
 }

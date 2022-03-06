@@ -2,7 +2,7 @@
 using static MovieSystem.API.Application.Commands.MovieCommands;
 
 namespace MovieSystem.API.Application.Commands;
-public class UpdateMovieCommandHandler : IRequestHandler<UpdateMovieCommand, bool>
+public class UpdateMovieCommandHandler : IRequestHandler<UpdateMovieCommand, Movie>
 {
     private readonly ILogger<UpdateMovieCommandHandler> _logger;
     private readonly IMovieRepository _movieRepository;
@@ -13,7 +13,7 @@ public class UpdateMovieCommandHandler : IRequestHandler<UpdateMovieCommand, boo
         _movieRepository = movieRepository ?? throw new ArgumentNullException(nameof(movieRepository));
     }
 
-    public async Task<bool> Handle(UpdateMovieCommand request, CancellationToken cancellationToken)
+    public async Task<Movie> Handle(UpdateMovieCommand request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Updating movie {request}", request);
 
@@ -27,15 +27,18 @@ public class UpdateMovieCommandHandler : IRequestHandler<UpdateMovieCommand, boo
         movie
             .UpdateMovieDetails(
             request.User, 
-            request.Description, 
-            request.Name, 
-            request.ImdbUrl);
+            request.Title,
+            request.NumberInStock,
+            request.DailyRentalRate,
+            request.GenreId,
+            request.ImdbUrl,
+            request.Rating);
 
         _movieRepository.Update(movie);
 
         await _movieRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
-        return true;
+        return movie;
     }
 }
 

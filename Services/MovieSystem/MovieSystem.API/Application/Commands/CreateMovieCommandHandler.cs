@@ -2,7 +2,7 @@
 using static MovieSystem.API.Application.Commands.MovieCommands;
 
 namespace MovieSystem.API.Application.Commands;
-public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, int>
+public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, Movie>
 {
     private readonly ILogger<CreateMovieCommandHandler> _logger;
     private readonly IMovieRepository _movieRepository;
@@ -13,21 +13,24 @@ public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, int
         _movieRepository = movieRepository ?? throw new ArgumentNullException(nameof(movieRepository));
     }
 
-    public async Task<int> Handle(CreateMovieCommand request, CancellationToken cancellationToken)
+    public async Task<Movie> Handle(CreateMovieCommand request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Creating new movie {request}", request);
 
         Movie movie = new(
             request.User,
-            request.Name,
-            request.Description,
-            request.ImdbUrl);
+            request.Title,
+            request.NumberInStock,
+            request.DailyRentalRate,
+            request.GenreId,
+            request.ImdbUrl,
+            request.Rating);
 
         _movieRepository.Add(movie);
 
         await _movieRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
-        return movie.Id;
+        return movie;
     }
 }
 

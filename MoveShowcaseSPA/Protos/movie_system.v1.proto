@@ -9,12 +9,43 @@ option csharp_namespace = "MovieSystem.V1";
 package moviesystem.v1;
 
 service Movies {
+  rpc CreateMovie (CreateMovieRequest) returns (Movie);
+
+  rpc UpdateMovie (UpdateMovieRequest) returns (Movie);
+
+  rpc DeleteMovie (DeleteMovieRequest) returns (google.protobuf.Empty);
+
   rpc ListMovies (ListMoviesRequest) returns (ListMoviesResponse);
   rpc ListExtendedMovies (ListMoviesRequest) returns (ListExtendedMoviesResponse);
 
   rpc GetMovie (GetMovieRequest) returns (Movie);
   rpc GetMovieExtended (GetMovieExtendedRequest) returns (MovieExtended);
 }
+
+message CreateMovieRequest {
+  string title = 1;
+  int32 number_in_stock = 2;
+  int32 rating = 3;
+  int32 genre_id = 4;
+  int32 daily_rental_rate = 5;
+  string imdb_url = 6;
+}
+
+message UpdateMovieRequest {
+  int32 id = 1;
+  string title = 2;
+  int32 number_in_stock = 3;
+  int32 rating = 4;
+  int32 genre_id = 5;
+  int32 daily_rental_rate = 6;
+  string imdb_url = 7;
+}
+
+message DeleteMovieRequest {
+  int32 id = 1;
+}
+
+//Gets
 
 message Movie {
   int32 id = 1;

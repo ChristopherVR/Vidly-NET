@@ -1,5 +1,4 @@
-﻿using MediatR;
-using MovieSystem.Domain.Events;
+﻿using MovieSystem.Domain.Events;
 
 namespace MovieSystem.API.Application.DomainEventHandlers.UserCreated;
 

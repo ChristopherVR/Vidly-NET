@@ -1,5 +1,6 @@
 using Google.Protobuf.WellKnownTypes;
 using MovieSystem.API.Application.Queries;
+using System.Security.Claims;
 using UserSystem.V1;
 using static MovieSystem.API.Application.Commands.UserCommands;
 
@@ -40,11 +41,13 @@ public class UsersServiceV1 : Users.UsersBase
 
     public override async Task<Empty> ToggleUserFavouriteMovie(ToggleUserFavouriteMovieRequest request, ServerCallContext context)
     {
+        string username = context.GetHttpContext().User.FindFirst(ClaimTypes.Name)?.Value ?? throw new ArgumentNullException("Username cannot be null");
+
         var command = new ToggleUserFavouriteMovieCommand(
             request.UserId,
             request.MovieId,
             (Domain.AggregatesModel.UserAggregate.Rating)request.Rating,
-            "editedUser",
+            username,
             request.Reason,
             request.Liked);
 

@@ -1,5 +1,4 @@
-﻿using Dapper;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 
 namespace MovieSystem.API.Application.Queries;
 public class MovieQueries : IMovieQueries
@@ -22,11 +21,15 @@ public class MovieQueries : IMovieQueries
 
         var sql = @"
                 SELECT
-                    m.[Id]                         [Id],
-                    m.[Name]                       [Name],
-                    m.[Description]                [Description],
-                    m.[ImdbUrl]                    [ImdbUrl]
-                FROM Movie.Movies m WITH(NOLOCK)
+                    m.[Id]                                 [Id],
+                    m.[Title]                              [Title],
+                    m.[NumberInStock]                      [NumberInStock],
+                    m.[Rating]                             [Rating],
+                    g.[Name]                               [Genre],
+                    m.[DailyRentalRate]                    [DailyRentalRate]
+                FROM Movie.Movies m
+                JOIN Movie.Genres g
+                ON g.Id = m.GenreId
                 WHERE m.Id = @id";
 
         MoviePreview? movie = await connection.QueryFirstOrDefaultAsync<MoviePreview>(
@@ -46,13 +49,20 @@ public class MovieQueries : IMovieQueries
 
         var sql = @"
                 SELECT
-                    m.[Id]                         [Id],
-                    m.[Name]                       [Name],
-                    m.[Description]                [Description],
-                    m.[ImdbUrl]                    [ImdbUrl],
-                    ufm.[Reason]                   [Reason],
-                    ufm.[Rating]                   [Rating]
+                    m.[Id]                                 [Id],
+                    m.[Title]                              [Title],
+                    m.[NumberInStock]                      [NumberInStock],
+                    m.[DailyRentalRate]                    [DailyRentalRate],
+                    m.[Rating]                             [Rating],
+                    g.[Name]                               [Genre],
+                    m.[Liked]                              [Liked],
+                    m.[ImdbUrl]                            [ImdbUrl],
+                    ufm.[Reason]                           [Reason],
+                    m.UpdatedDate                          [UpdatedDate],
+                    ufm.[Rating]                           [UserRating]
                 FROM Movie.Movies m
+                JOIN Movie.Genres g
+                ON g.Id = m.GenreId
                 LEFT JOIN Movie.UserFavouriteMovies ufm
                 ON ufm.MovieId = m.Id
                 AND ufm.UserId = @userId
@@ -76,11 +86,15 @@ public class MovieQueries : IMovieQueries
 
         var sql = @"
                 SELECT
-                    m.[Id]                         [Id],
-                    m.[Name]                       [Name],
-                    m.[Description]                [Description],
-                    m.[ImdbUrl]                    [ImdbUrl]
-                FROM Movie.Movies m";
+                    m.[Id]                                 [Id],
+                    m.[Title]                              [Title],
+                    m.[NumberInStock]                      [NumberInStock],
+                    m.[Rating]                             [Rating],
+                    g.[Name]                               [Genre],
+                    m.[DailyRentalRate]                    [DailyRentalRate]
+                FROM Movie.Movies m
+                JOIN Movie.Genres g
+                ON g.Id = m.GenreId";
 
         IEnumerable<MoviePreview> movies = await connection.QueryAsync<MoviePreview>(
             sql);
@@ -95,13 +109,20 @@ public class MovieQueries : IMovieQueries
 
         var sql = @"
                 SELECT
-                    m.[Id]                         [Id],
-                    m.[Name]                       [Name],
-                    m.[Description]                [Description],
-                    m.[ImdbUrl]                    [ImdbUrl],
-                    ufm.[Reason]                   [Reason],
-                    ufm.[Rating]                   [Rating]
+                    m.[Id]                                 [Id],
+                    m.[Title]                              [Title],
+                    m.[NumberInStock]                      [NumberInStock],
+                    m.[DailyRentalRate]                    [DailyRentalRate],
+                    m.[Rating]                             [Rating],
+                    g.[Name]                               [Genre],
+                    m.[Liked]                              [Liked],
+                    m.[ImdbUrl]                            [ImdbUrl],
+                    ufm.[Reason]                           [Reason],
+                    m.UpdatedDate                          [UpdatedDate],
+                    ufm.[Rating]                           [UserRating]
                 FROM Movie.Movies m
+                JOIN Movie.Genres g
+                ON g.Id = m.GenreId
                 LEFT JOIN Movie.UserFavouriteMovies ufm
                 ON ufm.MovieId = m.Id
                 AND ufm.UserId = @userId";
