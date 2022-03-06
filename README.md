@@ -53,8 +53,7 @@ The following open source packages are used in this project:
 <!-- :paw_prints:-->
 <!-- FOLDER STRUCTURE -->
 <h2 id="folder-structure"> :cactus: Folder Structure</h2>
-
-    ├───.github
+    ├───github
 │   └───workflows
 ├───MoveShowcaseSPA
 │   ├───ClientApp
