@@ -46,6 +46,7 @@ The following open source packages are used in this project:
 * Dapper
 * gRPC
 * .NET 6
+* eShopOnContainer
 * React
 * Create-React-App
 * React-Toastify
