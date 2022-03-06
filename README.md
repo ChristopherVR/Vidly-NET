@@ -36,6 +36,10 @@
 
 [![made-with-react](https://img.shields.io/badge/-Made%20with%20React-blue)](https://reactjs.org/docs/create-a-new-react-app.html) <br>
 [![Made with-dot-net](https://img.shields.io/badge/-Made%20with%20.NET-purple)](https://dotnet.microsoft.com/en-us/) <br>
+[![build status][buildstatus-image]][buildstatus-url]
+
+[buildstatus-image]: https://github.com/ChristopherVR/MovieSystem-React-DDD-Example/blob/main/.github/workflows/badge.svg
+[buildstatus-url]: https://github.com/ChristopherVR/MovieSystem-React-DDD-Example/actions
 
 <!--This project is written mainly in C# and JavaScript programming languages. <br>-->
 The following open source packages are used in this project:
