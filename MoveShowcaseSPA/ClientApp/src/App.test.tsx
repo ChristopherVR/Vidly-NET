@@ -1,9 +1,9 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+test('should throw error when not wrapped inside `BrowserRouter`', () => {
+  expect(() => render(<App />)).toThrow(
+    'useRoutes() may be used only in the context of a <Router> component.',
+  );
 });
