@@ -51,7 +51,7 @@ namespace MoveShowcaseWeb.Tests
 
             var userService = new UserService(mockContextAccessor);
 
-            var expectedMessage = "User Id cannot be null";
+            var expectedMessage = "Value cannot be null. (Parameter 'User Id cannot be null')";
 
             var exception = Record.Exception(() => userService.GetUserId());
 
@@ -99,7 +99,7 @@ namespace MoveShowcaseWeb.Tests
 
             var userService = new UserService(mockContextAccessor);
 
-            var expectedMessage = "Name cannot be null";
+            var expectedMessage = "Value cannot be null. (Parameter 'Name cannot be null')";
 
             var exception = Record.Exception(() => userService.GetName());
 
@@ -148,7 +148,7 @@ namespace MoveShowcaseWeb.Tests
 
             var userService = new UserService(mockContextAccessor);
 
-            var expectedMessage = "UserName cannot be null";
+            var expectedMessage = "Value cannot be null. (Parameter 'UserName cannot be null')";
 
             var exception = Record.Exception(() => userService.GetUserName());
 
@@ -176,7 +176,7 @@ namespace MoveShowcaseWeb.Tests
 
             var expected = "Potter";
 
-            Assert.Equal(expected, userService.GetUserName());
+            Assert.Equal(expected, userService.GetSurname());
         }
 
         [Fact]
@@ -192,9 +192,9 @@ namespace MoveShowcaseWeb.Tests
 
             var userService = new UserService(mockContextAccessor);
 
-            var expectedMessage = "Surname cannot be null";
+            var expectedMessage = "Value cannot be null. (Parameter 'Surname cannot be null')";
 
-            var exception = Record.Exception(() => userService.GetUserName());
+            var exception = Record.Exception(() => userService.GetSurname());
 
             // Assert
             Assert.IsType<ArgumentNullException>(exception);
