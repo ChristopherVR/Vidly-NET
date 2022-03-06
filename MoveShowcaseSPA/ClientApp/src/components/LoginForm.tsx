@@ -32,7 +32,7 @@ function LoginForm() {
   return (
     <div>
       <h1>Login</h1>
-      <MDBValidation id="register-form" onSubmit={doSubmit}>
+      <MDBValidation className="mt-2" id="register-form" onSubmit={doSubmit}>
         <MDBInput
           name="username"
           label="Username"
@@ -57,7 +57,7 @@ function LoginForm() {
           invalid
           validation="Password is required"
         />
-        <MDBBtn form="register-form" type="submit">
+        <MDBBtn className="btn btn-primary" form="register-form" type="submit">
           Submit
         </MDBBtn>
       </MDBValidation>

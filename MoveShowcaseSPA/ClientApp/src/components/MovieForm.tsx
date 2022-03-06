@@ -46,7 +46,7 @@ function MovieForm() {
     };
     populateGenres();
     populateMovie();
-  }, []);
+  }, [id, navigate]);
 
   const onChangeHandler = (ev: HTMLInputElement) => {
     setMovie({

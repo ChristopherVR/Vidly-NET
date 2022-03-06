@@ -35,7 +35,11 @@ function RegisterForm() {
   return (
     <div>
       <h1>Register</h1>
-      <MDBValidation id="register-form" onSubmit={handleSubmit}>
+      <MDBValidation
+        className="mt-2"
+        id="register-form"
+        onSubmit={handleSubmit}
+      >
         <MDBInput
           name="username"
           label="Username"
