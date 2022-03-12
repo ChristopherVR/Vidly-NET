@@ -24,6 +24,8 @@ const RegisterForm = lazy(() => import('./components/RegisterForm'));
 
 const Logout = lazy(() => import('./components/Logout'));
 
+const Profile = lazy(() => import('./components/Profile'));
+
 function App() {
   const [user, setUser] = useState<User>();
   useEffect(() => {
@@ -66,6 +68,7 @@ function App() {
             <Route path="/movies" element={<Movies />} />
             <Route path="/customers" element={<Customers />} />
             <Route path="/rentals" element={<Rentals />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
