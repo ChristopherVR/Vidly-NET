@@ -12,14 +12,14 @@ updates:
       interval: "daily"
   # Maintain dependencies for npm Web project
   - package-ecosystem: "npm"
-    directory: "/MoveShowcaseDDD"
+    directory: "/MoveShowcaseSPA"
     schedule:
       interval: "daily"
     reviewers:
       - "ChristopherVR"
-  # Maintain dependencies for npm SPA app
+  # Maintain dependencies for npm ClientApp app
   - package-ecosystem: "npm"
-    directory: "/MoveShowcaseDDD/ClientApp"
+    directory: "/MoveShowcaseSPA/ClientApp"
     schedule:
       interval: "daily"
     reviewers:
