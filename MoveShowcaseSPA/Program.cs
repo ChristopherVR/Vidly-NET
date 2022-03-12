@@ -36,6 +36,8 @@ builder.Services.AddGrpcClient<GenreSystem.V1.Genres.GenresClient>(o =>
 
 builder.Services.AddTransient<ITokenService, TokenService>();
 
+builder.Services.AddAccessTokenManagement();
+
 builder.Services.AddAuthentication(auth =>
 {
     auth.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
