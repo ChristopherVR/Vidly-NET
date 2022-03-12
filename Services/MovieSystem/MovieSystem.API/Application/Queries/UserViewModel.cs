@@ -13,5 +13,6 @@ public record UserExtendedPreview(
     string Address,
     string HomeNumber, 
     string PhoneNumber,
+    string HashedPassword,
     UserFavouriteMovie[]? UserFavouriteMovies);
 

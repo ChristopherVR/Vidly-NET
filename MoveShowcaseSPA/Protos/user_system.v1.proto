@@ -74,4 +74,5 @@ message UserExtended {
   string home_number = 7;
   string address = 8;
   google.protobuf.StringValue image_url = 9;
+  string hashed_password = 10;
 }

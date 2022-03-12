@@ -22,6 +22,7 @@ public class UsersServiceV1 : Users.UsersBase
 
     public override async Task<UserExtended> UpdateUser(UpdateUserRequest request, ServerCallContext context)
     {
+        _logger.LogInformation("Updating user information for User - {id}", request.Id);
         var command = new UpdateUserCommand(request.Id, request.Name, request.Address, request.ImageUrl, request.PhoneNumber, request.HomeNumber, request.Surname, "editedUser");
 
         var result = await _mediator.Send(command, context.CancellationToken);
@@ -36,12 +37,14 @@ public class UsersServiceV1 : Users.UsersBase
             PhoneNumber = request.PhoneNumber,
             Surname = request.Surname,
             Username = result.Username,
+            HashedPassword = result.HashedPassword,
         };
     }
 
     public override async Task<Empty> ToggleUserFavouriteMovie(ToggleUserFavouriteMovieRequest request, ServerCallContext context)
     {
-        string username = context.GetHttpContext().User.FindFirst(ClaimTypes.Name)?.Value ?? throw new ArgumentNullException("Username cannot be null");
+        _logger.LogInformation("Toggling Movie Id - {movieId} for User - {userId}", request.MovieId, request.UserId);
+        string username = context.GetHttpContext().User.FindFirst(ClaimTypes.Name)?.Value ?? throw new ArgumentException("Username cannot be null");
 
         var command = new ToggleUserFavouriteMovieCommand(
             request.UserId,
@@ -94,7 +97,7 @@ public class UsersServiceV1 : Users.UsersBase
         {
             GetUserRequest.IdentifierOneofCase.Id => await _userQueries.GetUserAsync(request.Id),
             GetUserRequest.IdentifierOneofCase.Username => await _userQueries.GetUserAsync(request.Username),
-            _ => throw new NotImplementedException(),
+            _ => throw new RpcException(new Status(StatusCode.InvalidArgument, "Need to specfiy at least one identifier to retrieve user details")),
         };
 
         if (user is null)
@@ -117,7 +120,7 @@ public class UsersServiceV1 : Users.UsersBase
         {
             GetUserRequest.IdentifierOneofCase.Id => await _userQueries.GetUserExtendedAsync(request.Id),
             GetUserRequest.IdentifierOneofCase.Username => await _userQueries.GetUserExtendedAsync(request.Username),
-            _ => throw new NotImplementedException(),
+            _ => throw new RpcException(new Status(StatusCode.InvalidArgument, "Need to specfiy at least one identifier to retrieve user details")),
         };
 
         if (user is null)

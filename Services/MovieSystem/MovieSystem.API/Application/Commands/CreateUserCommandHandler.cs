@@ -17,7 +17,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, User>
     {
         _logger.LogInformation("Updating user {request}", request);
 
-        Domain.AggregatesModel.UserAggregate.User? user = await _userRepository
+        User? user = await _userRepository
             .GetAsync(request.UserName);
 
         if (user is not null)

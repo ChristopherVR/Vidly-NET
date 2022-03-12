@@ -1,7 +1,6 @@
 import React, { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import NotFound from './components/NotFound';
 import auth from './services/authService';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.scss';
@@ -64,7 +63,7 @@ function App() {
             <Route path="/movies" element={<Movies />} />
             <Route path="/customers" element={<Customers />} />
             <Route path="/rentals" element={<Rentals />} />
-            <Route path="*" element={<NotFound />} />
+            <Route path="*" element={<LoginForm />} />
           </Routes>
         </main>
       </UserContext.Provider>
