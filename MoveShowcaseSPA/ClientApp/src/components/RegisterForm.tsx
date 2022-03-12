@@ -25,12 +25,13 @@ function RegisterForm() {
 
   const handleSubmit = async () => {
     const id = await userService.register(user);
-    setRegisteredUser({
-      id,
-      name: user.name,
-      surname: user.surname,
-      userName: user.userName,
-    });
+    if (setRegisteredUser)
+      setRegisteredUser({
+        id,
+        name: user.name,
+        surname: user.surname,
+        userName: user.userName,
+      });
   };
   return (
     <div>
@@ -44,6 +45,7 @@ function RegisterForm() {
           name="username"
           label="Username"
           type="text"
+          className="mb-2"
           value={user.userName}
           onChange={({ currentTarget }: { currentTarget: HTMLInputElement }) =>
             onChangeHandler(currentTarget)
@@ -56,6 +58,7 @@ function RegisterForm() {
           name="password"
           label="Password"
           type="password"
+          className="mb-2"
           value={user.password}
           onChange={({ currentTarget }: { currentTarget: HTMLInputElement }) =>
             onChangeHandler(currentTarget)
@@ -68,6 +71,7 @@ function RegisterForm() {
           name="name"
           label="Name"
           type="text"
+          className="mb-2"
           value={user.name}
           onChange={({ currentTarget }: { currentTarget: HTMLInputElement }) =>
             onChangeHandler(currentTarget)
@@ -80,6 +84,7 @@ function RegisterForm() {
           name="surname"
           label="Surname"
           type="text"
+          className="mb-2"
           value={user.surname}
           onChange={({ currentTarget }: { currentTarget: HTMLInputElement }) =>
             onChangeHandler(currentTarget)

@@ -7,6 +7,8 @@ import './App.scss';
 import { User } from './interfaces/user';
 import UserContext from './context/userContext';
 import Loading from './components/Loading';
+import Home from './components/Home';
+import NotFound from './components/NotFound';
 
 const Movies = lazy(() => import('./components/Movies'));
 
@@ -38,7 +40,7 @@ function App() {
 
   const userContextProvider = useMemo(
     () => ({
-      user: user ?? ({} as User),
+      user,
       setUser,
     }),
     [user],
@@ -55,15 +57,16 @@ function App() {
           pauseOnHover
         />
         <NavBar />
-        <main className="container">
+        <main className="container p-5 mx-auto d-flex justify-content-center">
           <Routes>
+            <Route path="" element={<Home />} />
             <Route path="/register" element={<RegisterForm />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/movies" element={<Movies />} />
             <Route path="/customers" element={<Customers />} />
             <Route path="/rentals" element={<Rentals />} />
-            <Route path="*" element={<LoginForm />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
       </UserContext.Provider>

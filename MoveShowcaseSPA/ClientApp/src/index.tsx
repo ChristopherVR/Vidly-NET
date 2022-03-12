@@ -4,6 +4,7 @@ import './index.scss';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 
 const container = document.getElementById('root') as HTMLDivElement;
 const root = ReactDOM.createRoot(container);

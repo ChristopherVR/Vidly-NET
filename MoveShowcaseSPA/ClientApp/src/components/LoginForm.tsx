@@ -37,6 +37,7 @@ function LoginForm() {
           name="username"
           label="Username"
           type="text"
+          className="mb-2"
           value={user.username}
           onChange={({ currentTarget }: { currentTarget: HTMLInputElement }) =>
             onChangeHandler(currentTarget)
@@ -49,6 +50,7 @@ function LoginForm() {
           name="password"
           label="Password"
           type="password"
+          className="mb-2"
           value={user.password}
           onChange={({ currentTarget }: { currentTarget: HTMLInputElement }) =>
             onChangeHandler(currentTarget)
