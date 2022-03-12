@@ -5,7 +5,7 @@ axios.interceptors.request.use((request) => {
   const token = sessionStorage.getItem('auth_token');
   // TODO: Confirm if necessary.
   if (token && request.headers) {
-    request.headers.authorization = `Bearer ${sessionStorage.getItem(
+    request.headers.Authorization = `Bearer ${sessionStorage.getItem(
       'auth_token',
     )}`;
   }

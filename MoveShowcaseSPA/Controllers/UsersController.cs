@@ -91,6 +91,7 @@ public class UsersController : ControllerBase
     [Route("user/login")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesDefaultResponseType]
+    [AllowAnonymous]
     public async Task<IActionResult> Login(
     [FromServices] IConfiguration config,
     [FromServices] IWebHostEnvironment env,

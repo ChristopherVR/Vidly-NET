@@ -22,8 +22,11 @@ export const logout = async () => {
 
 export const getCurrentUser = async () => {
   try {
-    const response = await http.get(`${apiEndpoint}user`);
-    return response.data;
+    if (sessionStorage.getItem('auth_token')) {
+      const response = await http.get(`${apiEndpoint}user`);
+      return response.data;
+    }
+    return null;
   } catch (ex) {
     return null;
   }
