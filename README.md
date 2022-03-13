@@ -52,6 +52,7 @@ The following open source packages are used in this project:
 * React-Toastify
 * Bootstrap
 * MDB
+* ESLint & Prettier
 * Human Activity Recognition documentation
 * React-select documentation
  
