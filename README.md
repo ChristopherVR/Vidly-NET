@@ -163,7 +163,7 @@ For the MovieShowcaseSPA Web project the following app settings can be configure
 * **Key**: Indicates the Auth Key for the JWT Token based Authentication that will be used. This is a required value and needs to be 128 bits long.
 * **Audience**: Indicates the Audience and Issuer that will be used to valid JWT tokens. Example `http://localhost:7235/`.
 * **Services:MovieSystem**: Indicates the URL for the MovieSystem gRPC client. Example `http://moviesystemapi`
-* **Services:ReactAppURL**: Indicates the URL where the React-app is hosted. This is used for setting CORS policy. Example `http://localhost:7235/`.
+* **Services:ReactAppURL**: Indicates the URL where the React-app is hosted. This is used for setting CORS policy. Example `http://localhost:3000/`.
 
 </p>
 
