@@ -1,7 +1,7 @@
 import { Genre } from './genre';
 
 export interface Movie {
-  id: number;
+  id?: number;
   title: string;
   numberInStock: number;
   dailyRentalRate: number;
@@ -10,4 +10,5 @@ export interface Movie {
   liked: boolean;
   reason?: string;
   updatedDate?: Date;
+  imdbUrl?: string;
 }

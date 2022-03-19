@@ -96,6 +96,83 @@ public class MoviesController : ControllerBase
         };
     }
 
+    [HttpDelete("movie/{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
+    public async Task<IActionResult> Movie(uint id)
+    {
+        if (id == default)
+        {
+            return BadRequest();
+        }
+
+        await _movieClient.DeleteMovieAsync(new()
+        {
+            Id = (int)id,
+        });
+
+        return NoContent();
+    }
+
+    public record MovieDTO(int DailyRentalRate, int GenreId, bool Liked, int NumberInStock, int Rating, string Title, string? ImdbUrl);
+    [HttpPost("movie/create")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
+    public async Task<IActionResult> CreateMovie([FromBody] MovieDTO data)
+    {
+        if (data.Title == default)
+        {
+            return BadRequest();
+        }
+
+        var res = await _movieClient.CreateMovieAsync(new()
+        {
+            DailyRentalRate = data.DailyRentalRate,
+            GenreId = data.GenreId,
+            NumberInStock = data.NumberInStock,
+            Rating = data.Rating,
+            ImdbUrl = data.ImdbUrl,
+            Title = data.Title,
+        });
+
+        return Ok(new
+        {
+            res.Rating,
+            res.Id,
+            res.Genre,
+            res.Title,
+            res.DailyRentalRate,
+            res.NumberInStock,
+        });
+    }
+
+    [HttpPatch("movie/{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
+    public async Task<IActionResult> CreateMovie(uint id, [FromBody] MovieDTO data)
+    {
+        if (data.Title == default || id == default)
+        {
+            return BadRequest();
+        }
+
+        await _movieClient.UpdateMovieAsync(new()
+        {
+            Id = (int) id,
+            DailyRentalRate = data.DailyRentalRate,
+            GenreId = data.GenreId,
+            NumberInStock = data.NumberInStock,
+            Rating = data.Rating,
+            ImdbUrl = data.ImdbUrl,
+            Title = data.Title,
+        });
+
+        return NoContent();
+    }
+
     public record Favourite(Rating Rating, bool Liked, string Reason);
     [HttpPut("movie/favourite/{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]

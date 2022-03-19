@@ -53,6 +53,7 @@ function Movies() {
     setMovies(filteredMovies);
 
     try {
+      if (!movie.id) throw new Error('Movie id is undefined');
       await deleteMovie(movie.id);
     } catch {
       toast.error('An error occured trying to delete the movie.');

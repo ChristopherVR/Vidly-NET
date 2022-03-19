@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { MDBValidation, MDBInput, MDBBtn, MDBSwitch } from 'mdb-react-ui-kit';
 import { toast } from 'react-toastify';
+import { AsyncSelect } from 'react-select/async';
+import { SingleValue } from 'react-select';
 import { getMovie, saveMovie } from '../services/movieService';
 import { Genre } from '../interfaces/genre';
 import { Movie } from '../interfaces/movie';
@@ -12,7 +14,6 @@ type ParamsProps = {
 };
 
 function MovieForm() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [genres, setGenres] = useState<Genre[]>([]);
   const [movie, setMovie] = useState<Movie>({
     dailyRentalRate: 0,
@@ -20,11 +21,11 @@ function MovieForm() {
       id: 0,
       name: '',
     },
-    id: 0,
     liked: false,
     numberInStock: 0,
     rating: 0,
     title: '',
+    imdbUrl: '',
   });
   const navigate = useNavigate();
   const { id } = useParams<ParamsProps>();
@@ -35,7 +36,6 @@ function MovieForm() {
         const { data: gen } = await getGenres();
         setGenres(gen);
       } catch {
-        console.log('exception boi');
         toast.error('An error occurred trying to retrieve movie genres.');
       }
     };
@@ -55,10 +55,17 @@ function MovieForm() {
   }, [id, navigate]);
 
   const onChangeHandler = (ev: HTMLInputElement) => {
-    setMovie({
-      ...movie,
+    setMovie((prevMovie: Movie) => ({
+      ...prevMovie,
       [ev.name]: ev.value,
-    });
+    }));
+  };
+
+  const onChange = (ev: Genre) => {
+    setMovie((prevMovie: Movie) => ({
+      ...prevMovie,
+      genre: ev,
+    }));
   };
 
   const doSubmit = async () => {
@@ -118,12 +125,35 @@ function MovieForm() {
           invalid
           validation="Number in Stock is required"
         />
+        <MDBInput
+          name="imdbUrl"
+          label="IMDB Url"
+          type="url"
+          value={movie.imdbUrl}
+          onChange={({ currentTarget }: { currentTarget: HTMLInputElement }) =>
+            onChangeHandler(currentTarget)
+          }
+        />
         <MDBSwitch
           value={movie.liked}
+          name="liked"
           onChange={({ currentTarget }: { currentTarget: HTMLInputElement }) =>
             onChangeHandler(currentTarget)
           }
           label="Liked"
+        />
+        <AsyncSelect
+          className="basic-single"
+          classNamePrefix="select"
+          defaultValue={genres[0]}
+          isClearable={false}
+          isSearchable
+          defaultOptions={genres}
+          onChange={(ev: SingleValue<Genre>) => {
+            onChange(ev as Genre);
+          }}
+          value={movie.genre}
+          name="genre"
         />
         {/* Add Genre */}
         <MDBBtn form="movie-form" type="submit">

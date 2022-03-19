@@ -1,4 +1,5 @@
 $center-value: center;
+$margin-bottom: 1.5rem;
 
 .App {
   text-align: $center-value;
@@ -20,4 +21,8 @@ $center-value: center;
   &link {
     color: #61dafb;
   }
+}
+
+form > div.form-outline:not(:last-child) {
+  margin-bottom: $margin-bottom;
 }

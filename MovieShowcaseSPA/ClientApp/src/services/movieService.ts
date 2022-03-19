@@ -13,7 +13,7 @@ export const toggleFavourite = async (id: number, rating: number) =>
   http.put(`${apiEndpoint}/movie/ToggleFavourite`, { id, rating });
 
 export const saveMovie = async (mov: Movie) =>
-  http.post(`${apiEndpoint}/movie/create`, { ...mov });
+  http.post(`${apiEndpoint}/movie/create`, { ...mov, genre: mov.genre.id });
 
 export const deleteMovie = async (movieId: number) =>
   http.delete(movieUrl(movieId));
