@@ -1,6 +1,11 @@
 import React from 'react';
 
-function Button({ disabled, label }: { disabled: boolean; label: string }) {
+type ButtonProps = {
+  disabled: boolean;
+  label: string;
+};
+
+function Button({ disabled, label }: ButtonProps) {
   return (
     <button type="button" disabled={disabled} className="btn btn-primary">
       {label}

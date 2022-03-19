@@ -87,7 +87,7 @@ public class User : Entity, IAggregateRoot
             throw new MovieDomainException("Invalid home number");
         }
 
-        if (imageUrl is not null && !new System.ComponentModel.DataAnnotations.UrlAttribute().IsValid(imageUrl))
+        if (!string.IsNullOrEmpty(imageUrl) && !new System.ComponentModel.DataAnnotations.UrlAttribute().IsValid(imageUrl))
         {
             throw new MovieDomainException("Image url is not a valid URI");
         }

@@ -1,4 +1,5 @@
-﻿using MovieSystem.Domain.SeedWork;
+﻿using MovieSystem.Domain.Exceptions;
+using MovieSystem.Domain.SeedWork;
 
 namespace MovieSystem.Domain.AggregatesModel.UserAggregate
 {
@@ -30,6 +31,17 @@ namespace MovieSystem.Domain.AggregatesModel.UserAggregate
             Rating = rating;
             UpdatedUser = user;
             Liked = liked;
+        }
+
+        public void ToggleFavourite(bool liked, string user)
+        {
+            if (liked == Liked)
+            {
+                throw new MovieDomainException("Movie is already liked/unliked");
+            }
+            Liked = liked;
+            UpdatedUser = user;
+
         }
 
         public void Update(string reason, Rating rating, string user)

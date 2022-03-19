@@ -1,12 +1,11 @@
 import React from 'react';
 
-function SearchBox({
-  value,
-  onChange,
-}: {
+type SearchBoxProps = {
   value: string;
   onChange: (e: string) => void;
-}) {
+};
+
+function SearchBox({ value, onChange }: SearchBoxProps) {
   return (
     <input
       type="text"

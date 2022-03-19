@@ -12,6 +12,7 @@ import SearchBox from './SearchBox';
 import { Genre } from '../interfaces/genre';
 import { Movie } from '../interfaces/movie';
 import UserContext from '../context/userContext';
+import './movies.scss';
 
 function Movies() {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -20,7 +21,7 @@ function Movies() {
     currentPage: number;
     pageSize: number;
     searchQuery: string;
-    selectedGenre: number | undefined;
+    selectedGenre: number;
     sortColumn: {
       path: string;
       order: boolean | 'asc' | 'desc';
@@ -29,7 +30,7 @@ function Movies() {
     currentPage: 1,
     pageSize: 4,
     searchQuery: '',
-    selectedGenre: undefined,
+    selectedGenre: 0,
     sortColumn: {
       path: 'title',
       order: 'asc',
@@ -39,7 +40,7 @@ function Movies() {
   useEffect(() => {
     const getData = async () => {
       const { data } = await getGenres();
-      const allGenres = [{ _id: '', name: 'All Genres' }, ...data];
+      const allGenres = [{ id: 0, name: 'All Genres' }, ...data];
       setGenres(allGenres);
       const { data: mov } = await getMovies();
       setMovies(mov);
@@ -62,33 +63,35 @@ function Movies() {
   };
 
   const handleLike = (movie: Movie) => {
-    const clonedMovies = [...movies];
-    const index = clonedMovies.indexOf(movie);
-    clonedMovies[index] = { ...clonedMovies[index] };
-    setMovies(clonedMovies);
+    setMovies((prevMovies) => {
+      const clonedMovies = [...prevMovies];
+      const index = clonedMovies.indexOf(movie);
+      clonedMovies[index] = { ...clonedMovies[index], liked: !movie.liked };
+      return clonedMovies;
+    });
   };
 
-  const handlePageChange = (pageSize: number) => {
-    setCriteria({ ...criteria, pageSize });
+  const handlePageChange = (currentPage: number) => {
+    setCriteria((prevCriteria) => ({ ...prevCriteria, currentPage }));
   };
 
   const handleGenreSelect = (selectedGenre: number) => {
-    setCriteria({ ...criteria, selectedGenre });
+    setCriteria((prevCriteria) => ({ ...prevCriteria, selectedGenre }));
   };
 
   const handleSearch = (searchQuery: string) => {
-    setCriteria({ ...criteria, searchQuery });
+    setCriteria((prevCriteria) => ({ ...prevCriteria, searchQuery }));
   };
 
   const handleSort = (sortColumn: { path: string }) => {
-    setCriteria({
-      ...criteria,
+    setCriteria((prevCriteria) => ({
+      ...prevCriteria,
       sortColumn: {
-        ...criteria.sortColumn,
+        ...prevCriteria.sortColumn,
         order: true,
         ...sortColumn,
       },
-    });
+    }));
   };
 
   const { pageSize, currentPage, sortColumn, searchQuery, selectedGenre } =
@@ -100,11 +103,10 @@ function Movies() {
       filtered = movies.filter((m) =>
         m.title.toLowerCase().startsWith(searchQuery.toLowerCase()),
       );
-    else if (selectedGenre)
-      filtered = movies.filter((m) => m.genre.id === selectedGenre);
+    if (selectedGenre !== 0)
+      filtered = movies.filter((m) => m.genre.value === selectedGenre);
 
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
-
     const paginatedMovies = paginate(sorted, currentPage, pageSize);
 
     return { totalCount: filtered.length, data: paginatedMovies as Movie[] };
@@ -122,10 +124,10 @@ function Movies() {
       <div className="col-3">
         <ListGroup
           items={genres}
-          selectedItem={criteria.selectedGenre ?? 0}
+          selectedItem={criteria.selectedGenre}
           onItemSelect={handleGenreSelect}
-          textProperty="id"
-          valueProperty="genre"
+          textProperty="name"
+          valueProperty="id"
         />
       </div>
       <div className="col">

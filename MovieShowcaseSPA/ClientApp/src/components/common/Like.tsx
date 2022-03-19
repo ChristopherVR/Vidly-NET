@@ -1,15 +1,18 @@
+import { faHeart, faHeartBroken } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 
-// TODO: Add font awesome icons.
+type LikeProps = {
+  liked: boolean;
+  onClick: () => void;
+};
 
-function Like({ liked, onClick }: { liked: boolean; onClick: () => void }) {
-  let classes = 'fa fa-heart';
-  if (!liked) classes += '-o';
+function Like({ liked, onClick }: LikeProps) {
   return (
-    <i
+    <FontAwesomeIcon
       onClick={onClick}
-      style={{ cursor: 'pointer' }}
-      className={classes}
+      role="button"
+      icon={liked ? faHeart : faHeartBroken}
       aria-hidden="true"
     />
   );

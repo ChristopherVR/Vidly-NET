@@ -87,7 +87,7 @@ public class Movie : Entity, IAggregateRoot
             throw new MovieDomainException("GenreId cannot be default");
         }
 
-        if (!new System.ComponentModel.DataAnnotations.UrlAttribute().IsValid(imdbUrl))
+        if (!string.IsNullOrWhiteSpace(imdbUrl) && !new System.ComponentModel.DataAnnotations.UrlAttribute().IsValid(imdbUrl))
         {
             throw new MovieDomainException("Imdb url is not a valid URI");
         }

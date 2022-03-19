@@ -25,7 +25,8 @@ public class MovieQueries : IMovieQueries
                     m.[Title]                              [Title],
                     m.[NumberInStock]                      [NumberInStock],
                     m.[Rating]                             [Rating],
-                    g.[Name]                               [Genre],
+                    g.[Id]                                 [GenreId],
+                    g.[Name]                               [GenreName],
                     m.[DailyRentalRate]                    [DailyRentalRate]
                 FROM Movie.Movies m
                 JOIN Movie.Genres g
@@ -54,8 +55,9 @@ public class MovieQueries : IMovieQueries
                     m.[NumberInStock]                      [NumberInStock],
                     m.[DailyRentalRate]                    [DailyRentalRate],
                     m.[Rating]                             [Rating],
-                    g.[Name]                               [Genre],
-                    m.[Liked]                              [Liked],
+                    g.[Id]                                 [GenreId],
+                    g.[Name]                               [GenreName],
+                    ISNULL(ufm.[Liked], 0)                 [Liked],
                     m.[ImdbUrl]                            [ImdbUrl],
                     ufm.[Reason]                           [Reason],
                     m.UpdatedDate                          [UpdatedDate],
@@ -90,7 +92,8 @@ public class MovieQueries : IMovieQueries
                     m.[Title]                              [Title],
                     m.[NumberInStock]                      [NumberInStock],
                     m.[Rating]                             [Rating],
-                    g.[Name]                               [Genre],
+                    g.[Id]                                 [GenreId],
+                    g.[Name]                               [GenreName],
                     m.[DailyRentalRate]                    [DailyRentalRate]
                 FROM Movie.Movies m
                 JOIN Movie.Genres g
@@ -114,8 +117,9 @@ public class MovieQueries : IMovieQueries
                     m.[NumberInStock]                      [NumberInStock],
                     m.[DailyRentalRate]                    [DailyRentalRate],
                     m.[Rating]                             [Rating],
-                    g.[Name]                               [Genre],
-                    m.[Liked]                              [Liked],
+                    g.[Id]                                 [GenreId],
+                    g.[Name]                               [GenreName],
+                    ISNULL(ufm.[Liked], 0)                 [Liked],
                     m.[ImdbUrl]                            [ImdbUrl],
                     ufm.[Reason]                           [Reason],
                     m.UpdatedDate                          [UpdatedDate],

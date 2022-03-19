@@ -1,16 +1,11 @@
 import React from 'react';
 import TableHeader from './TableHeader';
-import TableBody from './TableBody';
+import TableBody, { RowData } from './TableBody';
 import { Column } from '../../interfaces/column';
 
-function Table({
-  columns,
-  sortColumn,
-  onSort,
-  data,
-}: {
+type TableProps = {
   columns: Column[];
-  data: unknown[];
+  data: RowData[];
   onSort: (sortColumn: {
     path: string;
     order: boolean | 'asc' | 'desc';
@@ -19,7 +14,8 @@ function Table({
     order: boolean | 'asc' | 'desc';
     path: string;
   };
-}) {
+};
+function Table({ columns, sortColumn, onSort, data }: TableProps) {
   return (
     <table className="table table-striped">
       <TableHeader columns={columns} sortColumn={sortColumn} onSort={onSort} />

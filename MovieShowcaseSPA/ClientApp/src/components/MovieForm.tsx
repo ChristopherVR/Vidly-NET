@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { MDBValidation, MDBInput, MDBBtn, MDBSwitch } from 'mdb-react-ui-kit';
 import { toast } from 'react-toastify';
-import AsyncSelect from 'react-select/async';
-import { SingleValue } from 'react-select';
+import Select, { SingleValue } from 'react-select';
 import { getMovie, saveMovie } from '../services/movieService';
 import { Genre } from '../interfaces/genre';
 import { Movie } from '../interfaces/movie';
@@ -18,8 +17,8 @@ function MovieForm() {
   const [movie, setMovie] = useState<Movie>({
     dailyRentalRate: 0,
     genre: {
-      id: 0,
-      name: '',
+      value: 0,
+      label: '',
     },
     liked: false,
     numberInStock: 0,
@@ -34,7 +33,12 @@ function MovieForm() {
     const populateGenres = async () => {
       try {
         const { data: gen } = await getGenres();
-        setGenres(gen);
+        setGenres(
+          gen.map((genre: { id: number; name: string }) => ({
+            value: genre.id,
+            label: genre.name,
+          })),
+        );
       } catch {
         toast.error('An error occurred trying to retrieve movie genres.');
       }
@@ -61,6 +65,9 @@ function MovieForm() {
     }));
   };
 
+  const liked = (val: boolean) =>
+    setMovie((prevMovie: Movie) => ({ ...prevMovie, liked: val }));
+
   const onChange = (ev: Genre) => {
     setMovie((prevMovie: Movie) => ({
       ...prevMovie,
@@ -80,7 +87,8 @@ function MovieForm() {
         <MDBInput
           name="dailyRentalRate"
           label="Daily Rental Rate"
-          type="text"
+          type="number"
+          min="1"
           value={movie.dailyRentalRate.toString()}
           onChange={({ currentTarget }: { currentTarget: HTMLInputElement }) =>
             onChangeHandler(currentTarget)
@@ -92,7 +100,9 @@ function MovieForm() {
         <MDBInput
           name="rating"
           label="Rating"
-          type="text"
+          type="number"
+          min="1"
+          max="5"
           value={movie.rating.toString()}
           onChange={({ currentTarget }: { currentTarget: HTMLInputElement }) =>
             onChangeHandler(currentTarget)
@@ -116,7 +126,8 @@ function MovieForm() {
         <MDBInput
           name="numberInStock"
           label="Number in Stock"
-          type="text"
+          type="number"
+          min="1"
           value={movie.numberInStock.toString()}
           onChange={({ currentTarget }: { currentTarget: HTMLInputElement }) =>
             onChangeHandler(currentTarget)
@@ -129,7 +140,7 @@ function MovieForm() {
           name="imdbUrl"
           label="IMDB Url"
           type="url"
-          value={movie.imdbUrl}
+          value={movie.imdbUrl ?? ''}
           onChange={({ currentTarget }: { currentTarget: HTMLInputElement }) =>
             onChangeHandler(currentTarget)
           }
@@ -138,17 +149,18 @@ function MovieForm() {
           value={movie.liked}
           name="liked"
           onChange={({ currentTarget }: { currentTarget: HTMLInputElement }) =>
-            onChangeHandler(currentTarget)
+            liked(currentTarget.value === 'true')
           }
           label="Liked"
+          id="liked"
+          className="mb-2"
         />
-        <AsyncSelect
+        <Select
           className="basic-single"
           classNamePrefix="select"
-          defaultValue={genres[0]}
           isClearable={false}
           isSearchable
-          defaultOptions={genres}
+          options={genres}
           onChange={(ev: SingleValue<Genre>) => {
             onChange(ev as Genre);
           }}
@@ -156,7 +168,7 @@ function MovieForm() {
           name="genre"
         />
         {/* Add Genre */}
-        <MDBBtn form="movie-form" type="submit">
+        <MDBBtn form="movie-form" className="mt-2" type="submit">
           Submit
         </MDBBtn>
       </MDBValidation>

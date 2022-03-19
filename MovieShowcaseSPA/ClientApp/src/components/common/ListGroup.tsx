@@ -21,10 +21,12 @@ function ListGroup({
       {items.map((item) => (
         <li
           aria-hidden
-          onClick={() => onItemSelect(item)}
+          onClick={() => onItemSelect(Number(item[valueProperty]))}
           key={item[valueProperty]}
           className={
-            item === selectedItem ? 'list-group-item active' : 'list-group-item'
+            item[valueProperty] === selectedItem
+              ? 'list-group-item active'
+              : 'list-group-item'
           }
         >
           {item[textProperty]}

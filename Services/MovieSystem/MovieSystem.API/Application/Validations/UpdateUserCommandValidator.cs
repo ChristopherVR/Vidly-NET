@@ -7,7 +7,7 @@ public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
     {
         logger.LogInformation("UserCommandValidator is executing...");
         RuleFor(command => command.Name).NotEmpty().WithMessage("Name cannot be empty");
-        RuleFor(command => command.User).NotEmpty().EmailAddress().WithMessage("Not a valid Email Addres/s");
+        RuleFor(command => command.User).NotEmpty();
         RuleFor(command => command.ImageUrl)
             .Must(x => new System.ComponentModel.DataAnnotations.UrlAttribute().IsValid(x))
             .Unless(command => string.IsNullOrWhiteSpace(command.ImageUrl))

@@ -1,20 +1,19 @@
 import React from 'react';
 import { MDBBtn } from 'mdb-react-ui-kit';
 
+import { useNavigate } from 'react-router-dom';
 import { Movie } from '../interfaces/movie';
 import Like from './common/Like';
 
-function MoviesTable({
-  movies,
-  onSort,
-  onLike,
-  onDelete,
-}: {
+type MoviesTableProps = {
   onDelete: (movie: Movie) => Promise<void>;
   movies: Movie[];
   onSort: (sortColumn: { path: string }) => void;
   onLike: (movie: Movie) => void;
-}) {
+};
+
+function MoviesTable({ movies, onSort, onLike, onDelete }: MoviesTableProps) {
+  const navgiate = useNavigate();
   return (
     <table className="table table-striped">
       <thead>
@@ -91,14 +90,21 @@ function MoviesTable({
       <tbody>
         {movies.map((movie: Movie) => (
           <tr key={movie.id}>
-            <td>{movie.title} </td>
+            <td>
+              <span
+                role="button"
+                aria-hidden
+                onClick={() => navgiate(`/movies/${movie.id}`)}
+              >
+                {movie.title}
+              </span>
+            </td>
             <td>{movie.numberInStock} </td>
             <td>{movie.dailyRentalRate} </td>
             <td>{movie.rating} </td>
-            <td>{movie.genre.name} </td>
+            <td>{movie.genre.label} </td>
             <td>
-              {' '}
-              <Like liked={movie.liked} onClick={() => onLike(movie)} />{' '}
+              <Like liked={movie.liked} onClick={() => onLike(movie)} />
             </td>
             <td>
               <MDBBtn className="btn-danger" onClick={() => onDelete(movie)}>

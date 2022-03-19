@@ -46,6 +46,10 @@ message DeleteMovieRequest {
 }
 
 //Gets
+message Genre {
+  int32 id = 1;
+  string name = 2;
+}
 
 message Movie {
   int32 id = 1;
@@ -53,7 +57,7 @@ message Movie {
   int32 number_in_stock = 3;
   int32 daily_rental_rate = 4;
   int32 rating = 5;
-  string genre = 6;
+  Genre genre = 6;
 }
 
 message MovieExtended {
@@ -64,7 +68,7 @@ message MovieExtended {
   google.protobuf.StringValue reason = 5;
   int32 number_in_stock = 6;
   int32 daily_rental_rate = 7;
-  string genre = 8;
+  Genre genre = 8;
 }
 
 message ListMoviesRequest {

@@ -35,7 +35,21 @@ public class MoviesController : ControllerBase
                 {
                     UserId = _userService.GetUserId(),
                 });
-            return extendedMovie.Movies.ToArray();
+            return extendedMovie.Movies.Select(movie => new
+            {
+                movie.Id,
+                movie.Title,
+                movie.NumberInStock,
+                Genre = new
+                {
+                    Value = movie.Genre.Id,
+                    Label = movie.Genre.Name,
+                },
+                movie.UpdatedDate,
+                movie.DailyRentalRate,
+                movie.Rating,
+                movie.Reason,
+            });
         }
 
         MovieSystem.V1.ListMoviesResponse movies = await _movieClient
@@ -44,7 +58,19 @@ public class MoviesController : ControllerBase
                 UserId = _userService.GetUserId(),
             });
 
-        return movies.Movies.ToArray();
+        return movies.Movies.Select(movie => new
+        {
+            movie.Id,
+            movie.Title,
+            movie.NumberInStock,
+            Genre = new
+            {
+                Value = movie.Genre.Id,
+                Label = movie.Genre.Name,
+            },
+            movie.DailyRentalRate,
+            movie.Rating,
+        });
     }
 
     [HttpGet("movie/{id}")]
@@ -71,7 +97,11 @@ public class MoviesController : ControllerBase
                 movie.Id,
                 movie.Title,
                 movie.NumberInStock,
-                movie.Genre,
+                Genre = new
+                {
+                    Value = movie.Genre.Id,
+                    Label = movie.Genre.Name,
+                },
                 movie.DailyRentalRate,
                 movie.Rating,
             };
@@ -88,8 +118,12 @@ public class MoviesController : ControllerBase
             extendedMovie.Id,
             extendedMovie.Title,
             extendedMovie.NumberInStock,
-            extendedMovie.Genre,
-            extendedMovie.UpdatedDate,
+            Genre = new
+            {
+                Value = extendedMovie.Genre?.Id,
+                Label = extendedMovie.Genre?.Name,
+            },
+            UpdatedDate = extendedMovie.UpdatedDate.ToDateTime(),
             extendedMovie.DailyRentalRate,
             extendedMovie.Rating,
             extendedMovie.Reason,
@@ -141,7 +175,11 @@ public class MoviesController : ControllerBase
         {
             res.Rating,
             res.Id,
-            res.Genre,
+            Genre = new
+            {
+                Value = res.Genre.Id,
+                Label = res.Genre.Name,
+            },
             res.Title,
             res.DailyRentalRate,
             res.NumberInStock,
@@ -152,7 +190,7 @@ public class MoviesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesDefaultResponseType]
-    public async Task<IActionResult> CreateMovie(uint id, [FromBody] MovieDTO data)
+    public async Task<IActionResult> Movie(uint id, [FromBody] MovieDTO data)
     {
         if (data.Title == default || id == default)
         {
@@ -166,7 +204,7 @@ public class MoviesController : ControllerBase
             GenreId = data.GenreId,
             NumberInStock = data.NumberInStock,
             Rating = data.Rating,
-            ImdbUrl = data.ImdbUrl,
+            ImdbUrl = data.ImdbUrl ?? string.Empty,
             Title = data.Title,
         });
 

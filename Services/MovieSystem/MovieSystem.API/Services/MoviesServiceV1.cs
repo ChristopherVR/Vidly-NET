@@ -6,7 +6,7 @@ using static MovieSystem.API.Application.Commands.MovieCommands;
 
 namespace MovieSystem.API.Services;
 [Authorize]
- public class MoviesServiceV1 : MovieSystem.V1.Movies.MoviesBase
+ public class MoviesServiceV1 : Movies.MoviesBase
  {
      private readonly ILogger<MoviesServiceV1> _logger;
      private readonly IMediator _mediator;
@@ -23,6 +23,7 @@ namespace MovieSystem.API.Services;
 
     public override async Task<Empty> DeleteMovie(DeleteMovieRequest request, ServerCallContext context)
     {
+        _logger.LogInformation("Deleting movie with Id - {id}", request.Id);
         bool result = await _mediator.Send(new DeleteMovieCommand(request.Id), context.CancellationToken);
 
         if (!result)
@@ -35,7 +36,8 @@ namespace MovieSystem.API.Services;
 
     public override async Task<Movie> CreateMovie(CreateMovieRequest request, ServerCallContext context)
     {
-        string username = context.GetHttpContext().User.FindFirst(ClaimTypes.Name)?.Value ?? throw new ArgumentNullException("Username cannot be null");
+        _logger.LogInformation("Creating movie with Title - {title}", request.Title);
+        string username = context.GetHttpContext().User.FindFirst(ClaimTypes.Name)?.Value ?? throw new RpcException(new Status(StatusCode.InvalidArgument, "Username cannot be null"));
 
         var command = new CreateMovieCommand(
             request.Title,
@@ -51,7 +53,11 @@ namespace MovieSystem.API.Services;
         return new()
         {
             DailyRentalRate = movie.DailyRentalRate,
-            Genre = "genre", // TODO: Retrieve
+            Genre = new()
+            {
+                Id = movie.GenreId,
+                Name = "Genre", // TODO: Retrieve
+            },
             Id = movie.Id,
             NumberInStock = movie.NumberInStock,
             Rating = movie.Rating,
@@ -61,7 +67,7 @@ namespace MovieSystem.API.Services;
 
     public override async Task<Movie> UpdateMovie(UpdateMovieRequest request, ServerCallContext context)
     {
-        string username = context.GetHttpContext().User.FindFirst(ClaimTypes.Name)?.Value ?? throw new ArgumentNullException("Username cannot be null");
+        string username = context.GetHttpContext().User.FindFirst(ClaimTypes.Name)?.Value ?? throw new RpcException(new Status(StatusCode.InvalidArgument, "Username cannot be null"));
 
         var command = new UpdateMovieCommand(
             request.Id, 
@@ -78,7 +84,11 @@ namespace MovieSystem.API.Services;
         return new()
         {
             DailyRentalRate = movie.DailyRentalRate,
-            Genre = "genre", // TODO: Retrieve
+            Genre = new ()
+            {
+                Id = movie.GenreId,
+                Name = "Genre", // TODO: Retrieve
+            },
             Id = request.Id,
             NumberInStock = movie.NumberInStock,
             Rating = movie.Rating,
@@ -100,7 +110,11 @@ namespace MovieSystem.API.Services;
                      Title = movie.Title,
                      Id = movie.Id,
                      DailyRentalRate = movie.DailyRentalRate,
-                     Genre = movie.Genre,
+                     Genre = new ()
+                     {
+                         Name = movie.GenreName,
+                         Id = movie.GenreId,
+                     },
                      NumberInStock = movie.NumberInStock,
                      Rating = movie.Rating,
                  })
@@ -126,7 +140,11 @@ namespace MovieSystem.API.Services;
                  {
                      Id = movie.Id,
                      DailyRentalRate = movie.DailyRentalRate,
-                     Genre = movie.Genre,
+                     Genre = new ()
+                     {
+                         Name = movie.GenreName,
+                         Id = movie.GenreId,
+                     },
                      NumberInStock = movie.NumberInStock,
                      Reason = movie.Reason,
                      Title = movie.Title,
@@ -149,6 +167,16 @@ namespace MovieSystem.API.Services;
          return new()
          {
              Id = movie.Id,
+             // ImdbUrl = movie.ImdbUrl,
+             Rating = ((int?)movie.Rating) ?? 0,
+             DailyRentalRate = movie.DailyRentalRate,
+             Genre = new()
+             {
+                 Id = movie.GenreId,
+                 Name = movie.GenreName,
+             },
+             NumberInStock = movie.NumberInStock,
+             Title = movie.Title,
          };
      }
  
@@ -166,7 +194,16 @@ namespace MovieSystem.API.Services;
              Id = movie.Id,
              // ImdbUrl = movie.ImdbUrl,
              Rating = ((int?)movie.Rating) ?? 0,
-             UpdatedDate = Timestamp.FromDateTime(movie.UpdatedDate),
+             UpdatedDate = movie.UpdatedDate.ToUniversalTime().ToTimestamp(),
+             DailyRentalRate = movie.DailyRentalRate,
+             Genre = new ()
+             {
+                 Id = movie.GenreId,
+                 Name = movie.GenreName,
+             },
+             NumberInStock = movie.NumberInStock,
+             Reason = movie.Reason,
+             Title = movie.Title,
          };
      }
  

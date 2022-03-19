@@ -1,21 +1,29 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import _ from 'lodash';
 import { Column } from '../../interfaces/column';
 
-function TableBody({ data, columns }: { data: unknown[]; columns: Column[] }) {
+export type RowData = {
+  id: number;
+  [rest: string]: unknown;
+};
+
+type TableBodyProps = {
+  data: RowData[];
+  columns: Column[];
+};
+function TableBody({ data, columns }: TableBodyProps) {
   const renderCell = (item: unknown, column: Column) => {
     if (column.content) return column.content(item);
 
     return _.get(item, column.path);
   };
 
-  const createKey = (item: any, column: Column) =>
-    item.id + (column.path || column.key);
+  const createKey = (item: RowData, column: Column) =>
+    `${item.id} ${column.path || column.key}`;
 
   return (
     <tbody>
-      {data.map((item: any) => (
+      {data.map((item: RowData) => (
         <tr key={item.id}>
           {columns.map((column) => (
             <td key={createKey(item, column)}>{renderCell(item, column)}</td>

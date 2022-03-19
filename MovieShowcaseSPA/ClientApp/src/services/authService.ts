@@ -21,6 +21,9 @@ export const login = async (
         name: res.data.name,
         surname: res.data.surname,
         userName: res.data.userName,
+        address: res.data.address,
+        homeNumber: res.data.homeNumber,
+        phoneNumber: res.data.phoneNumber,
       });
     })
     .catch((err) => toast.error(err));

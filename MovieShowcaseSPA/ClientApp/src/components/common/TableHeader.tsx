@@ -1,18 +1,16 @@
 import React from 'react';
 import { Column, SortColumn } from '../../interfaces/column';
 
-function TableHeader({
-  columns,
-  onSort,
-  sortColumn,
-}: {
+type TableHeaderProps = {
   columns: Column[];
   onSort: (sortCol: SortColumn) => void;
   sortColumn: {
     order: boolean | 'asc' | 'desc';
     path: string;
   };
-}) {
+};
+
+function TableHeader({ columns, onSort, sortColumn }: TableHeaderProps) {
   const raiseSort = (path: string) => {
     const changedColumn = { ...sortColumn };
     if (changedColumn.path === path)
