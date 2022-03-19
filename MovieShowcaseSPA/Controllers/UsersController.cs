@@ -1,11 +1,7 @@
 ﻿using Grpc.Core;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MoveShowcaseDDD.Services;
-using System.Security.Claims;
 using static UserSystem.V1.Users;
 
 namespace MoveShowcaseDDD.Areas.Controllers;
@@ -26,50 +22,17 @@ public class UsersController : ControllerBase
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    private async Task<string> LoginUser(string username, string id, string name, string surname)
+    private IActionResult LoginUser(string username, string id, string name, string surname)
     {
         string token = _tokenService.BuildToken(new(id, username, name, surname, "Admin"));
-        await Task.CompletedTask;
-        // //A claim is a statement about a subject by an issuer and    
-        // //represent attributes of the subject that are useful in the context of authentication and authorization operations.    
-        // var claims = new List<Claim>()
-        // {
-        //     new Claim(ClaimTypes.NameIdentifier, id),
-        //     new Claim(ClaimTypes.Name, name),
-        //     new Claim(ClaimTypes.Surname, surname),
-        //     new Claim(ClaimTypes.GivenName, username),
-        // };
-        // 
-        // //Initialize a new instance of the ClaimsIdentity with the claims and authentication scheme    
-        // var identity = new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme);
-        // 
-        // //Initialize a new instance of the ClaimsPrincipal with ClaimsIdentity    
-        // var principal = new ClaimsPrincipal(identity);
-        // 
-        // //SignInAsync is a Extension method for Sign in a principal for the specified scheme.    
-        // await HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, principal, new AuthenticationProperties()
-        // {
-        //     AllowRefresh = true,
-        //     // Refreshing the authentication session should be allowed.
-        // 
-        //     //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
-        //     // The time at which the authentication ticket expires. A 
-        //     // value set here overrides the ExpireTimeSpan option of 
-        //     IsPersistent = true,
-        //     // Whether the authentication session is persisted across 
-        //     // multiple requests. When used with cookies, controls
-        //     // whether the cookie's lifetime is absolute (matching the
-        //     // lifetime of the authentication ticket) or session-based.
-        // 
-        //     //IssuedUtc = <DateTimeOffset>,
-        //     // The time at which the authentication ticket was issued.
-        // 
-        //     //RedirectUri = <string>
-        //     // The full path or absolute URI to be used as an http 
-        //     // redirect response value.
-        // });
-
-        return token;
+        return new JsonResult(new
+        {
+            Token = token,
+            Name = name,
+            Surname = surname,
+            Username = username,
+            Id = id,
+        });
     }
 
     [HttpGet("user")]
@@ -99,7 +62,7 @@ public class UsersController : ControllerBase
     {
         if (config.GetValue<bool>("BypassAuthentication") && env.IsDevelopment())
         {
-            return Ok(await LoginUser(data.Username, "1", "TestUser", "Mock"));
+            return Ok(LoginUser(data.Username, "1", "TestUser", "Mock"));
         }
 
         // TODO: Get password and validate user
@@ -110,7 +73,7 @@ public class UsersController : ControllerBase
                 Username = data.Username,
             });
 
-            return Ok(await LoginUser(data.Username, userDetails.Id.ToString(), userDetails.Name, userDetails.Surname));
+            return Ok(LoginUser(data.Username, userDetails.Id.ToString(), userDetails.Name, userDetails.Surname));
         }
         catch(RpcException ex) when (ex.StatusCode == global::Grpc.Core.StatusCode.NotFound)
         {
@@ -122,17 +85,6 @@ public class UsersController : ControllerBase
             return BadRequest(); // TODO: return internal server error
         }
 
-    }
-
-    [HttpPost]
-    [Authorize]
-    [Route("user/logout")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesDefaultResponseType]
-    public async Task<IActionResult> Logout()
-    {
-        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        return NoContent();
     }
 
     public record UserPreview(string Username, string Name, string Surname, string HomeNumber, string PhoneNumber, string Address, string? ImageUrl);

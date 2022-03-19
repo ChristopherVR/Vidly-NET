@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\MoveShowcaseSPA\MoveShowcaseSPA.csproj" />
+    <ProjectReference Include="..\..\MovieShowcaseSPA\MovieShowcaseSPA.csproj" />
   </ItemGroup>
 
 </Project>

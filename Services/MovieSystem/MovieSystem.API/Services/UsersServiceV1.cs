@@ -64,6 +64,7 @@ public class UsersServiceV1 : Users.UsersBase
         return new();
     }
 
+    [AllowAnonymous]
     public override async Task<UserExtended> CreateUser(CreateUserRequest request, ServerCallContext context)
     {
         var command = new CreateUserCommand(

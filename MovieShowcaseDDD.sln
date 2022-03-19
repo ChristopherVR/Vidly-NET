@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoveShowcaseSPA", "MoveShowcaseSPA\MoveShowcaseSPA.csproj", "{D63DB0D9-3E50-44B5-AB67-AD28A1EA748C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieShowcaseSPA", "MovieShowcaseSPA\MovieShowcaseSPA.csproj", "{D63DB0D9-3E50-44B5-AB67-AD28A1EA748C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoveShowcaseWeb.Tests", "Tests\MoveShowcaseWeb.Tests\MoveShowcaseWeb.Tests.csproj", "{B2F5B052-0A4F-41F2-8BD8-6379DFE08391}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieShowcaseWeb.Tests", "Tests\MovieShowcaseWeb.Tests\MovieShowcaseWeb.Tests.csproj", "{B2F5B052-0A4F-41F2-8BD8-6379DFE08391}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{165F5D32-77BD-4294-8344-6E5743423B53}"
 EndProject

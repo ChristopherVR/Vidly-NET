@@ -22,7 +22,7 @@ export interface RegisterUser {
   userName: string;
   password: string;
   homeNumber: string;
-  personalNumber: string;
+  phoneNumber: string;
   address: string;
   imageUrl?: string;
 }
