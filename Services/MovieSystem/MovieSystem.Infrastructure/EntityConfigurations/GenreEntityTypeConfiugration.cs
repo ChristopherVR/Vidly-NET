@@ -10,5 +10,7 @@ class GenreEntityTypeConfiugration : IEntityTypeConfiguration<Genre>
         builder.ToTable("Genres", MovieContext.DEFAULT_SCHEMA);
 
         builder.HasKey(u => u.Id);
+
+        builder.HasData(Genre.CreateInitialSeedData());
     }
 }

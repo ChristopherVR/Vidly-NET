@@ -22,7 +22,7 @@ public class UsersController : ControllerBase
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    private IActionResult LoginUser(string username, string id, string name, string surname)
+    private object? LoginUser(string username, string id, string name, string surname)
     {
         string token = _tokenService.BuildToken(new(id, username, name, surname, "Admin"));
         return new JsonResult(new
@@ -32,7 +32,7 @@ public class UsersController : ControllerBase
             Surname = surname,
             Username = username,
             Id = id,
-        });
+        }).Value;
     }
 
     [HttpGet("user")]

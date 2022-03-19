@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { MDBValidation, MDBInput, MDBBtn, MDBSwitch } from 'mdb-react-ui-kit';
+import { toast } from 'react-toastify';
 import { getMovie, saveMovie } from '../services/movieService';
 import { Genre } from '../interfaces/genre';
 import { Movie } from '../interfaces/movie';
@@ -30,8 +31,13 @@ function MovieForm() {
 
   useEffect(() => {
     const populateGenres = async () => {
-      const { data: gen } = await getGenres();
-      setGenres(gen);
+      try {
+        const { data: gen } = await getGenres();
+        setGenres(gen);
+      } catch {
+        console.log('exception boi');
+        toast.error('An error occurred trying to retrieve movie genres.');
+      }
     };
 
     const populateMovie = async () => {

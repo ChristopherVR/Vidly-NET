@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieSystem.Infrastructure;
 
@@ -11,9 +12,10 @@ using MovieSystem.Infrastructure;
 namespace MovieSystem.API.Migrations
 {
     [DbContext(typeof(MovieContext))]
-    partial class MovieContextModelSnapshot : ModelSnapshot
+    [Migration("20220319082534_MissingEntities")]
+    partial class MissingEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,57 +46,6 @@ namespace MovieSystem.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Genres", "Movie");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Rock",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UpdatedUser = "initial"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Pop",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UpdatedUser = "initial"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Sci-Fi",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UpdatedUser = "initial"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Action",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UpdatedUser = "initial"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Thriller",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UpdatedUser = "initial"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "Comedy",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UpdatedUser = "initial"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Name = "Horror",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UpdatedUser = "initial"
-                        });
                 });
 
             modelBuilder.Entity("MovieSystem.Domain.AggregatesModel.MovieAggregate.Movie", b =>
@@ -146,7 +97,7 @@ namespace MovieSystem.API.Migrations
                             NumberInStock = 20,
                             Rating = 5,
                             Title = "Star Wars: Episove V - The Empire Strikes Back (1980)",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UpdatedDate = new DateTime(2022, 3, 19, 10, 25, 33, 918, DateTimeKind.Local).AddTicks(3372),
                             UpdatedUser = "Initial"
                         },
                         new
@@ -158,7 +109,7 @@ namespace MovieSystem.API.Migrations
                             NumberInStock = 20,
                             Rating = 5,
                             Title = "The Lord of the Rings: The Return of the King (2003)",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UpdatedDate = new DateTime(2022, 3, 19, 10, 25, 33, 918, DateTimeKind.Local).AddTicks(3386),
                             UpdatedUser = "Initial"
                         },
                         new
@@ -170,7 +121,7 @@ namespace MovieSystem.API.Migrations
                             NumberInStock = 20,
                             Rating = 5,
                             Title = "The Godfather: Part II (1974)",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UpdatedDate = new DateTime(2022, 3, 19, 10, 25, 33, 918, DateTimeKind.Local).AddTicks(3390),
                             UpdatedUser = "Initial"
                         },
                         new
@@ -182,7 +133,7 @@ namespace MovieSystem.API.Migrations
                             NumberInStock = 20,
                             Rating = 5,
                             Title = "The Godfather (1972)",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UpdatedDate = new DateTime(2022, 3, 19, 10, 25, 33, 918, DateTimeKind.Local).AddTicks(3393),
                             UpdatedUser = "Initial"
                         },
                         new
@@ -194,7 +145,7 @@ namespace MovieSystem.API.Migrations
                             NumberInStock = 20,
                             Rating = 5,
                             Title = "Schindler's List (1993)",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UpdatedDate = new DateTime(2022, 3, 19, 10, 25, 33, 918, DateTimeKind.Local).AddTicks(3396),
                             UpdatedUser = "Initial"
                         },
                         new
@@ -206,7 +157,7 @@ namespace MovieSystem.API.Migrations
                             NumberInStock = 20,
                             Rating = 5,
                             Title = "Fight Club (1999)",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UpdatedDate = new DateTime(2022, 3, 19, 10, 25, 33, 918, DateTimeKind.Local).AddTicks(3401),
                             UpdatedUser = "Initial"
                         });
                 });

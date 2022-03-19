@@ -32,7 +32,8 @@ export const logout = async () => {
 
 export const getCurrentUser = async () => {
   try {
-    if (sessionStorage.getItem('auth_token')) {
+    const token = sessionStorage.getItem('auth_token');
+    if (token && token !== 'undefined') {
       const response = await http.get(`${apiEndpoint}user`);
       return response.data;
     }

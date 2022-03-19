@@ -90,7 +90,7 @@ function MoviesTable({
       </thead>
       <tbody>
         {movies.map((movie: Movie) => (
-          <tr>
+          <tr key={movie.id}>
             <td>{movie.title} </td>
             <td>{movie.numberInStock} </td>
             <td>{movie.dailyRentalRate} </td>
