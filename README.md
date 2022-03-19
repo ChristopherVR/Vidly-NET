@@ -43,16 +43,17 @@
 
 <!--This project is written mainly in C# and JavaScript programming languages. <br>-->
 The following open source packages are used in this project:
-* Dapper
-* gRPC
-* .NET 6
-* eShopOnContainer
-* React
-* Create-React-App
-* React-Toastify
-* Bootstrap
-* MDB
-* ESLint & Prettier
+* <a href="https://github.com/DapperLib/Dapper"> Dapper</a> 
+* <a href="https://grpc.io/"> gRPC</a> 
+* <a href="https://github.com/dotnet/aspnetcore"> .NET 6</a> 
+* <a href="https://github.com/dotnet-architecture/eShopOnContainers"> eShopOnContainer</a> 
+* <a href="https://reactjs.org/"> React</a> 
+* <a href="https://reactjs.org/docs/create-a-new-react-app.html"> Create-React-App</a> 
+* <a href="https://github.com/fkhadra/react-toastify"> React-Toastify</a>
+* <a href="https://github.com/twbs/bootstrap"> Bootstrap 5.1</a> 
+* <a href="https://github.com/mdbootstrap/mdb-react-ui-kit"> MDB 5</a> 
+* <a href="https://github.com/eslint/eslint"> ESLint</a> 
+* <a href="https://github.com/prettier/prettier"> Prettier</a> 
 * Human Activity Recognition documentation
 * React-select documentation
  
