@@ -25,27 +25,6 @@ public class MovieAggregateTests
     }
 
     [Fact]
-    public void Create_movie_imdb_url_null_invalid_exception()
-    {
-        // Arrange 
-        string name = "this is a name";
-        int numberInStock = 1;
-        int dailyRentalRate = 2;
-        int rating = 4;
-        int genreId = 1;
-        string imdbUrl = " ";
-        string user = "unit_tests";
-        var expectedErrorMessage = "Imdb url is not a valid URI";
-        // Act
-        Exception exception = Record
-            .Exception(() => new Movie(user, name, numberInStock, dailyRentalRate, genreId, imdbUrl, rating));
-
-        // Assert
-        Assert.IsType<MovieDomainException>(exception);
-        Assert.Equal(expectedErrorMessage, exception.Message);
-    }
-
-    [Fact]
     public void Create_movie_imdb_url_invalid_exception()
     {
         // Arrange 
