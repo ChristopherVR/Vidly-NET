@@ -12,33 +12,49 @@ updates:
       interval: "daily"
   # Maintain dependencies for npm Web project
   - package-ecosystem: "npm"
-    directory: "/MoveShowcaseSPA"
+    directory: "/MovieShowcaseSPA"
     schedule:
       interval: "daily"
     reviewers:
       - "ChristopherVR"
   # Maintain dependencies for npm ClientApp app
   - package-ecosystem: "npm"
-    directory: "/MoveShowcaseSPA/ClientApp"
+    directory: "/MovieShowcaseSPA/ClientApp"
     schedule:
       interval: "daily"
     reviewers:
       - "ChristopherVR"
-  # Maintain dependencies for npm
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "daily"
-  # Maintain dependencies for .NET projects (Web)
+  # Maintain dependencies for .NET projects (MovieSystem.API)
   - package-ecosystem: "nuget"
-    directory: "/"
+    directory: "/Services/MovieSystem/MovieSystem.API/"
     schedule:
       interval: "daily"
     reviewers:
       - "ChristopherVR"
-  # Maintain dependencies for .NET projects (MovieSystem)
+  # Maintain dependencies for .NET projects (MovieSystem.Domain)
   - package-ecosystem: "nuget"
-    directory: "/Services/MovieSystem/"
+    directory: "/Services/MovieSystem/MovieSystem.Domain/"
+    schedule:
+      interval: "daily"
+    reviewers:
+      - "ChristopherVR"
+  # Maintain dependencies for .NET projects (MovieSystem.Infrastructure)
+  - package-ecosystem: "nuget"
+    directory: "/Services/MovieSystem/MovieSystem.Infrastructure/"
+    schedule:
+      interval: "daily"
+    reviewers:
+      - "ChristopherVR"
+  # Maintain dependencies for .NET projects (MovieSystem.UnitTests)
+  - package-ecosystem: "nuget"
+    directory: "/Services/MovieSystem/MovieSystem.UnitTests/"
+    schedule:
+      interval: "daily"
+    reviewers:
+      - "ChristopherVR"
+    # Maintain dependencies for .NET projects (MovieSystem.UnitTests)
+  - package-ecosystem: "nuget"
+    directory: "/Tests/MovieShowcaseWeb.Tests/"
     schedule:
       interval: "daily"
     reviewers:
