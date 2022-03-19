@@ -1,5 +1,5 @@
 <p align="center"> 
-  <img src="MoveShowcaseSPA/ClientApp/public/logo512.png" alt="React Logo" width="80px" height="80px">
+  <img src="MovieShowcaseSPA/ClientApp/public/logo512.png" alt="React Logo" width="80px" height="80px">
 </p>
 <h1 align="center"> Movie System React Domain Driven Design Example </h1>
 <h3 align="center"> A combination of libraries and frameworks integrated to showcase using React as the frontend and .NET as the backend </h3>  
@@ -63,7 +63,7 @@ The following open source packages are used in this project:
 <h2 id="folder-structure"> :cactus: Folder Structure</h2>
     ├───github
 │   └───workflows
-├───MoveShowcaseSPA
+├───MovieShowcaseSPA
 │   ├───ClientApp
 │   │   ├───public
 │   │   └───src
