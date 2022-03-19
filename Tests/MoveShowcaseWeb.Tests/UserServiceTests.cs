@@ -19,7 +19,6 @@ namespace MoveShowcaseWeb.Tests
                 new Claim(ClaimTypes.NameIdentifier, "1"),               
                 new Claim(ClaimTypes.Name, "Peter"),
                 new Claim(ClaimTypes.Surname, "Potter"),
-                new Claim("sub", "1"),
             });
             mockContextAccessor.HttpContext = new DefaultHttpContext()
             {
@@ -40,7 +39,6 @@ namespace MoveShowcaseWeb.Tests
             var mockContextAccessor = Mock.Of<IHttpContextAccessor>();
             var identity = new ClaimsIdentity(new List<Claim>()
             {
-                new Claim(ClaimTypes.NameIdentifier, "test"),
                 new Claim(ClaimTypes.Name, "Peter"),
                 new Claim(ClaimTypes.Surname, "Potter"),
             });
@@ -67,7 +65,7 @@ namespace MoveShowcaseWeb.Tests
             var identity = new ClaimsIdentity(new List<Claim>()
             {
                 new Claim(ClaimTypes.NameIdentifier, "1"),
-                new Claim(ClaimTypes.Name, "Peter"),
+                new Claim(ClaimTypes.GivenName, "Peter"),
                 new Claim(ClaimTypes.Surname, "Potter"),
             });
             mockContextAccessor.HttpContext = new DefaultHttpContext()
@@ -115,7 +113,6 @@ namespace MoveShowcaseWeb.Tests
             var mockContextAccessor = Mock.Of<IHttpContextAccessor>();
             var identity = new ClaimsIdentity(new List<Claim>()
             {
-                new Claim(ClaimTypes.NameIdentifier, "test"),
                 new Claim(ClaimTypes.Name, "Peter"),
                 new Claim(ClaimTypes.Surname, "Potter"),
             });
@@ -126,7 +123,7 @@ namespace MoveShowcaseWeb.Tests
 
             var userService = new UserService(mockContextAccessor);
 
-            var expected = "test";
+            var expected = "Peter";
 
             Assert.Equal(expected, userService.GetUserName());
         }
@@ -138,7 +135,6 @@ namespace MoveShowcaseWeb.Tests
             var mockContextAccessor = Mock.Of<IHttpContextAccessor>();
             var identity = new ClaimsIdentity(new List<Claim>()
             {
-                new Claim(ClaimTypes.Name, "Peter"),
                 new Claim(ClaimTypes.Surname, "Potter"),
             });
             mockContextAccessor.HttpContext = new DefaultHttpContext()
