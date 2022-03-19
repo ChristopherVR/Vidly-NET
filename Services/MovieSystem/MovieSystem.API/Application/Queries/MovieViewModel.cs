@@ -19,6 +19,4 @@ public record MovieExtendedPreview(
     string GenreName,
     bool Liked, 
     string ImdbUrl, 
-    string? Reason, 
-    DateTime UpdatedDate,
-    byte? UserRating);
+    DateTime UpdatedDate);

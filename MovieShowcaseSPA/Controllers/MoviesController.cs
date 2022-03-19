@@ -15,10 +15,17 @@ public class MoviesController : ControllerBase
     private readonly MoviesClient _movieClient;
     private readonly ILogger<MoviesController> _logger;
     private readonly IUserService _userService;
-    public MoviesController(MoviesClient client, IUserService userService, ILogger<MoviesController> logger)
+    private readonly UsersClient _usersClient;
+
+    public MoviesController(
+        MoviesClient client,
+        UsersClient usersClient,
+        IUserService userService, 
+        ILogger<MoviesController> logger)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _movieClient = client ?? throw new ArgumentNullException(nameof(client));
+        _usersClient = usersClient ?? throw new ArgumentNullException(nameof(usersClient));
         _userService = userService ?? throw new ArgumentNullException(nameof(userService));
     }
 
@@ -48,7 +55,7 @@ public class MoviesController : ControllerBase
                 movie.UpdatedDate,
                 movie.DailyRentalRate,
                 movie.Rating,
-                movie.Reason,
+                movie.Liked,
             });
         }
 
@@ -126,7 +133,7 @@ public class MoviesController : ControllerBase
             UpdatedDate = extendedMovie.UpdatedDate.ToDateTime(),
             extendedMovie.DailyRentalRate,
             extendedMovie.Rating,
-            extendedMovie.Reason,
+            extendedMovie.Liked,
         };
     }
 
@@ -171,6 +178,13 @@ public class MoviesController : ControllerBase
             Title = data.Title,
         });
 
+        await _usersClient.ToggleUserFavouriteMovieAsync(new()
+        {
+            Liked = data.Liked,
+            MovieId = res.Id,
+            UserId = _userService.GetUserId(),
+        });
+
         return Ok(new
         {
             res.Rating,
@@ -183,6 +197,7 @@ public class MoviesController : ControllerBase
             res.Title,
             res.DailyRentalRate,
             res.NumberInStock,
+            data.Liked,
         });
     }
 
@@ -211,7 +226,7 @@ public class MoviesController : ControllerBase
         return NoContent();
     }
 
-    public record Favourite(Rating Rating, bool Liked, string Reason);
+    public record Favourite(bool Liked);
     [HttpPut("movie/favourite/{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -228,8 +243,6 @@ public class MoviesController : ControllerBase
             UserId = _userService.GetUserId(),
             Liked = data.Liked,
             MovieId = (int)id,
-            Rating = (int)data.Rating,
-            Reason = data.Reason,
         });
 
         return NoContent();

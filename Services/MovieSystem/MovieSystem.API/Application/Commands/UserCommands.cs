@@ -6,7 +6,6 @@ public class UserCommands
 
     public record CreateUserCommand(
         string Name,
-        string Password,
         string Address,
         string? ImageUrl,
         string PhoneNumber,
@@ -24,11 +23,11 @@ public class UserCommands
         string Surname,
         string User) : IRequest<User>;
 
+    public record CreateUpdateUserPasswordCommand(int Id, string User, string HashedPassword) : IRequest<bool>;
+
     public record ToggleUserFavouriteMovieCommand(
         int UserId,
         int MovieId,
-        Domain.AggregatesModel.UserAggregate.Rating Rating,
         string User,
-        string Reason,
         bool Liked) : IRequest<bool>;
 }

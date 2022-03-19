@@ -46,17 +46,17 @@ public class UserQueries : IUserQueries
 
         var sql = @"
                         SELECT
-                          s.[Id]                [Id],
-                          s.[Name]              [Name],
-                          s.[Surname]           [Surname],
-                          s.[Username]          [Username],
-                          s.[Address]           [Address],
-                          s.[HomeNumber]        [HomeNumber],
-                          s.[PhoneNumber]       [PhoneNumber],
-                          s.[HashedPassword]    [HashedPassword],
-                          ufm.[MovieId]         [MovieId],
-                          ufm.[Reason]          [Reason],
-                          ufm.[Rating]          [Rating]
+                          s.[Id]                            [Id],
+                          s.[Name]                          [Name],
+                          s.[Surname]                       [Surname],
+                          s.[Username]                      [Username],
+                          s.[UserDetails_ImageUrl]          [ImageUrl],
+                          s.[UserDetails_Address]           [Address],
+                          s.[UserDetails_HomeNumber]        [HomeNumber],
+                          s.[UserDetails_PersonalNumber]    [PhoneNumber],
+                          s.[HashedPassword]                [HashedPassword],
+                          ufm.[MovieId]                     [MovieId],
+                          ufm.[Liked]                       [Liked]
                     FROM
                          [Movie].[Users] s
                     LEFT JOIN [Movie].[UserFavouriteMovies] ufm

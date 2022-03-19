@@ -1,5 +1,6 @@
 using Google.Protobuf.WellKnownTypes;
 using MovieSystem.API.Application.Queries;
+using MovieSystem.API.Infrastructure.Authorization;
 using System.Security.Claims;
 using UserSystem.V1;
 using static MovieSystem.API.Application.Commands.UserCommands;
@@ -12,12 +13,18 @@ public class UsersServiceV1 : Users.UsersBase
     private readonly ILogger<UsersServiceV1> _logger;
     private readonly IMediator _mediator;
     private readonly IUserQueries _userQueries;
+    private readonly IAuthorizationService _authorizationService;
 
-    public UsersServiceV1(ILogger<UsersServiceV1> logger, IMediator mediator, IUserQueries userQueries)
+    public UsersServiceV1(
+        ILogger<UsersServiceV1> logger,
+        IMediator mediator, 
+        IUserQueries userQueries,
+        IAuthorizationService authService)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         _userQueries = userQueries ?? throw new ArgumentNullException(nameof(userQueries));
+        _authorizationService = authService ?? throw new ArgumentNullException(nameof(authService));
     }
 
     public override async Task<UserExtended> UpdateUser(UpdateUserRequest request, ServerCallContext context)
@@ -49,9 +56,7 @@ public class UsersServiceV1 : Users.UsersBase
         var command = new ToggleUserFavouriteMovieCommand(
             request.UserId,
             request.MovieId,
-            (Domain.AggregatesModel.UserAggregate.Rating)request.Rating,
             username,
-            request.Reason,
             request.Liked);
 
         bool result = await _mediator.Send(command, context.CancellationToken);
@@ -64,12 +69,36 @@ public class UsersServiceV1 : Users.UsersBase
         return new();
     }
 
+    private async Task ValidateUserAccessRequirement(ServerCallContext context, int userId)
+    {
+        AuthorizationResult authResult = await _authorizationService
+            .AuthorizeAsync(context.GetHttpContext().User, userId, new UserAccessRequirement(userId));
+
+        if (!authResult.Succeeded)
+        {
+            throw new RpcException(new Status(StatusCode.PermissionDenied, "User does not have the required access."));
+        }
+    }
+
+    [AllowAnonymous]
+    public override async Task<Empty> CreateUserHashedPassword(CreateUserHashedPasswordRequest request, ServerCallContext context)
+    {
+        // await ValidateUserAccessRequirement(context, request.UserId);
+        // string username = context.GetHttpContext().User.FindFirst(ClaimTypes.Name)?.Value ?? throw new ArgumentException("Username cannot be null");
+
+        string username = "test";
+        var command = new CreateUpdateUserPasswordCommand(request.UserId, username, request.HashedPassword);
+
+        await _mediator.Send(command, context.CancellationToken);
+
+        return new();
+    }
+
     [AllowAnonymous]
     public override async Task<UserExtended> CreateUser(CreateUserRequest request, ServerCallContext context)
     {
         var command = new CreateUserCommand(
             request.Name,
-            request.Password,
             request.Address,
             request.ImageUrl,
             request.PhoneNumber,
@@ -92,6 +121,7 @@ public class UsersServiceV1 : Users.UsersBase
         };
     }
 
+    [AllowAnonymous]
     public override async Task<User> GetUser(GetUserRequest request, ServerCallContext context)
     {
         UserPreview? user = request.IdentifierCase switch
@@ -115,6 +145,7 @@ public class UsersServiceV1 : Users.UsersBase
         };
     }
 
+    [AllowAnonymous]
     public override async Task<UserExtended> GetUserExtended(GetUserRequest request, ServerCallContext context)
     {
         UserExtendedPreview? user = request.IdentifierCase switch

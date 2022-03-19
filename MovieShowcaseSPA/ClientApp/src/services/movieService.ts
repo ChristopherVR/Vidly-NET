@@ -5,12 +5,12 @@ const apiEndpoint = `${process.env.REACT_APP_API_URL}movies`;
 
 export const movieUrl = (id: number) => `${apiEndpoint}/Movie/${id}`;
 
-export const getMovies = async () => http.get(`${apiEndpoint}/`);
+export const getMovies = async () => http.get(`${apiEndpoint}?extended=true`);
 
 export const getMovie = async (id: number) => http.get(movieUrl(id));
 
-export const toggleFavourite = async (id: number, rating: number) =>
-  http.put(`${apiEndpoint}/movie/ToggleFavourite`, { id, rating });
+export const toggleFavourite = async (id: number, liked: boolean) =>
+  http.put(`${apiEndpoint}/movie/favourite/${id}`, { liked });
 
 export const saveMovie = async (mov: Movie) => {
   if (mov.id) {

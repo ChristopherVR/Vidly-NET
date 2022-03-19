@@ -59,9 +59,7 @@ public class MovieQueries : IMovieQueries
                     g.[Name]                               [GenreName],
                     ISNULL(ufm.[Liked], 0)                 [Liked],
                     m.[ImdbUrl]                            [ImdbUrl],
-                    ufm.[Reason]                           [Reason],
-                    m.UpdatedDate                          [UpdatedDate],
-                    ufm.[Rating]                           [UserRating]
+                    m.UpdatedDate                          [UpdatedDate]
                 FROM Movie.Movies m
                 JOIN Movie.Genres g
                 ON g.Id = m.GenreId
@@ -121,9 +119,7 @@ public class MovieQueries : IMovieQueries
                     g.[Name]                               [GenreName],
                     ISNULL(ufm.[Liked], 0)                 [Liked],
                     m.[ImdbUrl]                            [ImdbUrl],
-                    ufm.[Reason]                           [Reason],
-                    m.UpdatedDate                          [UpdatedDate],
-                    ufm.[Rating]                           [UserRating]
+                    m.UpdatedDate                          [UpdatedDate]
                 FROM Movie.Movies m
                 JOIN Movie.Genres g
                 ON g.Id = m.GenreId

@@ -58,6 +58,7 @@ message Movie {
   int32 daily_rental_rate = 4;
   int32 rating = 5;
   Genre genre = 6;
+  bool liked = 7;
 }
 
 message MovieExtended {
@@ -65,7 +66,7 @@ message MovieExtended {
   string title = 2;
   google.protobuf.Timestamp updated_date = 3;
   google.protobuf.Int32Value rating = 4;
-  google.protobuf.StringValue reason = 5;
+  bool liked = 5;
   int32 number_in_stock = 6;
   int32 daily_rental_rate = 7;
   Genre genre = 8;

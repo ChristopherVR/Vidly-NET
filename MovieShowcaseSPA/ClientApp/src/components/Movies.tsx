@@ -5,7 +5,11 @@ import _ from 'lodash';
 import MoviesTable from './MoviesTable';
 import ListGroup from './common/ListGroup';
 import Pagination from './common/Pagination';
-import { getMovies, deleteMovie } from '../services/movieService';
+import {
+  getMovies,
+  deleteMovie,
+  toggleFavourite,
+} from '../services/movieService';
 import getGenres from '../services/genreService';
 import paginate from '../utils/paginate';
 import SearchBox from './SearchBox';
@@ -62,7 +66,9 @@ function Movies() {
     }
   };
 
-  const handleLike = (movie: Movie) => {
+  const handleLike = async (movie: Movie) => {
+    if (!movie.id) throw new Error('Movie does not contain an identifier');
+    await toggleFavourite(movie.id, !movie.liked);
     setMovies((prevMovies) => {
       const clonedMovies = [...prevMovies];
       const index = clonedMovies.indexOf(movie);

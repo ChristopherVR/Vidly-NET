@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using MovieSystem.API.Grpc;
+using MovieSystem.API.Infrastructure.Authorization;
 using MovieSystem.API.Infrastructure.AutofacModules;
 using MovieSystem.API.Services;
 using System.Text;
@@ -36,7 +37,6 @@ builder.Services.AddAuthentication(auth =>
     auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options =>
 {
-    // TODO: Add BypassAuthentication setting.
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
@@ -50,9 +50,10 @@ builder.Services.AddAuthentication(auth =>
 });
 builder.Services.AddAuthorization();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddSingleton<IAuthorizationHandler, UserHasSameIdAccessAuthorizationHandler>();
 
-// Register services directly with Autofac here. Don't
-// call builder.Populate(), that happens in AutofacServiceProviderFactory.
+// Register services directly with Autofac here.
+// Don't call builder.Populate(), that happens in AutofacServiceProviderFactory.
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
     containerBuilder.RegisterModule(new QueryModule(builder.Configuration.GetConnectionString("Movie")));

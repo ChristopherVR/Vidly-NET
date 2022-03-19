@@ -8,7 +8,6 @@ export interface Movie {
   rating: number;
   genre: Genre;
   liked: boolean;
-  reason?: string;
   updatedDate?: Date;
   imdbUrl?: string;
 }

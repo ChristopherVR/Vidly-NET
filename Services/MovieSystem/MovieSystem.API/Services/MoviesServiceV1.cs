@@ -146,10 +146,10 @@ namespace MovieSystem.API.Services;
                          Id = movie.GenreId,
                      },
                      NumberInStock = movie.NumberInStock,
-                     Reason = movie.Reason,
+                     Liked = movie.Liked,
                      Title = movie.Title,
                      Rating = ((int?) movie.Rating) ?? 0,
-                     UpdatedDate = Timestamp.FromDateTime(movie.UpdatedDate),
+                     UpdatedDate = movie.UpdatedDate.ToUniversalTime().ToTimestamp(),
                  })
              }
          };
@@ -202,7 +202,7 @@ namespace MovieSystem.API.Services;
                  Name = movie.GenreName,
              },
              NumberInStock = movie.NumberInStock,
-             Reason = movie.Reason,
+             Liked = movie.Liked,
              Title = movie.Title,
          };
      }

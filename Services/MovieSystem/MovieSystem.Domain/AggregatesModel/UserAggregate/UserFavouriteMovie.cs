@@ -9,8 +9,6 @@ namespace MovieSystem.Domain.AggregatesModel.UserAggregate
         public DateTime UpdatedDate { get; private set; } = DateTime.Now;
         public int MovieId { get; private set; }
         public bool Liked { get; private set; }
-        public string Reason { get; private set; }
-        public Rating Rating { get; private set; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         private UserFavouriteMovie()
@@ -21,14 +19,10 @@ namespace MovieSystem.Domain.AggregatesModel.UserAggregate
 
         public UserFavouriteMovie(
             int movieId,
-            string reason,
-            Rating rating,
             bool liked,
             string user)
         {
             MovieId = movieId;
-            Reason = reason;
-            Rating = rating;
             UpdatedUser = user;
             Liked = liked;
         }
@@ -42,13 +36,6 @@ namespace MovieSystem.Domain.AggregatesModel.UserAggregate
             Liked = liked;
             UpdatedUser = user;
 
-        }
-
-        public void Update(string reason, Rating rating, string user)
-        {
-            Reason = reason;
-            Rating = rating;
-            UpdatedUser = user;
         }
 
     }

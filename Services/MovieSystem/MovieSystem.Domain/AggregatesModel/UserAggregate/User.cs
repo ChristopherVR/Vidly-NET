@@ -94,7 +94,7 @@ public class User : Entity, IAggregateRoot
     }
 
    
-    public void ToggleFavourite(int movieId, string reason, Rating rating, bool liked, string user)
+    public void ToggleFavourite(int movieId, bool liked, string user)
     {
         // TODO: Unit tests
         UserFavouriteMovie? favMovie = _userFavouriteMovies
@@ -102,13 +102,19 @@ public class User : Entity, IAggregateRoot
 
         if (favMovie is null)
         {
-            favMovie = new (movieId, reason, rating, liked, user);
+            favMovie = new (movieId, liked, user);
             _userFavouriteMovies.Add(favMovie);
         }
         else
         {
-            favMovie.Update(reason, rating, user);
+            favMovie.ToggleFavourite(liked, user);
         }
+    }
+
+    public void UpdatePassword(string user, string password)
+    {
+        UpdatedUser = user;
+        HashedPassword = password ;
     }
 
     public void Update(string user, string name, string surname, string phoneNumber, string address, string homeNumber, string? imageUrl)

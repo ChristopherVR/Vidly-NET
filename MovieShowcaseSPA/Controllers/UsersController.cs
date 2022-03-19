@@ -1,5 +1,6 @@
 ﻿using Grpc.Core;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MoveShowcaseDDD.Services;
 using static UserSystem.V1.Users;
@@ -65,7 +66,6 @@ public class UsersController : ControllerBase
             return Ok(LoginUser(data.Username, "1", "TestUser", "Mock"));
         }
 
-        // TODO: Get password and validate user
         try
         {
             var userDetails = await _usersClient.GetUserExtendedAsync(new()
@@ -73,26 +73,42 @@ public class UsersController : ControllerBase
                 Username = data.Username,
             });
 
+            var hasher = new PasswordHasher<IdentityUser>();
+            IdentityUser identityUser = new (userDetails.Id.ToString());
+
+            if (PasswordVerificationResult.Failed == hasher.VerifyHashedPassword(identityUser, userDetails.HashedPassword, data.Password))
+            {
+                return BadRequest();
+            }
+
             return Ok(LoginUser(data.Username, userDetails.Id.ToString(), userDetails.Name, userDetails.Surname));
         }
         catch(RpcException ex) when (ex.StatusCode == global::Grpc.Core.StatusCode.NotFound)
         {
-            return NotFound();
+            return BadRequest(); // Do not indicate to the end-user that the user does not exist.
         }
         catch(RpcException ex)
         {
             _logger.LogError("Error trying to retrieve user detials", ex);
-            return BadRequest(); // TODO: return internal server error
+            return BadRequest();
         }
 
     }
 
-    public record UserPreview(string Username, string Name, string Surname, string HomeNumber, string PhoneNumber, string Address, string? ImageUrl);
+    public record UserDTO(
+        string Username, 
+        string Password,
+        string Name, 
+        string Surname,
+        string HomeNumber, 
+        string PhoneNumber,
+        string Address, 
+        string? ImageUrl);
     [HttpPost]
     [Route("user")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesDefaultResponseType]
-    public async Task<IActionResult> CreateUser([FromBody] UserPreview data)
+    public async Task<IActionResult> CreateUser([FromBody] UserDTO data)
     {
         var response = await _usersClient.CreateUserAsync(new()
         {
@@ -103,6 +119,17 @@ public class UsersController : ControllerBase
             Surname = data.Surname,
             ImageUrl = data.ImageUrl,
             Username = data.Username,
+        });
+
+        var hasher = new PasswordHasher<IdentityUser>();
+        IdentityUser identityUser = new(response.Id.ToString());
+
+        string token = _tokenService.BuildToken(new(response.Id.ToString(), response.Username, response.Name, response.Surname, "Admin"));
+        HttpContext.Items.Add("Authorization", $"Bearer {token}");
+        await _usersClient.CreateUserHashedPasswordAsync(new()
+        {
+            HashedPassword = hasher.HashPassword(identityUser, data.Password),
+            UserId = response.Id,
         });
 
         return Ok(response.Id);

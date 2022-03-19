@@ -25,7 +25,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, User>
             throw new ArgumentException(nameof(request.UserName), $"User already exists with Username - ${request.UserName}");
         }
 
-        user = new User(request.Name, request.UserName, request.Surname, request.Password, request.PhoneNumber, request.Address, request.HomeNumber, request.ImageUrl);
+        user = new User(request.Name, request.UserName, request.Surname, string.Empty, request.PhoneNumber, request.Address, request.HomeNumber, request.ImageUrl);
 
         _userRepository.Add(user);
 
