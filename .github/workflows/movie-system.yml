@@ -39,4 +39,4 @@ jobs:
         npm test  
     defaults:
       run:
-        working-directory: ./MoveShowcaseSPA/ClientApp/
+        working-directory: ./MovieShowcaseSPA/ClientApp/
