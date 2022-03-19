@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { MDBValidation, MDBInput, MDBBtn, MDBSwitch } from 'mdb-react-ui-kit';
 import { toast } from 'react-toastify';
-import { AsyncSelect } from 'react-select/async';
+import AsyncSelect from 'react-select/async';
 import { SingleValue } from 'react-select';
 import { getMovie, saveMovie } from '../services/movieService';
 import { Genre } from '../interfaces/genre';
