@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { MDBValidation, MDBInput, MDBBtn, MDBSwitch } from 'mdb-react-ui-kit';
+import {
+  MDBValidation,
+  MDBInput,
+  MDBBtn,
+  MDBSwitch,
+  MDBValidationItem,
+} from 'mdb-react-ui-kit';
 import { toast } from 'react-toastify';
 import Select, { SingleValue } from 'react-select';
 import { getMovie, saveMovie } from '../services/movieService';
@@ -84,58 +90,66 @@ function MovieForm() {
     <div>
       <h1>Movie Form</h1>
       <MDBValidation id="movie-form" onSubmit={doSubmit}>
-        <MDBInput
-          name="dailyRentalRate"
-          label="Daily Rental Rate"
-          type="number"
-          min="1"
-          value={movie.dailyRentalRate.toString()}
-          onChange={({ currentTarget }: { currentTarget: HTMLInputElement }) =>
-            onChangeHandler(currentTarget)
-          }
-          required
-          invalid
-          validation="Daily Rental Rate is required"
-        />
-        <MDBInput
-          name="rating"
-          label="Rating"
-          type="number"
-          min="1"
-          max="5"
-          value={movie.rating.toString()}
-          onChange={({ currentTarget }: { currentTarget: HTMLInputElement }) =>
-            onChangeHandler(currentTarget)
-          }
-          required
-          invalid
-          validation="Rating is required"
-        />
-        <MDBInput
-          name="title"
-          label="Title"
-          type="text"
-          value={movie.title}
-          onChange={({ currentTarget }: { currentTarget: HTMLInputElement }) =>
-            onChangeHandler(currentTarget)
-          }
-          required
-          invalid
-          validation="Title is required"
-        />
-        <MDBInput
-          name="numberInStock"
-          label="Number in Stock"
-          type="number"
-          min="1"
-          value={movie.numberInStock.toString()}
-          onChange={({ currentTarget }: { currentTarget: HTMLInputElement }) =>
-            onChangeHandler(currentTarget)
-          }
-          required
-          invalid
-          validation="Number in Stock is required"
-        />
+        <MDBValidationItem feedback="Daily Rental Rate is required" invalid>
+          <MDBInput
+            name="dailyRentalRate"
+            label="Daily Rental Rate"
+            type="number"
+            min="1"
+            value={movie.dailyRentalRate.toString()}
+            onChange={({
+              currentTarget,
+            }: {
+              currentTarget: HTMLInputElement;
+            }) => onChangeHandler(currentTarget)}
+            required
+          />
+        </MDBValidationItem>
+        <MDBValidationItem feedback="Rating is required" invalid>
+          <MDBInput
+            name="rating"
+            label="Rating"
+            type="number"
+            min="1"
+            max="5"
+            value={movie.rating.toString()}
+            onChange={({
+              currentTarget,
+            }: {
+              currentTarget: HTMLInputElement;
+            }) => onChangeHandler(currentTarget)}
+            required
+          />
+        </MDBValidationItem>
+        <MDBValidationItem feedback="Title is required" invalid>
+          <MDBInput
+            name="title"
+            label="Title"
+            type="text"
+            value={movie.title}
+            onChange={({
+              currentTarget,
+            }: {
+              currentTarget: HTMLInputElement;
+            }) => onChangeHandler(currentTarget)}
+            required
+          />
+        </MDBValidationItem>
+        <MDBValidationItem feedback="Number in Stock is required" invalid>
+          <MDBInput
+            name="numberInStock"
+            label="Number in Stock"
+            type="number"
+            min="1"
+            value={movie.numberInStock.toString()}
+            onChange={({
+              currentTarget,
+            }: {
+              currentTarget: HTMLInputElement;
+            }) => onChangeHandler(currentTarget)}
+            required
+          />
+        </MDBValidationItem>
         <MDBInput
           name="imdbUrl"
           label="IMDB Url"
@@ -146,7 +160,7 @@ function MovieForm() {
           }
         />
         <MDBSwitch
-          value={movie.liked}
+          value={movie.liked.toString()}
           name="liked"
           onChange={({ currentTarget }: { currentTarget: HTMLInputElement }) =>
             liked(currentTarget.value === 'true')

@@ -1,4 +1,9 @@
-import { MDBBtn, MDBInput, MDBValidation } from 'mdb-react-ui-kit';
+import {
+  MDBBtn,
+  MDBInput,
+  MDBValidation,
+  MDBValidationItem,
+} from 'mdb-react-ui-kit';
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserContext from '../context/userContext';
@@ -38,35 +43,39 @@ function LoginForm() {
     <div>
       <h1>Login</h1>
       <MDBValidation className="mt-2" id="register-form" onSubmit={doSubmit}>
-        <MDBInput
-          name="username"
-          disabled={loading}
-          label="Username"
-          type="text"
-          className="mb-2"
-          value={user.username}
-          onChange={({ currentTarget }: { currentTarget: HTMLInputElement }) =>
-            onChangeHandler(currentTarget)
-          }
-          required
-          invalid
-          validation="Username is required"
-        />
-        <MDBInput
-          name="password"
-          disabled={loading}
-          label="Password"
-          type="password"
-          className="mb-2"
-          autoComplete="on"
-          value={user.password}
-          onChange={({ currentTarget }: { currentTarget: HTMLInputElement }) =>
-            onChangeHandler(currentTarget)
-          }
-          required
-          invalid
-          validation="Password is required"
-        />
+        <MDBValidationItem feedback="Username is required" invalid>
+          <MDBInput
+            name="username"
+            disabled={loading}
+            label="Username"
+            type="text"
+            className="mb-2"
+            value={user.username}
+            onChange={({
+              currentTarget,
+            }: {
+              currentTarget: HTMLInputElement;
+            }) => onChangeHandler(currentTarget)}
+            required
+          />
+        </MDBValidationItem>
+        <MDBValidationItem feedback="Password is required" invalid>
+          <MDBInput
+            name="password"
+            disabled={loading}
+            label="Password"
+            type="password"
+            className="mb-2"
+            autoComplete="on"
+            value={user.password}
+            onChange={({
+              currentTarget,
+            }: {
+              currentTarget: HTMLInputElement;
+            }) => onChangeHandler(currentTarget)}
+            required
+          />
+        </MDBValidationItem>
         <MDBBtn
           disabled={loading}
           className="btn btn-primary"
