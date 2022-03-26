@@ -16,7 +16,6 @@ import SearchBox from './SearchBox';
 import { Genre } from '../interfaces/genre';
 import { Movie } from '../interfaces/movie';
 import UserContext from '../context/userContext';
-import './movies.scss';
 
 function Movies() {
   const [movies, setMovies] = useState<Movie[]>([]);
