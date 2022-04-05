@@ -19,7 +19,7 @@
     "lodash": "^4.17.21",
     "lodash.debounce": "^4.0.8",
     "mdb-react-ui-kit": "^3.0.0",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "react": "^18.0.0",
     "react-bootstrap": "^2.2.2",
     "react-dom": "^18.0.0",
