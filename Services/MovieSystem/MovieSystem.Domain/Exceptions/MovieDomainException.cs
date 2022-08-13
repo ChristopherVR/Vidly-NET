@@ -1,4 +1,6 @@
-﻿namespace MovieSystem.Domain.Exceptions;
+﻿using System;
+
+namespace MovieSystem.Domain.Exceptions;
 /// <summary>
 /// Exception type for domain exceptions.
 /// </summary>

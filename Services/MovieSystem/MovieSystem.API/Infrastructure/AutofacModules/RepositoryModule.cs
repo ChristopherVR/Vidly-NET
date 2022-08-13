@@ -12,7 +12,7 @@ public class RepositoryModule : Module
         builder.RegisterType<MovieRepository>()
             .As<IMovieRepository>()
             .InstancePerLifetimeScope();
-        
+
         builder.RegisterType<GenreRepository>()
             .As<Domain.AggregatesModel.GenreAggregate.IGenreRepository>()
             .InstancePerLifetimeScope();
@@ -22,4 +22,3 @@ public class RepositoryModule : Module
             .InstancePerLifetimeScope();
     }
 }
-

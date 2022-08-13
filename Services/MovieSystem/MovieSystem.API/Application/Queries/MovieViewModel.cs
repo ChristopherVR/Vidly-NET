@@ -1,6 +1,6 @@
 ﻿namespace MovieSystem.API.Application.Queries;
 
-public record MoviePreview (
+public record MoviePreview(
     int Id,
     string Title,
     int NumberInStock,
@@ -10,13 +10,13 @@ public record MoviePreview (
     int DailyRentalRate);
 
 public record MovieExtendedPreview(
-    int Id, 
-    string Title, 
-    int NumberInStock, 
-    int DailyRentalRate, 
+    int Id,
+    string Title,
+    int NumberInStock,
+    int DailyRentalRate,
     int Rating,
     int GenreId,
     string GenreName,
-    bool Liked, 
-    string ImdbUrl, 
+    bool Liked,
+    string ImdbUrl,
     DateTime UpdatedDate);

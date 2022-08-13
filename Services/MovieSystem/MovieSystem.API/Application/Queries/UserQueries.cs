@@ -5,12 +5,9 @@ public class UserQueries : IUserQueries
 {
     private readonly string _connectionString;
 
-    public UserQueries(string connectionString)
-    {
-        _connectionString = !string.IsNullOrWhiteSpace(connectionString) 
-            ? connectionString 
+    public UserQueries(string connectionString) => _connectionString = !string.IsNullOrWhiteSpace(connectionString)
+            ? connectionString
             : throw new ArgumentNullException(nameof(connectionString));
-    }
 
     public async Task<UserPreview?> GetUserAsync(string username) => await GetUserAsync(null, username);
     public async Task<UserPreview?> GetUserAsync(int id) => await GetUserAsync(id, null);
@@ -91,5 +88,3 @@ public class UserQueries : IUserQueries
 
     public async Task<UserExtendedPreview?> GetUserExtendedAsync(string username) => await GetUserExtendedAsync(null, username);
 }
-
-

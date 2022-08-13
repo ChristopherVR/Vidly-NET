@@ -5,12 +5,14 @@ using Microsoft.EntityFrameworkCore;
 using MovieSystem.Domain.AggregatesModel.MovieAggregate;
 using MovieSystem.Domain.AggregatesModel.UserAggregate;
 using MovieSystem.Domain.AggregatesModel.GenreAggregate;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace MovieSystem.Infrastructure;
 
 public class MovieContext : DbContext, IUnitOfWork
 {
-    public const string DEFAULT_SCHEMA = "Movie";
+    public const string DEFAULTSCHEMA = "Movie";
 
     public DbSet<Movie> Movies { get; set; } = null!;
     public DbSet<User> Users { get; set; } = null!;
@@ -18,8 +20,8 @@ public class MovieContext : DbContext, IUnitOfWork
 
     private readonly IMediator _mediator;
 
-    public MovieContext(DbContextOptions<MovieContext> options, IMediator mediator) : base(options) =>
-        _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+    public MovieContext(DbContextOptions<MovieContext> options, IMediator mediator!!) : base(options) =>
+        _mediator = mediator;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) =>
         modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);

@@ -6,20 +6,20 @@ using static MovieSystem.API.Application.Commands.MovieCommands;
 
 namespace MovieSystem.API.Services;
 [Authorize]
- public class MoviesServiceV1 : Movies.MoviesBase
- {
-     private readonly ILogger<MoviesServiceV1> _logger;
-     private readonly IMediator _mediator;
-     private readonly IMovieQueries _movieQueries;
- 
-     public MoviesServiceV1(ILogger<MoviesServiceV1> logger, IMediator mediator, IMovieQueries movieQueries)
-     {
-         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-         _movieQueries = movieQueries ?? throw new ArgumentNullException(nameof(movieQueries));
-     }
- 
-     #region Movies
+public class MoviesServiceV1 : Movies.MoviesBase
+{
+    private readonly ILogger<MoviesServiceV1> _logger;
+    private readonly IMediator _mediator;
+    private readonly IMovieQueries _movieQueries;
+
+    public MoviesServiceV1(ILogger<MoviesServiceV1> logger, IMediator mediator, IMovieQueries movieQueries)
+    {
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+        _movieQueries = movieQueries ?? throw new ArgumentNullException(nameof(movieQueries));
+    }
+
+    #region Movies
 
     public override async Task<Empty> DeleteMovie(DeleteMovieRequest request, ServerCallContext context)
     {
@@ -70,13 +70,13 @@ namespace MovieSystem.API.Services;
         string username = context.GetHttpContext().User.FindFirst(ClaimTypes.Name)?.Value ?? throw new RpcException(new Status(StatusCode.InvalidArgument, "Username cannot be null"));
 
         var command = new UpdateMovieCommand(
-            request.Id, 
-            request.Title, 
+            request.Id,
+            request.Title,
             request.NumberInStock,
-            request.Rating, 
-            request.GenreId, 
+            request.Rating,
+            request.GenreId,
             request.DailyRentalRate,
-            username, 
+            username,
             request.ImdbUrl);
 
         var movie = await _mediator.Send(command, context.CancellationToken);
@@ -84,7 +84,7 @@ namespace MovieSystem.API.Services;
         return new()
         {
             DailyRentalRate = movie.DailyRentalRate,
-            Genre = new ()
+            Genre = new()
             {
                 Id = movie.GenreId,
                 Name = "Genre", // TODO: Retrieve
@@ -97,13 +97,13 @@ namespace MovieSystem.API.Services;
     }
 
     public override async Task<ListMoviesResponse> ListMovies(ListMoviesRequest request, ServerCallContext context)
-     {
-         List<MoviePreview> movies = await _movieQueries
-            .GetMoviesAsync();
- 
-         return new()
-         {
-             Movies =
+    {
+        List<MoviePreview> movies = await _movieQueries
+           .GetMoviesAsync();
+
+        return new()
+        {
+            Movies =
              {
                  movies.Select(movie => new Movie()
                  {
@@ -119,11 +119,11 @@ namespace MovieSystem.API.Services;
                      Rating = movie.Rating,
                  })
              },
-         };
-     }
- 
-     public override async Task<ListExtendedMoviesResponse> ListExtendedMovies(ListMoviesRequest request, ServerCallContext context)
-     {
+        };
+    }
+
+    public override async Task<ListExtendedMoviesResponse> ListExtendedMovies(ListMoviesRequest request, ServerCallContext context)
+    {
         if (request.UserId is null)
         {
             throw new RpcException(new Status(StatusCode.InvalidArgument, "User id not found"));
@@ -131,10 +131,10 @@ namespace MovieSystem.API.Services;
 
         List<MovieExtendedPreview> movies = await _movieQueries
             .GetMoviesExtendedAsync(request.UserId.Value);
- 
-         return new()
-         {
-             Movies =
+
+        return new()
+        {
+            Movies =
              {
                  movies.Select(movie => new MovieExtended()
                  {
@@ -152,61 +152,60 @@ namespace MovieSystem.API.Services;
                      UpdatedDate = movie.UpdatedDate.ToUniversalTime().ToTimestamp(),
                  })
              }
-         };
-     }
- 
-     public override async Task<Movie> GetMovie(GetMovieRequest request, ServerCallContext context)
-     {
-         MoviePreview? movie = await _movieQueries.GetMovieAsync(request.Id);
- 
-         if (movie is null)
-         {
-             throw new RpcException(new Status(StatusCode.NotFound, "Movie not found"));
-         }
- 
-         return new()
-         {
-             Id = movie.Id,
-             // ImdbUrl = movie.ImdbUrl,
-             Rating = ((int?)movie.Rating) ?? 0,
-             DailyRentalRate = movie.DailyRentalRate,
-             Genre = new()
-             {
-                 Id = movie.GenreId,
-                 Name = movie.GenreName,
-             },
-             NumberInStock = movie.NumberInStock,
-             Title = movie.Title,
-         };
-     }
- 
-     public async override Task<MovieExtended> GetMovieExtended(GetMovieExtendedRequest request, ServerCallContext context)
-     {
-         MovieExtendedPreview? movie = await _movieQueries.GetMovieExtendedAsync(request.Id, request.UserId);
- 
-         if (movie is null)
-         {
-             throw new RpcException(new Status(StatusCode.NotFound, "Movie not found"));
-         }
- 
-         return new()
-         {
-             Id = movie.Id,
-             // ImdbUrl = movie.ImdbUrl,
-             Rating = ((int?)movie.Rating) ?? 0,
-             UpdatedDate = movie.UpdatedDate.ToUniversalTime().ToTimestamp(),
-             DailyRentalRate = movie.DailyRentalRate,
-             Genre = new ()
-             {
-                 Id = movie.GenreId,
-                 Name = movie.GenreName,
-             },
-             NumberInStock = movie.NumberInStock,
-             Liked = movie.Liked,
-             Title = movie.Title,
-         };
-     }
- 
-     #endregion Movies
- }
+        };
+    }
 
+    public override async Task<Movie> GetMovie(GetMovieRequest request, ServerCallContext context)
+    {
+        MoviePreview? movie = await _movieQueries.GetMovieAsync(request.Id);
+
+        if (movie is null)
+        {
+            throw new RpcException(new Status(StatusCode.NotFound, "Movie not found"));
+        }
+
+        return new()
+        {
+            Id = movie.Id,
+            // ImdbUrl = movie.ImdbUrl,
+            Rating = ((int?)movie.Rating) ?? 0,
+            DailyRentalRate = movie.DailyRentalRate,
+            Genre = new()
+            {
+                Id = movie.GenreId,
+                Name = movie.GenreName,
+            },
+            NumberInStock = movie.NumberInStock,
+            Title = movie.Title,
+        };
+    }
+
+    public override async Task<MovieExtended> GetMovieExtended(GetMovieExtendedRequest request, ServerCallContext context)
+    {
+        MovieExtendedPreview? movie = await _movieQueries.GetMovieExtendedAsync(request.Id, request.UserId);
+
+        if (movie is null)
+        {
+            throw new RpcException(new Status(StatusCode.NotFound, "Movie not found"));
+        }
+
+        return new()
+        {
+            Id = movie.Id,
+            // ImdbUrl = movie.ImdbUrl,
+            Rating = ((int?)movie.Rating) ?? 0,
+            UpdatedDate = movie.UpdatedDate.ToUniversalTime().ToTimestamp(),
+            DailyRentalRate = movie.DailyRentalRate,
+            Genre = new()
+            {
+                Id = movie.GenreId,
+                Name = movie.GenreName,
+            },
+            NumberInStock = movie.NumberInStock,
+            Liked = movie.Liked,
+            Title = movie.Title,
+        };
+    }
+
+    #endregion Movies
+}

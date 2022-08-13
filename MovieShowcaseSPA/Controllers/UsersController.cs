@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MoveShowcaseDDD.Models;
 using MoveShowcaseDDD.Services;
 using static UserSystem.V1.Users;
 
@@ -15,12 +16,12 @@ public class UsersController : ControllerBase
     private readonly ILogger<UsersController> _logger;
     private readonly IUserService _userService;
     private readonly ITokenService _tokenService;
-    public UsersController(UsersClient usersClient, IUserService userService, ITokenService tokenService, ILogger<UsersController> logger)
+    public UsersController(UsersClient usersClient!!, IUserService userService!!, ITokenService tokenService!!, ILogger<UsersController> logger!!)
     {
-        _usersClient = usersClient ?? throw new ArgumentNullException(nameof(usersClient));
-        _userService = userService ?? throw new ArgumentNullException(nameof(userService));
-        _tokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _usersClient = usersClient;
+        _userService = userService;
+        _tokenService = tokenService;
+        _logger = logger;
     }
 
     private object? LoginUser(string username, string id, string name, string surname)
@@ -38,19 +39,15 @@ public class UsersController : ControllerBase
 
     [HttpGet("user")]
     [Authorize]
-    public new IActionResult User()
+    public new IActionResult User() => Ok(new
     {
-        return Ok(new
-        {
-            Id = _userService.GetUserId(),
-            Username = _userService.GetUserName(),
-            Name = _userService.GetName(),
-            Surname = _userService.GetSurname(),
-        });
-    }
+        Id = _userService.GetUserId(),
+        Username = _userService.GetUserName(),
+        Name = _userService.GetName(),
+        Surname = _userService.GetSurname(),
+    });
 
 
-    public record UserLoginPost(string Username, string Password);
     [HttpPost]
     [Route("user/login")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -68,13 +65,13 @@ public class UsersController : ControllerBase
 
         try
         {
-            var userDetails = await _usersClient.GetUserExtendedAsync(new()
+            UserSystem.V1.UserExtended? userDetails = await _usersClient.GetUserExtendedAsync(new()
             {
                 Username = data.Username,
             });
 
             var hasher = new PasswordHasher<IdentityUser>();
-            IdentityUser identityUser = new (userDetails.Id.ToString());
+            IdentityUser identityUser = new(userDetails.Id.ToString());
 
             if (PasswordVerificationResult.Failed == hasher.VerifyHashedPassword(identityUser, userDetails.HashedPassword, data.Password))
             {
@@ -83,11 +80,11 @@ public class UsersController : ControllerBase
 
             return Ok(LoginUser(data.Username, userDetails.Id.ToString(), userDetails.Name, userDetails.Surname));
         }
-        catch(RpcException ex) when (ex.StatusCode == global::Grpc.Core.StatusCode.NotFound)
+        catch (RpcException ex) when (ex.StatusCode == global::Grpc.Core.StatusCode.NotFound)
         {
             return BadRequest(); // Do not indicate to the end-user that the user does not exist.
         }
-        catch(RpcException ex)
+        catch (RpcException ex)
         {
             _logger.LogError("Error trying to retrieve user detials", ex);
             return BadRequest();
@@ -95,29 +92,21 @@ public class UsersController : ControllerBase
 
     }
 
-    public record UserDTO(
-        string Username, 
-        string Password,
-        string Name, 
-        string Surname,
-        string HomeNumber, 
-        string PhoneNumber,
-        string Address, 
-        string? ImageUrl);
+
     [HttpPost]
     [Route("user")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesDefaultResponseType]
     public async Task<IActionResult> CreateUser([FromBody] UserDTO data)
     {
-        var response = await _usersClient.CreateUserAsync(new()
+        UserSystem.V1.UserExtended? response = await _usersClient.CreateUserAsync(new()
         {
             Address = data.Address,
             HomeNumber = data.HomeNumber,
             PhoneNumber = data.PhoneNumber,
             Name = data.Name,
             Surname = data.Surname,
-            ImageUrl = data.ImageUrl,
+            ImageUrl = data.ImageUrl?.ToString(),
             Username = data.Username,
         });
 
@@ -135,7 +124,6 @@ public class UsersController : ControllerBase
         return Ok(response.Id);
     }
 
-    public record UserPreviewPatch(string Name, string Surname, string HomeNumber, string PhoneNumber, string Address, string? ImageUrl);
     [HttpPatch]
     [Authorize]
     [Route("user")]
@@ -151,7 +139,7 @@ public class UsersController : ControllerBase
             Address = data.Address,
             PhoneNumber = data.PhoneNumber,
             HomeNumber = data.HomeNumber,
-            ImageUrl = data.ImageUrl,
+            ImageUrl = data.ImageUrl?.ToString(),
         });
 
         return NoContent();

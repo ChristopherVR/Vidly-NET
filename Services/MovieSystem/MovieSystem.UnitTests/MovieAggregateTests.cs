@@ -18,7 +18,7 @@ public class MovieAggregateTests
         string imdbUrl = "https://www.imdb.com/title/tt3230854/episodes?season=6";
         string user = "unit_tests";
         // Act
-        Movie movie = new (user, name, numberInStock, dailyRentalRate, genreId, imdbUrl, rating);
+        Movie movie = new(user, name, numberInStock, dailyRentalRate, genreId, imdbUrl, rating);
 
         // Assert
         Assert.NotNull(movie);

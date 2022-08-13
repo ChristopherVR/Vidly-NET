@@ -15,6 +15,4 @@ public class GenreAggregateTests
         // Assert
         Assert.NotNull(user);
     }
-
 }
-

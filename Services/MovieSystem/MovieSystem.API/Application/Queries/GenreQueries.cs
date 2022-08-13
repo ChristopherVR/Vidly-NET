@@ -5,12 +5,9 @@ public class GenreQueries : IGenreQueries
 {
     private readonly string _connectionString;
 
-    public GenreQueries(string connectionString)
-    {
-        _connectionString = !string.IsNullOrWhiteSpace(connectionString) 
-            ? connectionString 
+    public GenreQueries(string connectionString) => _connectionString = !string.IsNullOrWhiteSpace(connectionString)
+            ? connectionString
             : throw new ArgumentNullException(nameof(connectionString));
-    }
 
     public async Task<List<GenrePreview>> ListGenresAsync(string? searchTerm)
     {
@@ -29,5 +26,3 @@ public class GenreQueries : IGenreQueries
             sql, new { searchTerm })).AsList();
     }
 }
-
-

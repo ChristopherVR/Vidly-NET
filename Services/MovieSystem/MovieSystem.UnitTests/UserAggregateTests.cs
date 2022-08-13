@@ -44,11 +44,13 @@ public class UserAggregateTests
         string updatedHomeNumber = "4321";
         string updatedHomeAddress = "12th Avenue";
         string updatedImageUrl = "https://www.google.co.za";
-        
+
         // Act
-        User user = new (name, username, surname, hashedPassword, phoneNumber, address, homeNumber, imageUrl);
+        User user = new(name, username, surname, hashedPassword, phoneNumber, address, homeNumber, imageUrl);
+#pragma warning disable CA2234 // Pass system uri objects instead of strings
         user.Update("unit_tests", updatedName, updatedSurname, updatedPhoneNumber, updatedHomeAddress, updatedHomeNumber, updatedImageUrl);
-        
+#pragma warning restore CA2234 // Pass system uri objects instead of strings
+
         // Assert
         Assert.NotNull(user);
         Assert.Equal(updatedName, user.Name);

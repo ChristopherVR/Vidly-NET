@@ -9,18 +9,13 @@ public class TokenService : ITokenService
 {
     private const double EXPIRY_DURATION_MINUTES = 30;
 
-    private readonly ILogger<TokenService> _logger;
     private readonly IConfiguration _configuration;
 
-    public TokenService (ILogger<TokenService> logger, IConfiguration config)
-    {
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _configuration = config ?? throw new ArgumentNullException(nameof(config));
-    }
+    public TokenService(IConfiguration config!!) => _configuration = config;
 
     public string BuildToken(User user)
     {
-        var claims = new[] 
+        Claim[]? claims = new[]
         {
             new Claim(ClaimTypes.Surname, user.Surname),
             new Claim(ClaimTypes.GivenName, user.Name),
@@ -41,10 +36,10 @@ public class TokenService : ITokenService
     {
         string key = _configuration.GetValue<string>("Key");
         string issuer = _configuration.GetValue<string>("Issuer");
-        var mySecret = Encoding.UTF8.GetBytes(key);
+        byte[]? mySecret = Encoding.UTF8.GetBytes(key);
         var mySecurityKey = new SymmetricSecurityKey(mySecret);
 
-        var validatedToken = await new JwtSecurityTokenHandler().ValidateTokenAsync(token, new TokenValidationParameters
+        TokenValidationResult? validatedToken = await new JwtSecurityTokenHandler().ValidateTokenAsync(token, new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
             ValidateIssuer = true,

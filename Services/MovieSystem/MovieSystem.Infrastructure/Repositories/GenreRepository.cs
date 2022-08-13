@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using MovieSystem.Domain.AggregatesModel.GenreAggregate;
 using MovieSystem.Domain.SeedWork;
 
@@ -9,21 +11,21 @@ public class GenreRepository : IGenreRepository
 
     public IUnitOfWork UnitOfWork => _context;
 
-    public GenreRepository(MovieContext context) =>
-        _context = context ?? throw new ArgumentNullException(nameof(context));
+    public GenreRepository(MovieContext context!!) =>
+        _context = context;
 
-    public async Task<Genre?> GetAsync(int entityId)
+    public async Task<Genre?> GetAsync(int id)
     {
         Genre? entity = await _context
             .Genres
-            .FirstOrDefaultAsync(u => u.Id == entityId);
+            .FirstOrDefaultAsync(u => u.Id == id);
 
         if (entity == null)
         {
             entity = _context
                 .Genres
                 .Local
-                .FirstOrDefault(u => u.Id == entityId);
+                .FirstOrDefault(u => u.Id == id);
         }
 
         return entity;

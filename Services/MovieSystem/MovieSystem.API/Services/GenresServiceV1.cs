@@ -1,4 +1,4 @@
-using GenreSystem.V1;
+﻿using GenreSystem.V1;
 using MovieSystem.API.Application.Queries;
 
 namespace MovieSystem.API.Grpc;
@@ -6,14 +6,9 @@ namespace MovieSystem.API.Grpc;
 [Authorize]
 public class GenresServiceV1 : Genres.GenresBase
 {
-    private readonly ILogger<GenresServiceV1> _logger;
     private readonly IGenreQueries _genreQueries;
 
-    public GenresServiceV1(ILogger<GenresServiceV1> logger, IGenreQueries genreQueries)
-    {
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _genreQueries = genreQueries ?? throw new ArgumentNullException(nameof(genreQueries));
-    }
+    public GenresServiceV1(ILogger<GenresServiceV1> logger, IGenreQueries genreQueries) => _genreQueries = genreQueries ?? throw new ArgumentNullException(nameof(genreQueries));
 
     public override async Task<ListGenresResponse> ListGenres(ListGenresRequest request, ServerCallContext context)
     {

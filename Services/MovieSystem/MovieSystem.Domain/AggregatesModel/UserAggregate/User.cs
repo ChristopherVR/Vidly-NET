@@ -1,4 +1,7 @@
-﻿using MovieSystem.Domain.Events;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using MovieSystem.Domain.Events;
 using MovieSystem.Domain.Exceptions;
 using MovieSystem.Domain.SeedWork;
 
@@ -38,7 +41,9 @@ public class User : Entity, IAggregateRoot
         string phoneNumber,
         string address,
         string homeNumber,
+#pragma warning disable CA1054 // URI-like parameters should not be strings
         string? imageUrl
+#pragma warning restore CA1054 // URI-like parameters should not be strings
         )
     {
         ValidateDetails(name, surname, username, address, phoneNumber, homeNumber, imageUrl);
@@ -51,7 +56,7 @@ public class User : Entity, IAggregateRoot
 
         // Add the UserCreatedDomainEvent to the domain events collection
         // to be raised/dispatched when committing changes to the database
-        UserCreatedDomainEvent userCreatedDomainEvent = new (this);
+        UserCreatedDomainEvent userCreatedDomainEvent = new(this);
         AddDomainEvent(userCreatedDomainEvent);
     }
 
@@ -93,7 +98,7 @@ public class User : Entity, IAggregateRoot
         }
     }
 
-   
+
     public void ToggleFavourite(int movieId, bool liked, string user)
     {
         // TODO: Unit tests
@@ -102,7 +107,7 @@ public class User : Entity, IAggregateRoot
 
         if (favMovie is null)
         {
-            favMovie = new (movieId, liked, user);
+            favMovie = new(movieId, liked, user);
             _userFavouriteMovies.Add(favMovie);
         }
         else
@@ -114,7 +119,7 @@ public class User : Entity, IAggregateRoot
     public void UpdatePassword(string user, string password)
     {
         UpdatedUser = user;
-        HashedPassword = password ;
+        HashedPassword = password;
     }
 
     public void Update(string user, string name, string surname, string phoneNumber, string address, string homeNumber, string? imageUrl)
@@ -126,6 +131,14 @@ public class User : Entity, IAggregateRoot
         UpdatedUser = user;
     }
 
-    public static User CreateInitialSeedData() => new ();
+    public static User CreateInitialSeedData() => new();
 
+    public void Update(string user, string name, string surname, string phoneNumber, string address, string homeNumber, Uri imageUrl)
+    {
+        ValidateDetails(name, surname, Username, address, phoneNumber, homeNumber, imageUrl.ToString());
+        Name = name;
+        Surname = surname;
+        UserDetails = new(address, phoneNumber, homeNumber, imageUrl.ToString());
+        UpdatedUser = user;
+    }
 }

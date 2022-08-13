@@ -26,7 +26,7 @@ public class UpdateMovieCommandHandler : IRequestHandler<UpdateMovieCommand, Mov
 
         movie
             .UpdateMovieDetails(
-            request.User, 
+            request.User,
             request.Title,
             request.NumberInStock,
             request.DailyRentalRate,
@@ -41,4 +41,3 @@ public class UpdateMovieCommandHandler : IRequestHandler<UpdateMovieCommand, Mov
         return movie;
     }
 }
-

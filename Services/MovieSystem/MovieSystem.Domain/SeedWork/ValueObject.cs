@@ -14,10 +14,7 @@ public abstract class ValueObject
         return left is null || left.Equals(right);
     }
 
-    protected static bool NotEqualOperator(ValueObject left, ValueObject right)
-    {
-        return !(EqualOperator(left, right));
-    }
+    protected static bool NotEqualOperator(ValueObject left, ValueObject right) => !EqualOperator(left, right);
 
     protected abstract IEnumerable<object> GetEqualityComponents();
 
@@ -30,18 +27,12 @@ public abstract class ValueObject
 
         var other = (ValueObject)obj;
 
-        return this.GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
+        return GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
     }
 
-    public override int GetHashCode()
-    {
-        return GetEqualityComponents()
+    public override int GetHashCode() => GetEqualityComponents()
          .Select(x => x != null ? x.GetHashCode() : 0)
          .Aggregate((x, y) => x ^ y);
-    }
 
-    public ValueObject? GetCopy()
-    {
-        return this.MemberwiseClone() as ValueObject;
-    }
+    public ValueObject? GetCopy() => MemberwiseClone() as ValueObject;
 }

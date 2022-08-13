@@ -1,4 +1,5 @@
-﻿using MovieSystem.Domain.SeedWork;
+﻿using System.Threading.Tasks;
+using MovieSystem.Domain.SeedWork;
 
 namespace MovieSystem.Domain.AggregatesModel.MovieAggregate;
 public interface IMovieRepository : IRepository<Movie>

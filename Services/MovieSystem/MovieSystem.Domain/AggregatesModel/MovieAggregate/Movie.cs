@@ -1,4 +1,6 @@
-﻿using MovieSystem.Domain.Exceptions;
+﻿using System;
+using System.Collections.Generic;
+using MovieSystem.Domain.Exceptions;
 using MovieSystem.Domain.SeedWork;
 
 namespace MovieSystem.Domain.AggregatesModel.MovieAggregate;
@@ -7,7 +9,9 @@ public class Movie : Entity, IAggregateRoot
     public string UpdatedUser { get; private set; }
     public DateTime UpdatedDate { get; private set; }
     public string Title { get; private set; }
+#pragma warning disable CA1056 // URI-like properties should not be strings
     public string? ImdbUrl { get; private set; }
+#pragma warning restore CA1056 // URI-like properties should not be strings
     public int NumberInStock { get; private set; }
     public int DailyRentalRate { get; private set; }
     public int Rating { get; private set; }
@@ -45,8 +49,10 @@ public class Movie : Entity, IAggregateRoot
         string title,
         int numberInStock,
         int dailyRentalRate,
-        int genreId, 
+        int genreId,
+#pragma warning disable CA1054 // URI-like parameters should not be strings
         string imdbUrl,
+#pragma warning restore CA1054 // URI-like parameters should not be strings
         int rating)
     {
         ValidateDetails(title, numberInStock, dailyRentalRate, genreId, imdbUrl);
@@ -65,7 +71,9 @@ public class Movie : Entity, IAggregateRoot
         int numberInStock,
         int dailyRentalRate,
         int genreId,
+#pragma warning disable CA1054 // URI-like parameters should not be strings
         string imdbUrl)
+#pragma warning restore CA1054 // URI-like parameters should not be strings
     {
         if (string.IsNullOrWhiteSpace(title))
         {
@@ -99,7 +107,9 @@ public class Movie : Entity, IAggregateRoot
         int numberInStock,
         int dailyRentalRate,
         int genreId,
+#pragma warning disable CA1054 // URI-like parameters should not be strings
         string imdbUrl,
+#pragma warning restore CA1054 // URI-like parameters should not be strings
         int rating)
     {
         ValidateDetails(title, numberInStock, dailyRentalRate, genreId, imdbUrl);
@@ -113,9 +123,7 @@ public class Movie : Entity, IAggregateRoot
         Rating = rating;
     }
 
-    public static List<Movie> InitialSeedData()
-    {
-        return new()
+    public static List<Movie> InitialSeedData() => new()
         {
             new("Initial", "Star Wars: Episove V - The Empire Strikes Back (1980)", 20, 5, "https://www.imdb.com/title/tt0080684/?pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=9703a62d-b88a-4e30-ae12-90fcafafa3fc&pf_rd_r=NQ69CZ5V8W1CDCAXTJAY&pf_rd_s=center-1&pf_rd_t=15506&pf_rd_i=top&ref_=chttp_tt_15", 5)
             {
@@ -142,5 +150,4 @@ public class Movie : Entity, IAggregateRoot
                 Id = 6,
             },
         };
-    }
 }

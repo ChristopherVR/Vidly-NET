@@ -1,4 +1,4 @@
-using Google.Protobuf.WellKnownTypes;
+﻿using Google.Protobuf.WellKnownTypes;
 using MovieSystem.API.Application.Queries;
 using MovieSystem.API.Infrastructure.Authorization;
 using System.Security.Claims;
@@ -17,7 +17,7 @@ public class UsersServiceV1 : Users.UsersBase
 
     public UsersServiceV1(
         ILogger<UsersServiceV1> logger,
-        IMediator mediator, 
+        IMediator mediator,
         IUserQueries userQueries,
         IAuthorizationService authService)
     {
@@ -83,8 +83,7 @@ public class UsersServiceV1 : Users.UsersBase
     [AllowAnonymous]
     public override async Task<Empty> CreateUserHashedPassword(CreateUserHashedPasswordRequest request, ServerCallContext context)
     {
-        // await ValidateUserAccessRequirement(context, request.UserId);
-        // string username = context.GetHttpContext().User.FindFirst(ClaimTypes.Name)?.Value ?? throw new ArgumentException("Username cannot be null");
+        await ValidateUserAccessRequirement(context, request.UserId);
 
         string username = "test";
         var command = new CreateUpdateUserPasswordCommand(request.UserId, username, request.HashedPassword);

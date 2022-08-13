@@ -9,12 +9,8 @@ namespace MoveShowcaseDDD.Areas.Controllers;
 public class GenresController : ControllerBase
 {
     private readonly GenreSystem.V1.Genres.GenresClient _genresClient;
-    private readonly ILogger<GenresController> _logger;
-    public GenresController(GenreSystem.V1.Genres.GenresClient genresClient, ILogger<GenresController> logger)
-    {
-        _genresClient = genresClient ?? throw new ArgumentNullException(nameof(genresClient));
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    }
+    public GenresController(GenreSystem.V1.Genres.GenresClient genresClient!!)
+        => _genresClient = genresClient;
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -29,4 +25,3 @@ public class GenresController : ControllerBase
         return Ok(genres.Genres);
     }
 }
-

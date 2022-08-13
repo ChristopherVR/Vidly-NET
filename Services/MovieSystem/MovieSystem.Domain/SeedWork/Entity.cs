@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Collections.Generic;
+using MediatR;
 
 namespace MovieSystem.Domain.SeedWork;
 public abstract class Entity

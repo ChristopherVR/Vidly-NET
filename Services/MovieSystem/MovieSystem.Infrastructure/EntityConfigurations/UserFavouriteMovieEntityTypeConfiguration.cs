@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MovieSystem.Domain.AggregatesModel.UserAggregate;
 
 namespace MovieSystem.Infrastructure.EntityConfigurations;
-class UserFavouriteMovieEntityTypeConfiguration : IEntityTypeConfiguration<UserFavouriteMovie>
+internal class UserFavouriteMovieEntityTypeConfiguration : IEntityTypeConfiguration<UserFavouriteMovie>
 {
     public void Configure(EntityTypeBuilder<UserFavouriteMovie> builder)
     {
-        builder.ToTable("UserFavouriteMovies", MovieContext.DEFAULT_SCHEMA);
+        builder.ToTable("UserFavouriteMovies", MovieContext.DEFAULTSCHEMA);
 
         builder.Property("UserId").IsRequired(true);
 

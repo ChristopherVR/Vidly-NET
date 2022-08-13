@@ -13,7 +13,7 @@ public class AuthHandler : DelegatingHandler
     private readonly IWebHostEnvironment _env;
 
     public AuthHandler(
-        IHttpContextAccessor httpContextAccessor, 
+        IHttpContextAccessor httpContextAccessor,
         ITokenService tokenService,
         IConfiguration config,
         IWebHostEnvironment env)
@@ -24,7 +24,7 @@ public class AuthHandler : DelegatingHandler
         _env = env ?? throw new ArgumentNullException(nameof(env));
     }
 
-    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request!!, CancellationToken cancellationToken)
     {
         if (_httpContextAccessor.HttpContext is null)
         {
@@ -36,7 +36,7 @@ public class AuthHandler : DelegatingHandler
         if (_httpContextAccessor.HttpContext.Items.TryGetValue("Authorization", out var tokenValue) && tokenValue is string value)
         {
             token = value;
-        } 
+        }
         else
         {
             token = await _httpContextAccessor.HttpContext.GetUserAccessTokenAsync(cancellationToken: cancellationToken);

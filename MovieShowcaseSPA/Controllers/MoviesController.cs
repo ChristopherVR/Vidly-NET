@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MoveShowcaseDDD.Models;
 using MoveShowcaseDDD.Services;
-using MovieShowcaseSPA.Enums;
 using static MovieSystem.V1.Movies;
 using static UserSystem.V1.Users;
 
@@ -18,15 +18,15 @@ public class MoviesController : ControllerBase
     private readonly UsersClient _usersClient;
 
     public MoviesController(
-        MoviesClient client,
-        UsersClient usersClient,
-        IUserService userService, 
-        ILogger<MoviesController> logger)
+        MoviesClient client!!,
+        UsersClient usersClient!!,
+        IUserService userService!!,
+        ILogger<MoviesController> logger!!)
     {
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _movieClient = client ?? throw new ArgumentNullException(nameof(client));
-        _usersClient = usersClient ?? throw new ArgumentNullException(nameof(usersClient));
-        _userService = userService ?? throw new ArgumentNullException(nameof(userService));
+        _logger = logger;
+        _movieClient = client;
+        _usersClient = usersClient;
+        _userService = userService;
     }
 
     [HttpGet]
@@ -156,7 +156,6 @@ public class MoviesController : ControllerBase
         return NoContent();
     }
 
-    public record MovieDTO(int DailyRentalRate, int GenreId, bool Liked, int NumberInStock, int Rating, string Title, string? ImdbUrl);
     [HttpPost("movie/create")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -168,13 +167,13 @@ public class MoviesController : ControllerBase
             return BadRequest();
         }
 
-        var res = await _movieClient.CreateMovieAsync(new()
+        MovieSystem.V1.Movie? res = await _movieClient.CreateMovieAsync(new()
         {
             DailyRentalRate = data.DailyRentalRate,
             GenreId = data.GenreId,
             NumberInStock = data.NumberInStock,
             Rating = data.Rating,
-            ImdbUrl = data.ImdbUrl,
+            ImdbUrl = data.ImdbUrl?.ToString(),
             Title = data.Title,
         });
 
@@ -214,19 +213,18 @@ public class MoviesController : ControllerBase
 
         await _movieClient.UpdateMovieAsync(new()
         {
-            Id = (int) id,
+            Id = (int)id,
             DailyRentalRate = data.DailyRentalRate,
             GenreId = data.GenreId,
             NumberInStock = data.NumberInStock,
             Rating = data.Rating,
-            ImdbUrl = data.ImdbUrl ?? string.Empty,
+            ImdbUrl = data.ImdbUrl?.ToString(),
             Title = data.Title,
         });
 
         return NoContent();
     }
 
-    public record Favourite(bool Liked);
     [HttpPut("movie/favourite/{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -247,5 +245,4 @@ public class MoviesController : ControllerBase
 
         return NoContent();
     }
-
 }

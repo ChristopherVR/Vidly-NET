@@ -4,8 +4,8 @@ namespace MoveShowcaseDDD.Services;
 public class UserService : IUserService
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
-    public UserService(IHttpContextAccessor httpContextAccessor) 
-        => _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
+    public UserService(IHttpContextAccessor httpContextAccessor!!)
+        => _httpContextAccessor = httpContextAccessor;
 
     public string GetName() =>
         _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.GivenName) ?? throw new ArgumentNullException("Name cannot be null");
@@ -19,4 +19,3 @@ public class UserService : IUserService
     public string GetUserName() =>
         _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.Name) ?? throw new ArgumentNullException("UserName cannot be null");
 }
-

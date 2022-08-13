@@ -1,4 +1,6 @@
-﻿using MovieSystem.Domain.SeedWork;
+﻿using System;
+using System.Collections.Generic;
+using MovieSystem.Domain.SeedWork;
 
 namespace MovieSystem.Domain.AggregatesModel.GenreAggregate;
 public class Genre : Entity, IAggregateRoot
@@ -21,7 +23,7 @@ public class Genre : Entity, IAggregateRoot
         UpdatedUser = username;
     }
 
-    public static List<Genre> CreateInitialSeedData() => new ()
+    public static List<Genre> CreateInitialSeedData() => new()
     {
         new Genre(1, "Rock"),
         new Genre(2, "Pop"),
@@ -31,5 +33,4 @@ public class Genre : Entity, IAggregateRoot
         new Genre(6, "Comedy"),
         new Genre(7, "Horror"),
     };
-
 }

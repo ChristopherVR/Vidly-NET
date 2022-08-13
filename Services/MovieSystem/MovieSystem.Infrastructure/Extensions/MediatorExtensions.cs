@@ -1,4 +1,7 @@
-﻿using MediatR;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using MediatR;
 using MovieSystem.Domain.SeedWork;
 
 namespace MovieSystem.Infrastructure.Extensions;
@@ -17,7 +20,7 @@ public static class MediatorExtensions
         domainEntities.ToList()
             .ForEach(entity => entity.Entity.ClearDomainEvents());
 
-        foreach (var domainEvent in domainEvents)
+        foreach (INotification? domainEvent in domainEvents)
         {
             await mediator.Publish(domainEvent);
         }

@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using MovieSystem.Domain.AggregatesModel.UserAggregate;
 using MovieSystem.Domain.SeedWork;
 
@@ -9,8 +11,8 @@ public class UserRepository : IUserRepository
 
     public IUnitOfWork UnitOfWork => _context;
 
-    public UserRepository(MovieContext context) =>
-        _context = context ?? throw new ArgumentNullException(nameof(context));
+    public UserRepository(MovieContext context!!) =>
+        _context = context;
 
     public async Task<User?> GetAsync(int entityId)
     {

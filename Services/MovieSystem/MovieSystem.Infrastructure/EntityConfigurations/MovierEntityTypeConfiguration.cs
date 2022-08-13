@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MovieSystem.Domain.AggregatesModel.MovieAggregate;
 
 namespace MovieSystem.Infrastructure.EntityConfigurations;
-class MovierEntityTypeConfiguration : IEntityTypeConfiguration<Movie>
+internal class MovierEntityTypeConfiguration : IEntityTypeConfiguration<Movie>
 {
     public void Configure(EntityTypeBuilder<Movie> builder)
     {
-        builder.ToTable("Movies", MovieContext.DEFAULT_SCHEMA);
+        builder.ToTable("Movies", MovieContext.DEFAULTSCHEMA);
 
         builder.HasKey(u => u.Id);
 

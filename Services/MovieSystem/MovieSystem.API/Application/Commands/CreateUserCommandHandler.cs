@@ -34,4 +34,3 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, User>
         return user;
     }
 }
-
