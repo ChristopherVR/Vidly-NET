@@ -31,6 +31,7 @@ updates:
       interval: 'weekly'
     reviewers:
       - 'ChristopherVR'
+      - 'EngeChrisTest'
   # Maintain dependencies for .NET projects (MovieSystem.Domain)
   - package-ecosystem: 'nuget'
     directory: '/Services/MovieSystem/MovieSystem.Domain/'
