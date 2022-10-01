@@ -9,7 +9,7 @@ namespace MoveShowcaseDDD.Areas.Controllers;
 public class GenresController : ControllerBase
 {
     private readonly GenreSystem.V1.Genres.GenresClient _genresClient;
-    public GenresController(GenreSystem.V1.Genres.GenresClient genresClient!!)
+    public GenresController(GenreSystem.V1.Genres.GenresClient genresClient)
         => _genresClient = genresClient;
 
     [HttpGet]

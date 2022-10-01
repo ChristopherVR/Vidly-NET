@@ -11,7 +11,7 @@ public class TokenService : ITokenService
 
     private readonly IConfiguration _configuration;
 
-    public TokenService(IConfiguration config!!) => _configuration = config;
+    public TokenService(IConfiguration config) => _configuration = config;
 
     public string BuildToken(User user)
     {
@@ -23,9 +23,9 @@ public class TokenService : ITokenService
             new Claim(ClaimTypes.Role, user.Role),
             new Claim(ClaimTypes.NameIdentifier, user.Id),
         };
-        string key = _configuration.GetValue<string>("Key");
-        string issuer = _configuration.GetValue<string>("Issuer");
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
+        string? key = _configuration.GetValue<string>("Key");
+        string? issuer = _configuration.GetValue<string>("Issuer");
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key!));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
         var tokenDescriptor = new JwtSecurityToken(issuer, issuer, claims,
             expires: DateTime.Now.AddMinutes(EXPIRY_DURATION_MINUTES), signingCredentials: credentials);
@@ -34,9 +34,9 @@ public class TokenService : ITokenService
 
     public async Task<bool> TokenValid(string token)
     {
-        string key = _configuration.GetValue<string>("Key");
-        string issuer = _configuration.GetValue<string>("Issuer");
-        byte[]? mySecret = Encoding.UTF8.GetBytes(key);
+        string? key = _configuration.GetValue<string>("Key");
+        string? issuer = _configuration.GetValue<string>("Issuer");
+        byte[]? mySecret = Encoding.UTF8.GetBytes(key!);
         var mySecurityKey = new SymmetricSecurityKey(mySecret);
 
         TokenValidationResult? validatedToken = await new JwtSecurityTokenHandler().ValidateTokenAsync(token, new TokenValidationParameters

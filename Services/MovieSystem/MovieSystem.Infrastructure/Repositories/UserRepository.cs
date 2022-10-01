@@ -11,7 +11,7 @@ public class UserRepository : IUserRepository
 
     public IUnitOfWork UnitOfWork => _context;
 
-    public UserRepository(MovieContext context!!) =>
+    public UserRepository(MovieContext context) =>
         _context = context;
 
     public async Task<User?> GetAsync(int entityId)

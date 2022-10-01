@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MovieSystem.Domain.AggregatesModel.GenreAggregate;
 
 namespace MovieSystem.Infrastructure.EntityConfigurations;
-internal class GenreEntityTypeConfiugration : IEntityTypeConfiguration<Genre>
+internal sealed class GenreEntityTypeConfiugration : IEntityTypeConfiguration<Genre>
 {
     public void Configure(EntityTypeBuilder<Genre> builder)
     {

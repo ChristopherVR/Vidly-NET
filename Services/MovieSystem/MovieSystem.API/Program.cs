@@ -1,4 +1,4 @@
-
+﻿
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using MovieSystem.API.Grpc;
@@ -6,8 +6,8 @@ using MovieSystem.API.Infrastructure.Authorization;
 using MovieSystem.API.Infrastructure.AutofacModules;
 using MovieSystem.API.Services;
 using System.Text;
-
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+#pragma warning disable CA1852
+var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
@@ -28,7 +28,7 @@ builder.Services.AddDbContext<MovieContext>(options =>
                             sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
                         }));
 
-AuthOptions authOptions = builder.Configuration.GetSection(AuthOptions.Name).Get<AuthOptions>();
+AuthOptions authOptions = builder.Configuration.GetSection(AuthOptions.Name).Get<AuthOptions>()!;
 
 builder.Services.AddAuthentication(auth =>
 {
@@ -56,7 +56,7 @@ builder.Services.AddSingleton<IAuthorizationHandler, UserHasSameIdAccessAuthoriz
 // Don't call builder.Populate(), that happens in AutofacServiceProviderFactory.
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
-    containerBuilder.RegisterModule(new QueryModule(builder.Configuration.GetConnectionString("Movie")));
+    containerBuilder.RegisterModule(new QueryModule(builder.Configuration.GetConnectionString("Movie")!));
     containerBuilder.RegisterModule(new RepositoryModule());
     containerBuilder.RegisterModule(new MediatorModule());
 });
@@ -74,17 +74,17 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseEndpoints(endpoints =>
+
+app.MapGrpcService<MoviesServiceV1>();
+app.MapGrpcService<UsersServiceV1>();
+app.MapGrpcService<GenresServiceV1>();
+
+if (app.Environment.IsDevelopment())
 {
-    endpoints.MapGrpcService<MoviesServiceV1>();
-    endpoints.MapGrpcService<UsersServiceV1>();
-    endpoints.MapGrpcService<GenresServiceV1>();
-    if (app.Environment.IsDevelopment())
-    {
-        endpoints.MapGrpcReflectionService();
-    }
-});
+    app.MapGrpcReflectionService();
+}
 
 app.UseStaticFiles();
 
 app.Run();
+#pragma warning restore CA1852

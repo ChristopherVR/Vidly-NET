@@ -1,10 +1,10 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using MoveShowcaseDDD;
 using MoveShowcaseDDD.Services;
 using System.Text;
-
+#pragma warning disable CA1852
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -14,7 +14,7 @@ builder.Services.AddAuthorization();
 
 var servicesSection = builder.Configuration.GetSection("Services");
 
-string movieSystemUrl = servicesSection.GetValue<string>("MovieSystem");
+string movieSystemUrl = servicesSection.GetValue<string>("MovieSystem")!;
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<IUserService, UserService>();
 
@@ -26,12 +26,12 @@ builder.Services.AddGrpcClient<MovieSystem.V1.Movies.MoviesClient>(o =>
 
 builder.Services.AddGrpcClient<UserSystem.V1.Users.UsersClient>(o =>
 {
-    o.Address = new Uri(movieSystemUrl);
+    o.Address = new Uri(movieSystemUrl!);
 }).AddHttpMessageHandler<AuthHandler>();
 
 builder.Services.AddGrpcClient<GenreSystem.V1.Genres.GenresClient>(o =>
 {
-    o.Address = new Uri(movieSystemUrl);
+    o.Address = new Uri(movieSystemUrl!);
 }).AddHttpMessageHandler<AuthHandler>();
 
 builder.Services.AddTransient<ITokenService, TokenService>();
@@ -53,7 +53,7 @@ builder.Services.AddAuthentication(auth =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["Authority"],
         ValidAudience = builder.Configuration["Authority"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Key"])),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Key"]!)),
     };
 });
 
@@ -69,7 +69,13 @@ if (!app.Environment.IsDevelopment())
 
 app.UseCors(options =>
 {
-    options.WithOrigins(servicesSection.GetValue<string>("ReactAppUrl")).AllowAnyMethod().AllowAnyHeader();
+    string? reactUrl = servicesSection.GetValue<string>("ReactAppUrl");
+    if (reactUrl is null)
+    {
+        throw new ArgumentException(nameof(reactUrl));
+    }
+
+    options.WithOrigins(reactUrl).AllowAnyMethod().AllowAnyHeader();
 });
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -88,3 +94,4 @@ app.UseAuthorization();
 app.MapRazorPages();
 
 app.Run();
+#pragma warning restore CA1852

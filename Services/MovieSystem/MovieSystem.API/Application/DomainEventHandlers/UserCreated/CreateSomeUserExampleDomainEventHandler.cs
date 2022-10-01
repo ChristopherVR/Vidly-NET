@@ -6,9 +6,7 @@ public class CreateSomeUserExampleDomainEventHandler : INotificationHandler<User
 {
     private readonly ILogger<CreateSomeUserExampleDomainEventHandler> _logger;
     public CreateSomeUserExampleDomainEventHandler(ILogger<CreateSomeUserExampleDomainEventHandler> logger)
-    {
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    }
+        => _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
     public async Task Handle(UserCreatedDomainEvent userCreatedDomainEvent, CancellationToken cancellationToken)
     {

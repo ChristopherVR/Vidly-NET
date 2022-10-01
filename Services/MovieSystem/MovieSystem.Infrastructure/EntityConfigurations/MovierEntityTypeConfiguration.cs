@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MovieSystem.Domain.AggregatesModel.MovieAggregate;
 
 namespace MovieSystem.Infrastructure.EntityConfigurations;
-internal class MovierEntityTypeConfiguration : IEntityTypeConfiguration<Movie>
+internal sealed class MovierEntityTypeConfiguration : IEntityTypeConfiguration<Movie>
 {
     public void Configure(EntityTypeBuilder<Movie> builder)
     {

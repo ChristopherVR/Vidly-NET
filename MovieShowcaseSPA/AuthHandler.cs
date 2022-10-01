@@ -24,7 +24,7 @@ public class AuthHandler : DelegatingHandler
         _env = env ?? throw new ArgumentNullException(nameof(env));
     }
 
-    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request!!, CancellationToken cancellationToken)
+    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
         if (_httpContextAccessor.HttpContext is null)
         {

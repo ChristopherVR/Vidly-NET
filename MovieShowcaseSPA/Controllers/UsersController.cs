@@ -16,7 +16,7 @@ public class UsersController : ControllerBase
     private readonly ILogger<UsersController> _logger;
     private readonly IUserService _userService;
     private readonly ITokenService _tokenService;
-    public UsersController(UsersClient usersClient!!, IUserService userService!!, ITokenService tokenService!!, ILogger<UsersController> logger!!)
+    public UsersController(UsersClient usersClient, IUserService userService, ITokenService tokenService, ILogger<UsersController> logger)
     {
         _usersClient = usersClient;
         _userService = userService;

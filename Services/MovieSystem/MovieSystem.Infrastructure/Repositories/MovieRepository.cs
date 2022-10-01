@@ -11,7 +11,7 @@ public class MovieRepository : IMovieRepository
 
     public IUnitOfWork UnitOfWork => _context;
 
-    public MovieRepository(MovieContext context!!) =>
+    public MovieRepository(MovieContext context) =>
         _context = context;
 
     public async Task<Movie?> GetAsync(int id)

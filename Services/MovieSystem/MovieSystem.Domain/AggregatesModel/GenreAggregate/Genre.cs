@@ -25,12 +25,12 @@ public class Genre : Entity, IAggregateRoot
 
     public static List<Genre> CreateInitialSeedData() => new()
     {
-        new Genre(1, "Rock"),
-        new Genre(2, "Pop"),
-        new Genre(3, "Sci-Fi"),
-        new Genre(4, "Action"),
-        new Genre(5, "Thriller"),
-        new Genre(6, "Comedy"),
-        new Genre(7, "Horror"),
+        new(1, "Rock"),
+        new(2, "Pop"),
+        new(3, "Sci-Fi"),
+        new(4, "Action"),
+        new(5, "Thriller"),
+        new(6, "Comedy"),
+        new(7, "Horror"),
     };
 }

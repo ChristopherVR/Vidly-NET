@@ -1,10 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
 	  <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 	  <Nullable>enable</Nullable>
-	  <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 	  <AnalysisMode>All</AnalysisMode>  
   </PropertyGroup>
 
@@ -17,8 +16,8 @@
   </PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Dapper" Version="2.0.123" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.9" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.9" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0-rc.1.22426.7" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.0-rc.1.22426.7" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\MovieSystem.Domain\MovieSystem.Domain.csproj" />

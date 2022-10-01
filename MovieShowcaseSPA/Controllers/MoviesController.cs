@@ -18,10 +18,10 @@ public class MoviesController : ControllerBase
     private readonly UsersClient _usersClient;
 
     public MoviesController(
-        MoviesClient client!!,
-        UsersClient usersClient!!,
-        IUserService userService!!,
-        ILogger<MoviesController> logger!!)
+        MoviesClient client,
+        UsersClient usersClient,
+        IUserService userService,
+        ILogger<MoviesController> logger)
     {
         _logger = logger;
         _movieClient = client;

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MovieSystem.Domain.AggregatesModel.UserAggregate;
 
 namespace MovieSystem.Infrastructure.EntityConfigurations;
-internal class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
+internal sealed class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {

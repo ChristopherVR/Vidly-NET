@@ -11,7 +11,7 @@ public class GenreRepository : IGenreRepository
 
     public IUnitOfWork UnitOfWork => _context;
 
-    public GenreRepository(MovieContext context!!) =>
+    public GenreRepository(MovieContext context) =>
         _context = context;
 
     public async Task<Genre?> GetAsync(int id)

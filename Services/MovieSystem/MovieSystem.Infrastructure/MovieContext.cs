@@ -20,7 +20,7 @@ public class MovieContext : DbContext, IUnitOfWork
 
     private readonly IMediator _mediator;
 
-    public MovieContext(DbContextOptions<MovieContext> options, IMediator mediator!!) : base(options) =>
+    public MovieContext(DbContextOptions<MovieContext> options, IMediator mediator) : base(options) =>
         _mediator = mediator;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) =>
