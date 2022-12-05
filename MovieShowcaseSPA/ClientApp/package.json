@@ -57,7 +57,7 @@
     ]
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.186",
+    "@types/lodash": "^4.14.191",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.4.0",
     "eslint-plugin-prettier": "^4.2.1",
