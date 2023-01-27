@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Moq;
-using MoveShowcaseDDD.Services;
+using MovieShowcaseSPA.Services;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using Xunit;
 
-namespace MoveShowcaseWeb.Tests;
+namespace MovieShowcaseWeb.Tests;
 
 public class UserServiceTests
 {

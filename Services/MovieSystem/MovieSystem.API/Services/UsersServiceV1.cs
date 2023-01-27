@@ -5,7 +5,7 @@ using System.Security.Claims;
 using UserSystem.V1;
 using static MovieSystem.API.Application.Commands.UserCommands;
 
-namespace MovieSystem.API.Grpc;
+namespace MovieSystem.API.Services;
 
 [Authorize]
 public class UsersServiceV1 : Users.UsersBase

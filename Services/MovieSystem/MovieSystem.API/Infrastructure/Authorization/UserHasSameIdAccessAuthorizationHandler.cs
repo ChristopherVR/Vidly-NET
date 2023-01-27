@@ -6,10 +6,7 @@ public class UserHasSameIdAccessAuthorizationHandler
 {
     private readonly ILogger<UserHasSameIdAccessAuthorizationHandler> _logger;
 
-    public UserHasSameIdAccessAuthorizationHandler(ILogger<UserHasSameIdAccessAuthorizationHandler> logger)
-    {
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    }
+    public UserHasSameIdAccessAuthorizationHandler(ILogger<UserHasSameIdAccessAuthorizationHandler> logger) => _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UserAccessRequirement requirement)
     {
@@ -34,7 +31,5 @@ public class UserAccessRequirement : IAuthorizationRequirement
     public int UserId { get; }
 
     public UserAccessRequirement(int userId)
-    {
-        UserId = userId;
-    }
+    => UserId = userId;
 }

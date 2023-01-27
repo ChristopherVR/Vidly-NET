@@ -56,7 +56,7 @@ message Movie {
   string title = 2;
   int32 number_in_stock = 3;
   int32 daily_rental_rate = 4;
-  int32 rating = 5;
+  google.protobuf.Int32Value rating = 5;
   Genre genre = 6;
   bool liked = 7;
 }

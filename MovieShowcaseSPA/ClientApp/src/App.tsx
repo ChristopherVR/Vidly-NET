@@ -9,6 +9,7 @@ import UserContext from './context/userContext';
 import Loading from './components/Loading';
 import Home from './components/Home';
 import NotFound from './components/NotFound';
+import PrivateRoute from './components/PrivateRoute';
 
 const Movies = lazy(() => import('./components/Movies'));
 
@@ -64,14 +65,17 @@ function App() {
         <main className="container p-5 mx-auto d-flex justify-content-center">
           <Routes>
             <Route path="" element={<Home />} />
+            <Route path="/" element={<PrivateRoute />}>
+              <Route path="/movies" element={<Movies />} />
+              <Route path="/movies/:id" element={<MovieForm />} />
+              <Route path="/customers" element={<Customers />} />
+              <Route path="/rentals" element={<Rentals />} />
+              <Route path="/profile" element={<Profile />} />
+            </Route>
             <Route path="/register" element={<RegisterForm />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/logout" element={<Logout />} />
-            <Route path="/movies" element={<Movies />} />
-            <Route path="/movies/:id" element={<MovieForm />} />
-            <Route path="/customers" element={<Customers />} />
-            <Route path="/rentals" element={<Rentals />} />
-            <Route path="/profile" element={<Profile />} />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

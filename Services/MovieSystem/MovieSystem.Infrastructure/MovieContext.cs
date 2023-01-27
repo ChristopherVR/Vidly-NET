@@ -12,7 +12,7 @@ namespace MovieSystem.Infrastructure;
 
 public class MovieContext : DbContext, IUnitOfWork
 {
-    public const string DEFAULTSCHEMA = "Movie";
+    public const string DefaultSchema = "Movie";
 
     public DbSet<Movie> Movies { get; set; } = null!;
     public DbSet<User> Users { get; set; } = null!;

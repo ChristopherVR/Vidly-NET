@@ -1,29 +1,33 @@
+import { AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
-import { User } from '../interfaces/user';
+import { LoginUser, User } from '../interfaces/user';
 import http from './httpService';
 
-const apiEndpoint = `${process.env.REACT_APP_API_URL}users/`;
+const apiEndpoint = `${process.env.REACT_APP_API_URL}/users/`;
 
 export const login = async (
   email: string,
   password: string,
   cb: React.Dispatch<React.SetStateAction<User | undefined>>,
 ) => {
+  if (!process.env.REACT_APP_API_URL) {
+    toast.error(
+      'System is not properly configured. Contact a System Administrator.',
+    );
+    return;
+  }
   await http
     .post(`${apiEndpoint}user/login`, {
       username: email,
       password,
     })
-    .then((res) => {
+    .then((res: AxiosResponse<LoginUser, LoginUser>) => {
       sessionStorage.setItem('auth_token', res.data.token);
       cb({
         id: res.data.id,
         name: res.data.name,
         surname: res.data.surname,
         userName: res.data.userName,
-        address: res.data.address,
-        homeNumber: res.data.homeNumber,
-        phoneNumber: res.data.phoneNumber,
       });
     })
     .catch((err) => toast.error(err));
@@ -47,8 +51,11 @@ export const getCurrentUser = async () => {
   return null;
 };
 
+export const isLoggedIn = () => !!sessionStorage.getItem('auth_token');
+
 export default {
   login,
   logout,
   getCurrentUser,
+  isLoggedIn,
 };

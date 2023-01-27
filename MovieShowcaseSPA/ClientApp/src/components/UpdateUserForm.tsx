@@ -8,7 +8,7 @@ import UserForm from './UserForm';
 function UpdateUserForm() {
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
-  const handleSubmit = async (data: RegisterUser | UpdateUser) => {
+  const handleSubmit = async (data: UpdateUser | RegisterUser) => {
     await userService.update(data as UpdateUser);
     if (!setUser || !user) throw new Error('User context is not defined');
     setUser({

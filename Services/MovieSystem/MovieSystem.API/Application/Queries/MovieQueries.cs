@@ -5,12 +5,9 @@ public class MovieQueries : IMovieQueries
 {
     private readonly string _connectionString;
 
-    public MovieQueries(string connectionString)
-    {
-        _connectionString = !string.IsNullOrWhiteSpace(connectionString)
+    public MovieQueries(string connectionString) => _connectionString = !string.IsNullOrWhiteSpace(connectionString)
             ? connectionString
             : throw new ArgumentNullException(nameof(connectionString));
-    }
 
     #region Movies
 
@@ -19,7 +16,7 @@ public class MovieQueries : IMovieQueries
         using var connection = new SqlConnection(_connectionString);
         connection.Open();
 
-        var sql = @"
+        string sql = @"
                 SELECT
                     m.[Id]                                 [Id],
                     m.[Title]                              [Title],
@@ -48,7 +45,7 @@ public class MovieQueries : IMovieQueries
         using var connection = new SqlConnection(_connectionString);
         connection.Open();
 
-        var sql = @"
+        string sql = @"
                 SELECT
                     m.[Id]                                 [Id],
                     m.[Title]                              [Title],
@@ -84,7 +81,7 @@ public class MovieQueries : IMovieQueries
         using var connection = new SqlConnection(_connectionString);
         connection.Open();
 
-        var sql = @"
+        string sql = @"
                 SELECT
                     m.[Id]                                 [Id],
                     m.[Title]                              [Title],
@@ -108,7 +105,7 @@ public class MovieQueries : IMovieQueries
         using var connection = new SqlConnection(_connectionString);
         connection.Open();
 
-        var sql = @"
+        string sql = @"
                 SELECT
                     m.[Id]                                 [Id],
                     m.[Title]                              [Title],

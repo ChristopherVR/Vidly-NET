@@ -7,7 +7,7 @@ internal sealed class UserFavouriteMovieEntityTypeConfiguration : IEntityTypeCon
 {
     public void Configure(EntityTypeBuilder<UserFavouriteMovie> builder)
     {
-        builder.ToTable("UserFavouriteMovies", MovieContext.DEFAULTSCHEMA);
+        builder.ToTable("UserFavouriteMovies", MovieContext.DefaultSchema);
 
         builder.Property("UserId").IsRequired(true);
 

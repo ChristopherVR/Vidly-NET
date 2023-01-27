@@ -1,7 +1,7 @@
 import http from './httpService';
 import { Movie } from '../interfaces/movie';
 
-const apiEndpoint = `${process.env.REACT_APP_API_URL}movies`;
+const apiEndpoint = `${process.env.REACT_APP_API_URL}/movies`;
 
 export const movieUrl = (id: number) => `${apiEndpoint}/Movie/${id}`;
 

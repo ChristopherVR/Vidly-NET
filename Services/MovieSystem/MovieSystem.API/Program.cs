@@ -1,7 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using MovieSystem.API.Grpc;
 using MovieSystem.API.Infrastructure.Authorization;
 using MovieSystem.API.Infrastructure.AutofacModules;
 using MovieSystem.API.Services;

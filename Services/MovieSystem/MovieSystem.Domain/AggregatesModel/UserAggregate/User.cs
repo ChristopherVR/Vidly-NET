@@ -41,9 +41,7 @@ public class User : Entity, IAggregateRoot
         string phoneNumber,
         string address,
         string homeNumber,
-#pragma warning disable CA1054 // URI-like parameters should not be strings
         string? imageUrl
-#pragma warning restore CA1054 // URI-like parameters should not be strings
         )
     {
         ValidateDetails(name, surname, username, address, phoneNumber, homeNumber, imageUrl);
@@ -101,7 +99,6 @@ public class User : Entity, IAggregateRoot
 
     public void ToggleFavourite(int movieId, bool liked, string user)
     {
-        // TODO: Unit tests
         UserFavouriteMovie? favMovie = _userFavouriteMovies
             .FirstOrDefault(x => x.MovieId == movieId);
 

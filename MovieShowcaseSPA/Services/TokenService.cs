@@ -1,10 +1,10 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using MoveShowcaseDDD.Models;
+using MovieShowcaseSPA.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace MoveShowcaseDDD.Services;
+namespace MovieShowcaseSPA.Services;
 public class TokenService : ITokenService
 {
     private const double EXPIRY_DURATION_MINUTES = 30;
@@ -20,8 +20,8 @@ public class TokenService : ITokenService
             new Claim(ClaimTypes.Surname, user.Surname),
             new Claim(ClaimTypes.GivenName, user.Name),
             new Claim(ClaimTypes.Name, user.Username),
-            new Claim(ClaimTypes.Role, user.Role),
-            new Claim(ClaimTypes.NameIdentifier, user.Id),
+            new Claim(ClaimTypes.Role, user.Role ?? "UKNOWN"),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
         };
         string? key = _configuration.GetValue<string>("Key");
         string? issuer = _configuration.GetValue<string>("Issuer");

@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MoveShowcaseDDD.Models;
-using MoveShowcaseDDD.Services;
+using MovieShowcaseSPA.Models;
+using MovieShowcaseSPA.Services;
 using static UserSystem.V1.Users;
 
-namespace MoveShowcaseDDD.Areas.Controllers;
+namespace MovieShowcaseSPA.Controllers;
 [ApiConventionType(typeof(DefaultApiConventions))]
 [ApiController]
 [Route("[controller]")]
@@ -24,17 +24,10 @@ public class UsersController : ControllerBase
         _logger = logger;
     }
 
-    private object? LoginUser(string username, string id, string name, string surname)
+    private LoginUser GetLoginObject(string username, int id, string name, string surname)
     {
-        string token = _tokenService.BuildToken(new(id, username, name, surname, "Admin"));
-        return new JsonResult(new
-        {
-            Token = token,
-            Name = name,
-            Surname = surname,
-            Username = username,
-            Id = id,
-        }).Value;
+        string token = _tokenService.BuildToken(new(id, username, name, surname));
+        return new(token, name, surname, username, id);
     }
 
     [HttpGet("user")]
@@ -58,9 +51,9 @@ public class UsersController : ControllerBase
     [FromServices] IWebHostEnvironment env,
     [FromBody] UserLoginPost data)
     {
-        if (config.GetValue<bool>("BypassAuthentication") && env.IsDevelopment())
+        if (config.GetValue<bool>(AppOptions.EnableDemoMode) && env.IsDevelopment())
         {
-            return Ok(LoginUser(data.Username, "1", "TestUser", "Mock"));
+            return Ok(GetLoginObject(data.Username, id: 1, name: "TestUser", surname: "Mock"));
         }
 
         try
@@ -78,9 +71,9 @@ public class UsersController : ControllerBase
                 return BadRequest();
             }
 
-            return Ok(LoginUser(data.Username, userDetails.Id.ToString(), userDetails.Name, userDetails.Surname));
+            return Ok(GetLoginObject(data.Username, userDetails.Id, userDetails.Name, userDetails.Surname));
         }
-        catch (RpcException ex) when (ex.StatusCode == global::Grpc.Core.StatusCode.NotFound)
+        catch (RpcException ex) when (ex.StatusCode == Grpc.Core.StatusCode.NotFound)
         {
             return BadRequest(); // Do not indicate to the end-user that the user does not exist.
         }
@@ -113,8 +106,10 @@ public class UsersController : ControllerBase
         var hasher = new PasswordHasher<IdentityUser>();
         IdentityUser identityUser = new(response.Id.ToString());
 
-        string token = _tokenService.BuildToken(new(response.Id.ToString(), response.Username, response.Name, response.Surname, "Admin"));
+        string token = _tokenService.BuildToken(new(response.Id, response.Username, response.Name, response.Surname));
+
         HttpContext.Items.Add("Authorization", $"Bearer {token}");
+
         await _usersClient.CreateUserHashedPasswordAsync(new()
         {
             HashedPassword = hasher.HashPassword(identityUser, data.Password),

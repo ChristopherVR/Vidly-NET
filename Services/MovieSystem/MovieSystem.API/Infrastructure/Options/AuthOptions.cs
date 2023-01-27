@@ -7,4 +7,3 @@ public class AuthOptions
     public string Authority { get; set; } = "http://localhost";
     public string Key { get; set; } = null!;
 }
-

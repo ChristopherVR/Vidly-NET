@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MoveShowcaseDDD.Areas.Controllers;
+namespace MovieShowcaseSPA.Controllers;
 [ApiController]
 [Route("[controller]")]
 [Authorize]

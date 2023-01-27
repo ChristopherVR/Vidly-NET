@@ -1,7 +1,7 @@
 ﻿using GenreSystem.V1;
 using MovieSystem.API.Application.Queries;
 
-namespace MovieSystem.API.Grpc;
+namespace MovieSystem.API.Services;
 
 [Authorize]
 public class GenresServiceV1 : Genres.GenresBase

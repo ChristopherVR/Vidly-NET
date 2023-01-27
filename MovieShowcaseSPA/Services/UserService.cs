@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace MoveShowcaseDDD.Services;
+namespace MovieShowcaseSPA.Services;
 public class UserService : IUserService
 {
     private readonly IHttpContextAccessor _httpContextAccessor;

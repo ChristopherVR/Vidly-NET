@@ -7,7 +7,7 @@ internal sealed class UserEntityTypeConfiguration : IEntityTypeConfiguration<Use
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.ToTable("Users", MovieContext.DEFAULTSCHEMA);
+        builder.ToTable("Users", MovieContext.DefaultSchema);
 
         builder.HasKey(u => u.Id);
 

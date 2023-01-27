@@ -6,10 +6,7 @@ type UserProps = {
   setUser?: React.Dispatch<React.SetStateAction<User | undefined>>;
 };
 
-const initialUserContext: UserProps = {
-  user: undefined,
-  setUser: undefined,
-};
+const initialUserContext: UserProps = {};
 
 const UserContext = createContext(initialUserContext);
 

@@ -16,7 +16,7 @@ public abstract class ValueObject
 
     protected static bool NotEqualOperator(ValueObject left, ValueObject right) => !EqualOperator(left, right);
 
-    protected abstract IEnumerable<object> GetEqualityComponents();
+    protected abstract IEnumerable<object?> GetEqualityComponents();
 
     public override bool Equals(object? obj)
     {

@@ -20,13 +20,10 @@ public class MovieRepository : IMovieRepository
             .Movies
             .FirstOrDefaultAsync(u => u.Id == id);
 
-        if (entity == null)
-        {
-            entity = _context
+        entity ??= _context
                 .Movies
                 .Local
                 .FirstOrDefault(u => u.Id == id);
-        }
 
         return entity;
     }
