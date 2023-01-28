@@ -9,9 +9,7 @@ public class Movie : Entity, IAggregateRoot
     public string UpdatedUser { get; private set; }
     public DateTime UpdatedDate { get; private set; }
     public string Title { get; private set; }
-#pragma warning disable CA1056 // URI-like properties should not be strings
     public string? ImdbUrl { get; private set; }
-#pragma warning restore CA1056 // URI-like properties should not be strings
     public int NumberInStock { get; private set; }
     public int DailyRentalRate { get; private set; }
     public int Rating { get; private set; }
@@ -20,7 +18,6 @@ public class Movie : Entity, IAggregateRoot
     /// <summary>
     ///  Default EF constructor
     /// </summary>
-    /// 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     private Movie()
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
@@ -50,9 +47,7 @@ public class Movie : Entity, IAggregateRoot
         int numberInStock,
         int dailyRentalRate,
         int genreId,
-#pragma warning disable CA1054 // URI-like parameters should not be strings
         string imdbUrl,
-#pragma warning restore CA1054 // URI-like parameters should not be strings
         int rating)
     {
         ValidateDetails(title, numberInStock, dailyRentalRate, genreId, imdbUrl);
@@ -71,9 +66,7 @@ public class Movie : Entity, IAggregateRoot
         int numberInStock,
         int dailyRentalRate,
         int genreId,
-#pragma warning disable CA1054 // URI-like parameters should not be strings
         string imdbUrl)
-#pragma warning restore CA1054 // URI-like parameters should not be strings
     {
         if (string.IsNullOrWhiteSpace(title))
         {
@@ -107,9 +100,7 @@ public class Movie : Entity, IAggregateRoot
         int numberInStock,
         int dailyRentalRate,
         int genreId,
-#pragma warning disable CA1054 // URI-like parameters should not be strings
         string imdbUrl,
-#pragma warning restore CA1054 // URI-like parameters should not be strings
         int rating)
     {
         ValidateDetails(title, numberInStock, dailyRentalRate, genreId, imdbUrl);

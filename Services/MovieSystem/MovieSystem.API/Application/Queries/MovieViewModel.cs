@@ -4,7 +4,7 @@ public record MoviePreview(
     int Id,
     string Title,
     int NumberInStock,
-    int Rating,
+    int? Rating,
     int GenreId,
     string GenreName,
     int DailyRentalRate);
@@ -14,7 +14,7 @@ public record MovieExtendedPreview(
     string Title,
     int NumberInStock,
     int DailyRentalRate,
-    int Rating,
+    int? Rating,
     int GenreId,
     string GenreName,
     bool Liked,

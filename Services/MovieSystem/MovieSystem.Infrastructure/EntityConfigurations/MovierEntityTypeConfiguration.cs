@@ -8,7 +8,7 @@ internal sealed class MovierEntityTypeConfiguration : IEntityTypeConfiguration<M
 {
     public void Configure(EntityTypeBuilder<Movie> builder)
     {
-        builder.ToTable("Movies", MovieContext.DEFAULTSCHEMA);
+        builder.ToTable("Movies", MovieContext.DefaultSchema);
 
         builder.HasKey(u => u.Id);
 

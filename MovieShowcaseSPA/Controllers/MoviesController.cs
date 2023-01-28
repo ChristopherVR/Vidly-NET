@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MoveShowcaseDDD.Models;
-using MoveShowcaseDDD.Services;
+using MovieShowcaseSPA.Models;
+using MovieShowcaseSPA.Services;
 using static MovieSystem.V1.Movies;
 using static UserSystem.V1.Users;
 
-namespace MoveShowcaseDDD.Areas.Controllers;
+namespace MovieShowcaseSPA.Controllers;
 [Authorize]
 [ApiController]
 [ApiConventionType(typeof(DefaultApiConventions))]

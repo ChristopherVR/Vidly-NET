@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using MoveShowcaseDDD;
-using MoveShowcaseDDD.Services;
+using MovieShowcaseSPA.Infrastructure.Authorization;
+using MovieShowcaseSPA.Services;
 using System.Text;
 #pragma warning disable CA1852
 var builder = WebApplication.CreateBuilder(args);

@@ -1,4 +1,5 @@
 ﻿using Google.Protobuf.WellKnownTypes;
+using MovieSystem.API.Application.Behaviors;
 using MovieSystem.API.Application.Queries;
 using MovieSystem.V1;
 using System.Security.Claims;
@@ -11,12 +12,14 @@ public class MoviesServiceV1 : Movies.MoviesBase
     private readonly ILogger<MoviesServiceV1> _logger;
     private readonly IMediator _mediator;
     private readonly IMovieQueries _movieQueries;
+    private readonly IGenreQueries _genreQueries;
 
-    public MoviesServiceV1(ILogger<MoviesServiceV1> logger, IMediator mediator, IMovieQueries movieQueries)
+    public MoviesServiceV1(ILogger<MoviesServiceV1> logger, IMediator mediator, IMovieQueries movieQueries, IGenreQueries genreQueries)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         _movieQueries = movieQueries ?? throw new ArgumentNullException(nameof(movieQueries));
+        _genreQueries = genreQueries ?? throw new ArgumentNullException(nameof(genreQueries));
     }
 
     #region Movies
@@ -50,13 +53,14 @@ public class MoviesServiceV1 : Movies.MoviesBase
 
         var movie = await _mediator.Send(command, context.CancellationToken);
 
+        var genreName = await _genreQueries.GetGenreNameAsync(movie.GenreId);
         return new()
         {
             DailyRentalRate = movie.DailyRentalRate,
             Genre = new()
             {
                 Id = movie.GenreId,
-                Name = "Genre", // TODO: Retrieve
+                Name = genreName,
             },
             Id = movie.Id,
             NumberInStock = movie.NumberInStock,
@@ -81,13 +85,14 @@ public class MoviesServiceV1 : Movies.MoviesBase
 
         var movie = await _mediator.Send(command, context.CancellationToken);
 
+        var genreName = await _genreQueries.GetGenreNameAsync(movie.GenreId);
         return new()
         {
             DailyRentalRate = movie.DailyRentalRate,
             Genre = new()
             {
                 Id = movie.GenreId,
-                Name = "Genre", // TODO: Retrieve
+                Name = genreName,
             },
             Id = request.Id,
             NumberInStock = movie.NumberInStock,
@@ -117,7 +122,7 @@ public class MoviesServiceV1 : Movies.MoviesBase
                      },
                      NumberInStock = movie.NumberInStock,
                      Rating = movie.Rating,
-                 })
+                 }),
              },
         };
     }
@@ -135,23 +140,23 @@ public class MoviesServiceV1 : Movies.MoviesBase
         return new()
         {
             Movies =
-             {
-                 movies.Select(movie => new MovieExtended()
-                 {
-                     Id = movie.Id,
-                     DailyRentalRate = movie.DailyRentalRate,
-                     Genre = new ()
-                     {
-                         Name = movie.GenreName,
-                         Id = movie.GenreId,
-                     },
-                     NumberInStock = movie.NumberInStock,
-                     Liked = movie.Liked,
-                     Title = movie.Title,
-                     Rating = ((int?) movie.Rating) ?? 0,
-                     UpdatedDate = movie.UpdatedDate.ToUniversalTime().ToTimestamp(),
-                 })
-             }
+            {
+                movies.Select(movie => new MovieExtended()
+                {
+                    Id = movie.Id,
+                    DailyRentalRate = movie.DailyRentalRate,
+                    Genre = new ()
+                    {
+                        Name = movie.GenreName,
+                        Id = movie.GenreId,
+                    },
+                    NumberInStock = movie.NumberInStock,
+                    Liked = movie.Liked,
+                    Title = movie.Title,
+                    Rating = movie.Rating,
+                    UpdatedDate = movie.UpdatedDate.ToUniversalTime().ToTimestamp(),
+                }),
+            },
         };
     }
 
@@ -167,8 +172,7 @@ public class MoviesServiceV1 : Movies.MoviesBase
         return new()
         {
             Id = movie.Id,
-            // ImdbUrl = movie.ImdbUrl,
-            Rating = ((int?)movie.Rating) ?? 0,
+            Rating = movie.Rating,
             DailyRentalRate = movie.DailyRentalRate,
             Genre = new()
             {
@@ -192,8 +196,7 @@ public class MoviesServiceV1 : Movies.MoviesBase
         return new()
         {
             Id = movie.Id,
-            // ImdbUrl = movie.ImdbUrl,
-            Rating = ((int?)movie.Rating) ?? 0,
+            Rating = movie.Rating,
             UpdatedDate = movie.UpdatedDate.ToUniversalTime().ToTimestamp(),
             DailyRentalRate = movie.DailyRentalRate,
             Genre = new()

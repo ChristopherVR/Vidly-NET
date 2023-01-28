@@ -1,4 +1,4 @@
-﻿namespace MoveShowcaseDDD.Services;
+﻿namespace MovieShowcaseSPA.Services;
 public interface IUserService
 {
     int GetUserId();

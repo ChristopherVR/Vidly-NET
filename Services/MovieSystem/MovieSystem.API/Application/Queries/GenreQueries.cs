@@ -14,7 +14,7 @@ public class GenreQueries : IGenreQueries
         using var connection = new SqlConnection(_connectionString);
         connection.Open();
 
-        var sql = @"
+        string sql = @"
                         SELECT
                           [Id],
                           [Name]
@@ -24,5 +24,20 @@ public class GenreQueries : IGenreQueries
 
         return (await connection.QueryAsync<GenrePreview>(
             sql, new { searchTerm })).AsList();
+    }
+
+    public async Task<string?> GetGenreNameAsync(int id)
+    {
+        using var connection = new SqlConnection(_connectionString);
+        connection.Open();
+
+        string sql = @"
+                        SELECT
+                          [Name]
+                    FROM
+                         [Movie].[Genres]
+                    WHERE [Id] = @id;";
+
+        return await connection.QueryFirstOrDefaultAsync<string>(sql, new { id });
     }
 }

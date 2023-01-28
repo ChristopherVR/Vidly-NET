@@ -7,7 +7,7 @@ internal sealed class GenreEntityTypeConfiugration : IEntityTypeConfiguration<Ge
 {
     public void Configure(EntityTypeBuilder<Genre> builder)
     {
-        builder.ToTable("Genres", MovieContext.DEFAULTSCHEMA);
+        builder.ToTable("Genres", MovieContext.DefaultSchema);
 
         builder.HasKey(u => u.Id);
 

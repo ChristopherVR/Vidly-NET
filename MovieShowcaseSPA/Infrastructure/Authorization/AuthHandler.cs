@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using MoveShowcaseDDD.Services;
+using MovieShowcaseSPA.Services;
 using System.Net.Http.Headers;
 
 
-namespace MoveShowcaseDDD;
+namespace MovieShowcaseSPA.Infrastructure.Authorization;
 public class AuthHandler : DelegatingHandler
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
@@ -31,24 +31,19 @@ public class AuthHandler : DelegatingHandler
             return await base.SendAsync(request, cancellationToken);
         }
 
-        string? token;
+        string? token = _httpContextAccessor.HttpContext.Items.TryGetValue("Authorization", out var tokenValue) && tokenValue is string value
+            ? value
+            : await _httpContextAccessor.HttpContext.GetUserAccessTokenAsync(cancellationToken: cancellationToken);
 
-        if (_httpContextAccessor.HttpContext.Items.TryGetValue("Authorization", out var tokenValue) && tokenValue is string value)
+        if (token is null && _configuration.GetValue<bool>(AppOptions.EnableDemoMode) && _env.IsDevelopment())
         {
-            token = value;
-        }
-        else
-        {
-            token = await _httpContextAccessor.HttpContext.GetUserAccessTokenAsync(cancellationToken: cancellationToken);
-        }
-
-        if (token is null && _configuration.GetValue<bool>("BypassAuthentication") && _env.IsDevelopment())
-        {
-            token = _tokenService.BuildToken(new("1", "Test_User", "Test", "Test", "Admin"));
+            token = _tokenService.BuildToken(new(Id: 1, Username: "Test_User", Name: "Test", Surname: "Test"));
         }
 
         if (token is not null)
+        {
             request.Headers.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+        }
 
         return await base.SendAsync(request, cancellationToken);
     }

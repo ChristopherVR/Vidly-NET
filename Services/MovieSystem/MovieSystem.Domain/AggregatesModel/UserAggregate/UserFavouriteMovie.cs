@@ -32,7 +32,7 @@ public class UserFavouriteMovie : Entity
     {
         if (liked == Liked)
         {
-            throw new MovieDomainException("Movie is already liked/unliked");
+            throw new MovieDomainException($"Movie is already {(liked ? "liked" : "disliked")}.");
         }
         Liked = liked;
         UpdatedUser = user;

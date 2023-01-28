@@ -20,13 +20,10 @@ public class UserRepository : IUserRepository
             .Users
             .FirstOrDefaultAsync(u => u.Id == entityId);
 
-        if (entity == null)
-        {
-            entity = _context
+        entity ??= _context
                 .Users
                 .Local
                 .FirstOrDefault(u => u.Id == entityId);
-        }
 
         if (entity is not null)
         {
@@ -48,13 +45,10 @@ public class UserRepository : IUserRepository
             .Users
             .FirstOrDefaultAsync(u => u.Username == username);
 
-        if (entity == null)
-        {
-            entity = _context
+        entity ??= _context
                 .Users
                 .Local
                 .FirstOrDefault(u => u.Username == username);
-        }
 
         if (entity is not null)
         {

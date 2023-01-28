@@ -6,10 +6,7 @@ namespace MovieSystem.API.Infrastructure.AutofacModules;
 public class QueryModule : Module
 {
     private readonly string _queryConnectionString;
-    public QueryModule(string queryConnectionString)
-    {
-        _queryConnectionString = queryConnectionString;
-    }
+    public QueryModule(string queryConnectionString) => _queryConnectionString = queryConnectionString;
 
     protected override void Load(ContainerBuilder builder)
     {

@@ -1,6 +1,6 @@
-﻿using MoveShowcaseDDD.Models;
+﻿using MovieShowcaseSPA.Models;
 
-namespace MoveShowcaseDDD.Services;
+namespace MovieShowcaseSPA.Services;
 public interface ITokenService
 {
     string BuildToken(User user);

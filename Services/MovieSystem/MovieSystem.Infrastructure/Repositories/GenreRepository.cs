@@ -20,13 +20,10 @@ public class GenreRepository : IGenreRepository
             .Genres
             .FirstOrDefaultAsync(u => u.Id == id);
 
-        if (entity == null)
-        {
-            entity = _context
+        entity ??= _context
                 .Genres
                 .Local
                 .FirstOrDefault(u => u.Id == id);
-        }
 
         return entity;
     }
