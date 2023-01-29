@@ -23,10 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 
 **/.classpath
-**/.dockerignore
-**/.env
 **/.git
-**/.gitignore
 **/.project
 **/.settings
 **/.toolstarget
@@ -38,8 +35,6 @@ yarn-error.log*
 **/azds.yaml
 **/bin
 **/charts
-**/docker-compose*
-**/Dockerfile*
 **/node_modules
 **/npm-debug.log
 **/obj

@@ -1,0 +1,14 @@
+name: vidly-net
+
+services:
+  spa:
+    image: ${DOCKER_REGISTRY}intellisense:${TAG}
+    build:
+      context: .
+      dockerfile: MovieShowcaseSPA/Dockerfile
+
+  movieapi:
+    image: ${DOCKER_REGISTRY}movieapi:${TAG}
+    build:
+      context: .
+      dockerfile: Services/MovieSystem/MovieSystem.API/Dockerfile

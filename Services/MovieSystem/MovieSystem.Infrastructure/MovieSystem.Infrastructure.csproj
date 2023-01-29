@@ -4,7 +4,8 @@
     <TargetFramework>net7.0</TargetFramework>
 	  <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 	  <Nullable>enable</Nullable>
-	  <AnalysisMode>All</AnalysisMode>  
+	  <AnalysisMode>All</AnalysisMode>
+    <NoWarn>CA1851</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

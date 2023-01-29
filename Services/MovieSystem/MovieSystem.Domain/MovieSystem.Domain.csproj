@@ -5,7 +5,9 @@
 	  <Nullable>enable</Nullable>
 	  <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 	  <AnalysisMode>All</AnalysisMode>
+  		<NoWarn>CA2007,CA1304,CA1307,CA1305,CS1570,CS1734,CA1416,CS9057,CA1056,CA1054</NoWarn>
   </PropertyGroup>
+
 	<ItemGroup>
 		<PackageReference Include="MediatR" Version="11.1.0" />
 	</ItemGroup>

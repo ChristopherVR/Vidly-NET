@@ -15,10 +15,7 @@
 <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
 <SpaProxyServerUrl>https://localhost:44426</SpaProxyServerUrl>
 <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
-</PropertyGroup>
-
-<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-	<NoWarn>CA2007</NoWarn>
+  <NoWarn>CA2007,CA1062,CA1035,CA1848,CA1305</NoWarn>
 </PropertyGroup>
 
 <ItemGroup>
@@ -60,11 +57,11 @@
 <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
 <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
 </Target>
-<Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
-<!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+<!--<Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+--><!-- As part of publishing, ensure the JS resources are freshly built in production mode --><!--
 <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
 <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
-<!-- Include the newly-built files in the publish output -->
+--><!-- Include the newly-built files in the publish output --><!--
 <ItemGroup>
 <DistFiles Include="$(SpaRoot)build\**" />
 <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
@@ -73,5 +70,5 @@
 <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 </ResolvedFileToPublish>
 </ItemGroup>
-</Target>
+</Target>-->
 </Project>
