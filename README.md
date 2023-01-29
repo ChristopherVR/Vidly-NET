@@ -26,7 +26,14 @@
 <h2 id="about-the-project"> :pencil: About The Project</h2>
 
 <p align="justify"> 
-  This project aims to integrate different frameworks and libraries used (Create React App template with TypeScript and Microsoft's eShopContainer DDD project) to demonstrate a movie system database with basic CRUD functionality folowing code-with-mosh Mastering React course.
+  This project aims to integrate different frameworks and libraries used (Create React App template with TypeScript and Microsoft's eShopContainer DDD project) to demonstrate a movie system database with basic CRUD functionality folowing code-with-mosh Mastering React course. The idea of this project is to demonstrate the use of:
+
+* React with TypeScript
+* C# with .NET 7
+* Microservices approach with Domain Driven Design
+* Test Driven Development (Backend)
+* Domain & Integration Events (Backend)
+
 </p>
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
