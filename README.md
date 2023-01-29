@@ -167,7 +167,7 @@ dotnet run watch // builds the project and enables hot-reload
 <p align="justify"> 
 For the MovieShowcaseSPA Web project the following app settings can be configured:
 
-* **BypassAuthentication**: indicates whether authentication should be bypassed. Default user credentials will be used. Possible values are `true` or `false`.
+* **DemoMode**: indicates whether authentication should be bypassed. Default user credentials will be used. Possible values are `true` or `false`.
 * **Key**: Indicates the Auth Key for the JWT Token based Authentication that will be used. This is a required value and needs to be 128 bits long.
 * **Authority**: Indicates the Authority and Issuer that will be used to valid JWT tokens. Example `http://localhost:7235/`.
 * **Services:MovieSystem**: Indicates the URL for the MovieSystem gRPC client. Example `http://moviesystemapi`
