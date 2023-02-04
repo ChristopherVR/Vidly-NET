@@ -35,10 +35,11 @@ jobs:
         run: npm ci
       - name: Build project
         run: npm run build
-      - name: Run unit tests
-        run: npm test
         env:
           CI: ''
+      - name: Run unit tests
+        run: npm test
+
     defaults:
       run:
         working-directory: ./MovieShowcaseSPA/ClientApp/
