@@ -14,7 +14,8 @@ public static class MediatorExtensions
             .Where(x => x.Entity.DomainEvents?.Any() == true);
 
         List<INotification> domainEvents = domainEntities
-            .SelectMany(x => x.Entity.DomainEvents)
+            .SelectMany(x => x?.Entity?.DomainEvents ?? Enumerable.Empty<INotification>())
+            .Cast<INotification>()
             .ToList();
 
         domainEntities.ToList()
