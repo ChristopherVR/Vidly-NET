@@ -15,23 +15,22 @@
 <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
 <SpaProxyServerUrl>https://localhost:44426</SpaProxyServerUrl>
 <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
-  <NoWarn>CA2007,CA1062,CA1035,CA1848,CA1305</NoWarn>
+<NoWarn>CA2007,CA1062,CA1035,CA1848,CA1305</NoWarn>
 </PropertyGroup>
 
 <ItemGroup>
 <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="7.0.5" />
 <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
-<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.29.0" />
+<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.30.1" />
 <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
-<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
 <PackageReference Include="IdentityModel.AspNetCore" Version="4.3.0" />
 <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="7.0.5" />
-<PackageReference Include="Grpc.AspNetCore" Version="2.52.0" />
+<PackageReference Include="Grpc.AspNetCore" Version="2.53.0" />
 <PackageReference Include="Grpc.Tools" Version="2.54.0">
   <PrivateAssets>all</PrivateAssets>
   <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 </PackageReference>
-<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.29.0" />
+<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.30.1" />
 </ItemGroup>
 <ItemGroup>
 <Protobuf Include="Protos\genre_system.v1.proto" GrpcServices="Client" />
