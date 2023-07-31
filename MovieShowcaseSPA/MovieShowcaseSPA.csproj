@@ -30,7 +30,7 @@
   <PrivateAssets>all</PrivateAssets>
   <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 </PackageReference>
-<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.0" />
+<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.1" />
 </ItemGroup>
 <ItemGroup>
 <Protobuf Include="Protos\genre_system.v1.proto" GrpcServices="Client" />
