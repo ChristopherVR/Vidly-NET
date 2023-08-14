@@ -24,7 +24,7 @@
 <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.32.1" />
 <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
 <PackageReference Include="IdentityModel.AspNetCore" Version="4.3.0" />
-<PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="7.0.9" />
+<PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="7.0.10" />
 <PackageReference Include="Grpc.AspNetCore" Version="2.55.0" />
 <PackageReference Include="Grpc.Tools" Version="2.56.2">
   <PrivateAssets>all</PrivateAssets>
