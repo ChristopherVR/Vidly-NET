@@ -19,7 +19,7 @@
     "dayjs": "^1.11.9",
     "lodash": "^4.17.21",
     "lodash.debounce": "^4.0.8",
-    "mdb-react-ui-kit": "^6.1.0",
+    "mdb-react-ui-kit": "^6.2.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.8.0",
     "react-dom": "^18.2.0",
