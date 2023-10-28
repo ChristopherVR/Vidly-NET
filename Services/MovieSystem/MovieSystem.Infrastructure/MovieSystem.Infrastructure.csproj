@@ -16,9 +16,9 @@
     <LangVersion>preview</LangVersion>
   </PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Dapper" Version="2.0.143" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.9" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.9" />
+		<PackageReference Include="Dapper" Version="2.1.15" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.13" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.13" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\MovieSystem.Domain\MovieSystem.Domain.csproj" />
