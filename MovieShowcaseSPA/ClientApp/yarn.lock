@@ -1296,6 +1296,18 @@
   resolved "https://registry.yarnpkg.com/@emotion/hash/-/hash-0.9.1.tgz#4ffb0055f7ef676ebc3a5a91fb621393294e2f43"
   integrity sha512-gJB6HLm5rYwSLI6PQa+X1t5CFGrv1J1TWG+sOyMCeKz2ojaj6Fnl/rZEspogG+cvqbt4AE/2eIyD2QfLKTBNlQ==
 
+"@emotion/is-prop-valid@^0.8.2":
+  version "0.8.8"
+  resolved "https://registry.yarnpkg.com/@emotion/is-prop-valid/-/is-prop-valid-0.8.8.tgz#db28b1c4368a259b60a97311d6a952d4fd01ac1a"
+  integrity sha512-u5WtneEAr5IDG2Wv65yhunPSMLIpuKsbuOktRojfrEiEvRyC85LgPMZI63cr7NUqT8ZIGdSVg8ZKGxIug4lXcA==
+  dependencies:
+    "@emotion/memoize" "0.7.4"
+
+"@emotion/memoize@0.7.4":
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/@emotion/memoize/-/memoize-0.7.4.tgz#19bf0f5af19149111c40d98bb0cf82119f5d9eeb"
+  integrity sha512-Ja/Vfqe3HpuzRsG1oBtWTHk2PGZ7GR+2Vz5iYGelAw8dx32K0y7PjVuxK6z1nMpZOqAFsRUPCkK1YjJ56qJlgw==
+
 "@emotion/memoize@^0.8.1":
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/@emotion/memoize/-/memoize-0.8.1.tgz#c1ddb040429c6d21d38cc945fe75c818cfb68e17"
@@ -5098,6 +5110,15 @@ fraction.js@^4.3.6:
   resolved "https://registry.yarnpkg.com/fraction.js/-/fraction.js-4.3.7.tgz#06ca0085157e42fda7f9e726e79fefc4068840f7"
   integrity sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==
 
+framer-motion@^10.16.4:
+  version "10.16.4"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-10.16.4.tgz#30279ef5499b8d85db3a298ee25c83429933e9f8"
+  integrity sha512-p9V9nGomS3m6/CALXqv6nFGMuFOxbWsmaOrdmhyQimMIlLl3LC7h7l86wge/Js/8cRu5ktutS/zlzgR7eBOtFA==
+  dependencies:
+    tslib "^2.4.0"
+  optionalDependencies:
+    "@emotion/is-prop-valid" "^0.8.2"
+
 fresh@0.5.2:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
@@ -6869,13 +6890,14 @@ makeerror@1.0.12:
   dependencies:
     tmpl "1.0.5"
 
-mdb-react-ui-kit@^6.1.0:
-  version "6.3.0"
-  resolved "https://registry.yarnpkg.com/mdb-react-ui-kit/-/mdb-react-ui-kit-6.3.0.tgz#9875beea761d8a52f53c4bf0e6629141d9a2f248"
-  integrity sha512-Ps9PUTfg4+28pl7LpKTAiTM5AHGifm75OUsF8pP7ztuEizvh+9kNM+Bwe8A9R0zy9ynbPtXuavlnwC1wJ85eCQ==
+mdb-react-ui-kit@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/mdb-react-ui-kit/-/mdb-react-ui-kit-7.0.0.tgz#81b6d50247981631b347ccaac027faf2c61ee0a0"
+  integrity sha512-ke23u6Ux63nrmi3PFa7H1YlmQe76POT5rNpxuet0MB4+8OjCzw+WviL4EJtzDlNHXhnw9mfU9a5MF8q0swO+wA==
   dependencies:
     "@popperjs/core" "2.11.5"
     clsx "1.1.1"
+    framer-motion "^10.16.4"
     react-popper "2.3.0"
 
 mdn-data@2.0.14:
